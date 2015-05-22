@@ -27,11 +27,11 @@ SRCDIR =		source/
 SRCSFILES =		main.cpp
 
 DYLIBDIR =		lib/
-DYLIB =			lib/lib1.dylib
-DYLIB2 =		lib/lib2.dylib
+DYLIB =			lib/libftcurse.dylib
+DYLIB2 =		lib/libftsfml.dylib
 
-DYLIBSRC =		lib.cpp
-DYLIB2SRC =		lib2.cpp
+DYLIBSRC =		LibftCurse.cpp
+DYLIB2SRC =		LibftSfml.cpp
 
 DYLIBSRCS =		$(addprefix $(DYLIBDIR), $(DYLIBSRC))
 DYLIBOBJS =		$(DYLIBSRCS:.cpp=.o)
@@ -55,7 +55,7 @@ $(DYLIB2): $(DYLIB2OBJS)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ && echo "[$(GREEN)OK$(RESET)] $<"
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LFLAGS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
 	@echo "$(GREEN)Binary successfully compiled$(RESET)" : $(NAME)
 
 clean:

@@ -1,36 +1,36 @@
 #include <iostream>
 #include <dlfcn.h>
 #include "nibbler.hpp"
-#include "ilib.hpp"
+#include "IDisplayLib.hpp"
 
 int		main( void )
 {
 	{
 		void *	handle;
-		IGraphics	*(*GraphicCreator)();
-		void		(*GraphicDestructor)(IGraphics *);
+		IDisplayLib	*(*GraphicCreator)();
+		void		(*GraphicDestructor)(IDisplayLib *);
 
-		handle = dlopen("lib/lib1.dylib", RTLD_NOW);
+		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
 		if (!handle)
 		{
 			std::cout << "Error opening dynlib" << std::endl;
 			return (1);
 		}
 	
-		GraphicCreator = (IGraphics *(*)()) dlsym(handle, "createGraphic");
+		GraphicCreator = (IDisplayLib *(*)()) dlsym(handle, "createGraphic");
 		if (!GraphicCreator)
 		{
 			std::cout << "Error finding symbol creator" << std::endl;
 			return (1);
 		}
-		GraphicDestructor = (void (*)(IGraphics *)) dlsym(handle, "deleteGraphic");
+		GraphicDestructor = (void (*)(IDisplayLib *)) dlsym(handle, "deleteGraphic");
 		if (!GraphicDestructor)
 		{
 			std::cout << "Error finding symbol destructor" << std::endl;
 			return (1);
 		}
 	
-		IGraphics *	obj;
+		IDisplayLib *	obj;
 		obj = GraphicCreator();
 		obj->introduce();
 		GraphicDestructor(obj);
@@ -39,30 +39,30 @@ int		main( void )
 	}
 	{
 		void *	handle;
-		IGraphics	*(*GraphicCreator)();
-		void		(*GraphicDestructor)(IGraphics *);
+		IDisplayLib	*(*GraphicCreator)();
+		void		(*GraphicDestructor)(IDisplayLib *);
 
-		handle = dlopen("lib/lib2.dylib", RTLD_NOW);
+		handle = dlopen("lib/libftsfml.dylib", RTLD_NOW);
 		if (!handle)
 		{
 			std::cout << "Error opening dynlib" << std::endl;
 			return (1);
 		}
 	
-		GraphicCreator = (IGraphics *(*)()) dlsym(handle, "createGraphic");
+		GraphicCreator = (IDisplayLib *(*)()) dlsym(handle, "createGraphic");
 		if (!GraphicCreator)
 		{
 			std::cout << "Error finding symbol creator" << std::endl;
 			return (1);
 		}
-		GraphicDestructor = (void (*)(IGraphics *)) dlsym(handle, "deleteGraphic");
+		GraphicDestructor = (void (*)(IDisplayLib *)) dlsym(handle, "deleteGraphic");
 		if (!GraphicDestructor)
 		{
 			std::cout << "Error finding symbol destructor" << std::endl;
 			return (1);
 		}
 	
-		IGraphics *	obj;
+		IDisplayLib *	obj;
 		obj = GraphicCreator();
 		obj->introduce();
 		GraphicDestructor(obj);
