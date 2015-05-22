@@ -12,19 +12,19 @@ public:
 
 	CurseGraphics &	operator=( CurseGraphics const & _ );
 
-	void	introduce( void ) const;
+	void			introduce( void ) const;
 
 	std::string		getName( void ) const;
 
 private:
-	std::string	_name;
+	std::string		_name;
 };
 
 extern "C" {
 
 	CurseGraphics	*createGraphic( void );
 
-	void		deleteGraphic( CurseGraphics *graphics );
+	void			deleteGraphic( CurseGraphics *graphics );
 
 }
 

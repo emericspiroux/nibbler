@@ -3,7 +3,9 @@
 
 CurseGraphics::CurseGraphics():
 _name("Trololo")
-{}
+{
+	std::cout << "CURSE Graphic CREATION" << std::endl;
+}
 
 CurseGraphics::CurseGraphics( CurseGraphics const & rhs )
 {
@@ -11,7 +13,9 @@ CurseGraphics::CurseGraphics( CurseGraphics const & rhs )
 }
 
 CurseGraphics::~CurseGraphics()
-{}
+{
+	std::cout << "CURSE Graphic DESTRUCTION" << std::endl;
+}
 
 CurseGraphics &	CurseGraphics::operator=( CurseGraphics const & rhs )
 {

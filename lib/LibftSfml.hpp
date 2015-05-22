@@ -12,19 +12,19 @@ public:
 
 	SfmlGraphics &	operator=( SfmlGraphics const & _ );
 
-	void	introduce( void ) const;
+	void			introduce( void ) const;
 
 	std::string		getName( void ) const;
 
 private:
-	std::string	_name;
+	std::string		_name;
 };
 
 extern "C" {
 
 	SfmlGraphics	*createGraphic( void );
 
-	void		deleteGraphic( SfmlGraphics *graphics );
+	void			deleteGraphic( SfmlGraphics *graphics );
 
 }
 

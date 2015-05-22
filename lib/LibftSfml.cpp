@@ -3,7 +3,9 @@
 
 SfmlGraphics::SfmlGraphics():
 _name("Tralalala")
-{}
+{
+	std::cout << "SFML Graphic CREATION" << std::endl;
+}
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
 {
@@ -11,7 +13,9 @@ SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
 }
 
 SfmlGraphics::~SfmlGraphics()
-{}
+{
+	std::cout << "SFML Graphic DESTRUCTION" << std::endl;
+}
 
 SfmlGraphics &		SfmlGraphics::operator=( SfmlGraphics const & rhs )
 {
