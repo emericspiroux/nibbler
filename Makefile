@@ -20,15 +20,36 @@ NAME = 			nibbler
 
 CFLAGS = 		-Wall -Werror -Wextra
 
-INC =			-I ./include
+INC =			-I ./include \
+				-I ./lib
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp
 
+DYLIBDIR =		lib/
+DYLIB =			lib/lib1.dylib
+DYLIB2 =		lib/lib2.dylib
+
+DYLIBSRC =		lib.cpp
+DYLIB2SRC =		lib2.cpp
+
+DYLIBSRCS =		$(addprefix $(DYLIBDIR), $(DYLIBSRC))
+DYLIBOBJS =		$(DYLIBSRCS:.cpp=.o)
+DYLIB2SRCS =	$(addprefix $(DYLIBDIR), $(DYLIB2SRC))
+DYLIB2OBJS =	$(DYLIB2SRCS:.cpp=.o)
+
 SRCS =			$(addprefix $(SRCDIR), $(SRCSFILES))
 OBJS =			$(SRCS:.cpp=.o)
 
-all: $(NAME)
+all: $(DYLIB) $(DYLIB2) $(NAME)
+
+$(DYLIB): $(DYLIBOBJS)
+	@$(CC) -o $(DYLIB) -shared -fPIC $(DYLIBOBJS) && \
+	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
+
+$(DYLIB2): $(DYLIB2OBJS)
+	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) && \
+	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
 
 %.o: %.cpp
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ && echo "[$(GREEN)OK$(RESET)] $<"
@@ -38,9 +59,13 @@ $(NAME): $(OBJS)
 	@echo "$(GREEN)Binary successfully compiled$(RESET)" : $(NAME)
 
 clean:
+	@rm -f $(DYLIBOBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB) objects"
+	@rm -f $(DYLIB2OBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB2) objects"
 	@rm -f $(OBJS) && echo "[$(RED)DEL$(RESET)] $(NAME) objects"
 
 fclean: clean
+	@rm -f $(DYLIB) && echo "[$(RED)DEL$(RESET)] $(DYLIB)"
+	@rm -f $(DYLIB2) && echo "[$(RED)DEL$(RESET)] $(DYLIB2)"
 	@rm -f $(NAME) && echo "[$(RED)DEL$(RESET)] $(NAME)"
 
 test: re

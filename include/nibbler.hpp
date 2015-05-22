@@ -11,7 +11,7 @@ typedef enum	e_input
 	ONE,
 	TWO,
 	THREE
-}				t_input
+}				t_input;
 
 
 
