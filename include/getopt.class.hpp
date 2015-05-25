@@ -42,6 +42,9 @@ public:
 	/* Display rules of argv one by one*/
 	void		readOpt();
 
+	/*	Display if exist usage in file give to function*/
+	void		myUsage(std::string filepath);
+
 
 private:
 	std::map<int, std::string>	_opt;
