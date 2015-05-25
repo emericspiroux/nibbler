@@ -9,6 +9,6 @@ class IDisplayLib
 	virtual void		drawEntities( std::map<int, int> const & entities ) = 0;
 	virtual void		drawGameOver(  ) = 0;
 	virtual void		drawInfo(  ) = 0;
-}
+};
 
 #endif

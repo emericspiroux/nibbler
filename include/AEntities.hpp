@@ -15,6 +15,6 @@ private:
 	float	_duration;
 	int		_score;
 	bool	_collidable;
-}
+};
 
 #endif

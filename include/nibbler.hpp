@@ -1,5 +1,6 @@
 #ifndef NIBBLER_HPP
 # define NIBBLER_HPP
+# include "getopt.class.hpp"
 
 typedef enum	e_input
 {
@@ -11,7 +12,7 @@ typedef enum	e_input
 	ONE,
 	TWO,
 	THREE
-}				t_input
+}				t_input;
 
 
 

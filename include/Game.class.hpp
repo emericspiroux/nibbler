@@ -18,7 +18,7 @@ public:
 	int						getHeight(  ) const;
 	Snake *					getSnake(  ) const;
 	std::list<Entities *>	getEntities(  ) const;
-	
+
 	/* add an item to the entities map */
 	void					createItem(  );
 	/* Flush the entities map and create a new level */
@@ -46,6 +46,6 @@ private:
 	std::list<Entities *>	_entities;
 	bool					_gameOver;
 	bool					_shouldClose;
-}
+};
 
 #endif

@@ -23,7 +23,8 @@ CFLAGS = 		-Wall -Werror -Wextra
 INC =			-I ./include
 
 SRCDIR =		source/
-SRCSFILES =		main.cpp
+SRCSFILES =		main.cpp \
+				getopt.class.cpp
 
 SRCS =			$(addprefix $(SRCDIR), $(SRCSFILES))
 OBJS =			$(SRCS:.cpp=.o)

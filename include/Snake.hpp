@@ -11,12 +11,13 @@ public:
 	Snake &	operator=( Snake const & _ );
 
 	void				update( float dt );
-	void				
+	void				add_node();
 
 private:
 	std::map<int, int>	_nodes;
 	float				_speed;
 	int					_direction;
-}
+	int					_last_direction;
+};
 
 #endif
