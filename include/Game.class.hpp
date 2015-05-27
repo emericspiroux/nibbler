@@ -14,10 +14,19 @@ public:
 
 	Game &	operator=( Game const & _ );
 
+	void					setWidth( int width);
+	void					setHeight( int height);
+	void					setSnake( Snake * snake);
+	void					setEntities( std::list<AEntities> entities);
+	void					setGameOver( bool gameover);
+	void					setShouldClose( bool shouldclose);
+
 	int						getWidth(  ) const;
 	int						getHeight(  ) const;
 	Snake *					getSnake(  ) const;
-	std::list<Entities *>	getEntities(  ) const;
+	std::list<AEntities *>	getEntities(  ) const;
+	bool					getGameOver(  ) const;
+	bool					getShouldClose(  ) const;
 
 	/* add an item to the entities map */
 	void					createItem(  );
@@ -43,7 +52,7 @@ private:
 	int						_width;
 	int						_height;
 	Snake *					_snake;
-	std::list<Entities *>	_entities;
+	std::list<AEntities *>	_entities;
 	bool					_gameOver;
 	bool					_shouldClose;
 };
