@@ -6,7 +6,7 @@
 #    By: jvincent <jvincent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 18:33:50 by jvincent          #+#    #+#              #
-#    Updated: 2015/04/03 14:33:18 by jvincent         ###   ########.fr        #
+#    Updated: 2015/05/28 11:00:06 by jvincent         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -44,7 +44,7 @@ OBJS =			$(SRCS:.cpp=.o)
 all: $(DYLIB) $(DYLIB2) $(NAME)
 
 $(DYLIB): $(DYLIBOBJS)
-	@$(CC) -o $(DYLIB) -shared -fPIC $(DYLIBOBJS) && \
+	@$(CC) -o $(DYLIB) -shared -fPIC $(DYLIBOBJS) -lncurses && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
 
 $(DYLIB2): $(DYLIB2OBJS)

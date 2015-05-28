@@ -31,8 +31,7 @@ int		main( void )
 
 	IDisplayLib *	obj;
 	obj = GraphicCreator();
-	obj->init();
-	sleep(5);
+	obj->introduce();
 	GraphicDestructor(obj);
 
 	dlclose(handle);
