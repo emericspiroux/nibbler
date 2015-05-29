@@ -67,20 +67,40 @@ void				Snake::update( time_t dt )
 								y_head = it_el->second - 1:
 								break;
 
-						case 2:	x_head = it_el->first;
-								y_head = it_el->second - 1:
+						case 2:	x_head = it_el->first + 1;
+								y_head = it_el->second:
 								break;
 
 						case 3:	x_head = it_el->first;
-								y_head = it_el->second - 1:
+								y_head = it_el->second + 1:
 								break;
 
-						case 4:	x_head = it_el->first;
-								y_head = it_el->second - 1:
+						case 4:	x_head = it_el->first - 1;
+								y_head = it_el->second:
 								break;
 					}
 					if (this->eat_collidable(x_head, y_head))
 						this->_game->setGameOver(true);
+					else if (x_head > this->_game->getWidth())
+					{
+						it_el->first = 0;
+						it_el->second = y_head;
+					}
+					else if (y_head > this->_game->getHeight())
+					{
+						it_el->first = x_head;
+						it_el->second = 0;
+					}
+					else if (x_head < 0)
+					{
+						it_el->first = this->_game->getHeight();
+						it_el->second = y_head;
+					}
+					if (y_head < this->_game->getHeight())
+					{
+						it_el->first = x_head;
+						it_el->second = this->_game->getHeight();
+					}
 					else
 					{
 						it_el->first = x_head;

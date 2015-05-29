@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/05/28 22:04:58 by larry            ###   ########.fr       */
+/*   Updated: 2015/05/29 04:47:59 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ public:
 	bool					mapCmpSnake(int x, int y);
 	bool					mapCmpEnt(int x, int y);
 
+	/* add Entities to the game */
+	void					addEntities(AEntities *elem);
 private:
 	int						_width;
 	int						_height;

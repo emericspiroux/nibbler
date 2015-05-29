@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/05/28 18:59:47 by larry            ###   ########.fr       */
+/*   Updated: 2015/05/29 04:46:36 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ virtual AEntities::AEntities( Game const mygame )
 			set = true;
 		}
 	}
+	mygame->addEntities(*this);
 }
 
 AEntities & AEntities::operator=( AEntities const & rhs )
