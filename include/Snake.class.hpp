@@ -7,7 +7,7 @@ class Snake
 {
 public:
 	Snake(  );
-	Snake( game _game );
+	Snake( game *_game, unsigned int lenght);
 	Snake( Snake const & _ );
 	virtual ~Snake(  );
 
@@ -24,17 +24,19 @@ public:
 	float					getSpeed() const;
 	int						getDirection() const;
 	int						getLastDirection() const;
-	Game					getGame() const;
+	Game*					getGame() const;
 
-	void				update( float dt );
-	void				add_node();
+	void					update( float dt );
+	void					add_node(int x, int y);
+	bool					eat_collidable(int x, int y);
+	AEntities				eat_good(int x, int y);
 
 private:
 	std::map<int, int>	_nodes;
 	float				_speed;
 	int					_direction;
 	int					_last_direction;
-	Game				_game;
+	Game*				_game;
 };
 
 #endif

@@ -1,12 +1,15 @@
 #ifndef AENTITIES_HPP
 # define AENTITIES_HPP
 
+# include <stdlib.h>
+# include <time.h>
+
 class AEntities
 {
 public:
-	AEntities(  );
 	AEntities(int x, int y, float duration, int score, bool collidable);
 	AEntities( AEntities const & _ );
+	virtual AEntities( Game const mygame );
 	virtual ~AEntities(  );
 
 	AEntities & operator=( AEntities const & _ );
@@ -24,7 +27,7 @@ public:
 	int				getScore() const;
 	bool			getCollidable() const;
 
-	virtual update( float dt ) = 0;
+	virtual			update( time_t dt );
 
 private:
 	int		_x;
