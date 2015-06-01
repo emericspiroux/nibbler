@@ -3,11 +3,12 @@
 #include <unistd.h>
 #include "nibbler.hpp"
 #include "IDisplayLib.hpp"
+#include <list>
 
 int		main( void )
 {
 	void *			handle;
-	IDisplayLib		*(*GraphicCreator)();
+	IDisplayLib		*(*GraphicCreator)(int, int);
 	void			(*GraphicDestructor)(IDisplayLib *);
 
 	handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
@@ -17,7 +18,7 @@ int		main( void )
 		return (1);
 	}
 
-	GraphicCreator = (IDisplayLib *(*)()) dlsym(handle, "createGraphic");
+	GraphicCreator = (IDisplayLib *(*)(int, int)) dlsym(handle, "createGraphic");
 	if (!GraphicCreator)
 	{
 		std::cout << "Error finding symbol creator" << std::endl;
@@ -31,13 +32,21 @@ int		main( void )
 	}
 	
 	IDisplayLib *	obj;
-	obj = GraphicCreator();
+	obj = GraphicCreator(50, 50);
 	obj->init();
+
+	std::list<std::pair<int, int> >	snake;
+
+	snake.push_back(std::pair<int, int>(2, 2));
+	snake.push_back(std::pair<int, int>(2, 1));
+	snake.push_back(std::pair<int, int>(1, 1));
+	snake.push_back(std::pair<int, int>(1, 0));
 
 	while (42)
 	{
 		obj->clearScreen();
 		obj->drawMap();
+		obj->drawSnake(snake);
 		obj->drawAll();
 		usleep(2000);
 	}

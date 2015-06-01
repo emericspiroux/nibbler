@@ -15,6 +15,7 @@ public:
 	void			clearScreen();
 	void			init( void ) const;
 	void			drawMap( void );
+	void			drawSnake( std::list<std::pair<int, int> > & snake );
 	void			drawAll( void );
 
 	std::string		getName( void ) const;

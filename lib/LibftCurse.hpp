@@ -1,6 +1,7 @@
 #ifndef LIBFTCURSE_HPP
 # define LIBFTCURSE_HPP
 
+# include <ncurses.h>
 # include "IDisplayLib.hpp"
 
 class CurseGraphics: public IDisplayLib
@@ -16,16 +17,19 @@ public:
 	void			clearScreen();
 	void			init( void ) const;
 	void			drawMap( void );
+	void			drawSnake( std::list<std::pair<int, int> > & snake );
 	void			drawAll( void );
 
 	std::string		getName( void ) const;
 	int				getWidth( void ) const;
 	int				getHeight( void ) const;
+	WINDOW *		getWindow( void ) const;
 
 private:
 	std::string		_name;
 	int				_width;
 	int				_height;
+	WINDOW *		_window;
 };
 
 extern "C" {
