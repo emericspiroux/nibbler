@@ -1,5 +1,6 @@
 #include <iostream>
 #include <dlfcn.h>
+#include <unistd.h>
 #include "nibbler.hpp"
 #include "IDisplayLib.hpp"
 
@@ -28,10 +29,18 @@ int		main( void )
 		std::cout << "Error finding symbol destructor" << std::endl;
 		return (1);
 	}
-
+	
 	IDisplayLib *	obj;
 	obj = GraphicCreator();
-	obj->introduce();
+	obj->init();
+
+	while (42)
+	{
+		obj->clearScreen();
+		obj->drawMap();
+		obj->drawAll();
+		usleep(2000);
+	}
 	GraphicDestructor(obj);
 
 	dlclose(handle);

@@ -12,7 +12,10 @@ public:
 
 	SfmlGraphics &	operator=( SfmlGraphics const & _ );
 
-	void			introduce( void ) const;
+	void			clearScreen();
+	void			init( void ) const;
+	void			drawMap( void );
+	void			drawAll( void );
 
 	std::string		getName( void ) const;
 
