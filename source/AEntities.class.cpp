@@ -6,46 +6,55 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/05/29 04:46:36 by larry            ###   ########.fr       */
+/*   Updated: 2015/06/03 14:39:50 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "AEntities.class.hpp"
 
-AEntities::AEntities(int x, int y, float duration, int score, bool collidable)
+AEntities::AEntities( )
 {
-	this->setX(x);
-	this->setY(y);
-	this->setDuration(duration);
-	this->setScore(score);
-	this->setCollidable(collidable);
 
 }
-AEntities::AEntities( AEntities const & rhs )
+
+AEntities::~AEntities( )
 {
-	*this = rhs;
+
 }
 
-virtual AEntities::AEntities( Game const mygame )
+void	AEntities::update( time_t dt )
+{
+	(void)dt;
+}
+
+
+AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes)
 {
 	int		rnd_x;
 	int		rnd_y;
 	bool	set;
 
+	set = false;
 	while (!set)
 	{
 		srand (time(NULL));
-		rnd_x = rand() % mygame->getWidth() + 0;
-		rnd_y = rand() % mygame->getHeight() + 0;
-		if (!mygame->mapCmpSnake(rnd_x, rnd_y) && !mygame->mapCmpEnt(rnd_x, rnd_y))
+		rnd_x = rand() % width + 0;
+		rnd_y = rand() %  height + 0;
+		if (!MapTools::cmpMap(list_ent, snake_nodes, rnd_x, rnd_y))
 		{
-			this->setX(x);
-			this->setY(y);
+			this->setX(rnd_x);
+			this->setY(rnd_y);
 			set = true;
 		}
 	}
-	mygame->addEntities(*this);
 }
+
+AEntities::AEntities( AEntities const & rhs )
+{
+	*this = rhs;
+}
+
+
 
 AEntities & AEntities::operator=( AEntities const & rhs )
 {
@@ -54,14 +63,15 @@ AEntities & AEntities::operator=( AEntities const & rhs )
 	this->_duration = rhs.getDuration();
 	this->_score = rhs.getScore();
 	this->_collidable = rhs.getCollidable();
+	return (*this);
 }
 
 /* GETTERS & SETTERS */
-void			AEntities::setX(int x) {this->_x = x}
-void			AEntities::setY(int y) {this->_y = y}
-void			AEntities::setDuration(float duration) {this->_duration = duration}
-void			AEntities::setScore(int score) {this->_score = score}
-void			AEntities::setCollidable(bool collidable) {this->_collidable = collidable}
+void			AEntities::setX(int x) {this->_x = x;}
+void			AEntities::setY(int y) {this->_y = y;}
+void			AEntities::setDuration(float duration) {this->_duration = duration;}
+void			AEntities::setScore(int score) {this->_score = score;}
+void			AEntities::setCollidable(bool collidable) {this->_collidable = collidable;}
 int				AEntities::getX() const { return (this->_x); }
 int				AEntities::getY() const { return (this->_y); }
 float			AEntities::getDuration() const { return (this->_duration); }

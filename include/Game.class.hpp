@@ -6,20 +6,28 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/05/29 04:47:59 by larry            ###   ########.fr       */
+/*   Updated: 2015/06/03 14:21:28 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GAME_HPP
-# define GAME_HPP
+#ifndef GAME_CLASS_HPP
+# define GAME_CLASS_HPP
 
 # include <list>
 # include <time.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <thread>
+# include <chrono>
 # include "nibbler.hpp"
+# include "AEntities.class.hpp"
+# include "Snake.class.hpp"
+# include "Apple.class.hpp"
 
 class Game
 {
 public:
+	Game(  );
 	Game( int width, int height );
 	Game( Game const & _ );
 	virtual ~Game(  );
@@ -29,25 +37,21 @@ public:
 	void					setWidth( int width);
 	void					setHeight( int width);
 	void					setScore( int score);
-	void					setHeight( int height);
 	void					setSnake( Snake * snake);
-	void					setEntities( std::list<AEntities> entities);
+	void					setEntities( std::list<AEntities *> entities);
 	void					setGameOver( bool gameover);
 	void					setShouldClose( bool shouldclose);
 
 	int						getWidth(void) const;
 	int						getHeight(void) const;
 	int						getScore(void) const;
-	int						getHeight(void) const;
 	Snake *					getSnake(void) const;
 	std::list<AEntities *>	getEntities(void) const;
 	bool					getGameOver(void) const;
 	bool					getShouldClose(void) const;
 
-	/* add an item to the entities map */
-	void					createItem(void);
 	/* Flush the entities map and create a new level */
-	void					createLevel( /* std::list<Entities *> */ );
+	void					createLevel( std::string filename);
 
 	/* launch the main game loop */
 	void					start( void );
@@ -67,12 +71,11 @@ public:
 	/* render test map / entities / snake / game over */
 	void					renderTest(  );
 
-	/* watch if exist */
-	bool					mapCmpSnake(int x, int y);
-	bool					mapCmpEnt(int x, int y);
-
 	/* add Entities to the game */
 	void					addEntities(AEntities *elem);
+
+	/* del Entities*/
+	void					delEntities(AEntities *elem);
 private:
 	int						_width;
 	int						_height;
@@ -81,8 +84,6 @@ private:
 	std::list<AEntities *>	_entities;
 	bool					_gameOver;
 	bool					_shouldClose;
-
-	Game(  );
 };
 
 #endif

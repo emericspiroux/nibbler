@@ -6,11 +6,22 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/05/28 21:16:57 by larry            ###   ########.fr       */
+/*   Updated: 2015/06/04 23:37:32 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-	Game::Game( int width, int height );
+#include "Game.class.hpp"
+
+	Game::Game()
+	{
+
+	}
+
+	Game::~Game()
+	{
+	}
+
+	Game::Game( int width, int height )
 	{
 		this->_shouldClose = false;
 		this->setWidth(width);
@@ -30,15 +41,16 @@
 		this->_entities = rhs.getEntities();
 		this->_gameOver = rhs.getGameOver();
 		this->_shouldClose = rhs.getShouldClose();
+		return (*this);
 	}
 
 	void					Game::setWidth( int width) {this->_width = width;}
 	void					Game::setHeight( int height) {this->_height = height;}
 	void					Game::setScore( int score){this->_score = score;};
 	void					Game::setSnake( Snake * snake) {this->_snake = snake;}
-	void					Game::setEntities( std::list<AEntities> entities) {this->_entities = entities;}
-	void					Game::setGameOver( bool gameover) {this->_gameOver = gameOver;}
-	void					Game::setShouldClose( bool shouldclose) {this->_shouldClose = shouldClose;}
+	void					Game::setEntities( std::list<AEntities *> entities) {this->_entities = entities;}
+	void					Game::setGameOver( bool gameover) {this->_gameOver = gameover;}
+	void					Game::setShouldClose( bool shouldclose) {this->_shouldClose = shouldclose;}
 
 	int						Game::getWidth( void ) const {return (this->_width);}
 	int						Game::getHeight( void ) const {return (this->_height);}
@@ -48,34 +60,35 @@
 	bool					Game::getGameOver( void ) const {return (this->_gameOver);}
 	bool					Game::getShouldClose( void ) const {return (this->_shouldClose);}
 
-	/* add an item to the entities map */
-	void					Game::createItem(void)
-	{
-
-	}
-
 	/* Flush the entities map and create a new level */
-	void					Game::createLevel( /* std::string ou std::list<Entities *> */ )
+	void					Game::createLevel(std::string filename)
 	{
-
+		(void)filename;
 	}
 
 
 	/* launch the main game loop */
-	void					Game::start( void )
+	void					Game::start(  )
 	{
-		time_t before;
-		time_t now;
-		time_t dt;
+		typedef std::chrono::high_resolution_clock clock_;
+		std::chrono::time_point<clock_>  before, now;
+		std::chrono::milliseconds					    dt;
+		time_t											dtc;
 
-		time(&before);
-		while (!this->end)
+		time(&dtc);
+		Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
+		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
+		this->addEntities(apple);
+		this->setSnake(snake);
+		before = clock_::now();
+		while (!this->end())
 		{
-			time(&now);
-			dt = difftime(now, before);
-			this->update(dt);
+			now = clock_::now();
+			std::cout << (now - before).count() << std::endl;
+			this->update(dtc);
 			this->renderTest();
-			time(&before);
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000 - (now - before).count()));
+			before = std::chrono::high_resolution_clock::now();
 		}
 	}
 
@@ -88,7 +101,7 @@
 	/* get _shouldClose */
 	bool					Game::end(  )
 	{
-		return (this->_shouldClose());
+		return (this->_shouldClose);
 	}
 
 
@@ -106,11 +119,19 @@
 	/* call snake and entities update */
 	void					Game::update(time_t dt)
 	{
-		std::map<AEntities *>::iterator it_en;
+		std::list<AEntities *>::iterator it_en;
+		AEntities *object;
 
-		this->_snake->update(dt);
+		if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
+		{
+			this->setScore(object->getScore());
+			this->delEntities(object);
+			Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
+			this->addEntities(apple);
+		}
+
 		for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
-			this->_entities->update(dt);
+			(*it_en)->update(dt);
 	}
 
 	/* render map / entities / snake / game over */
@@ -123,27 +144,37 @@
 	/* render test map / entities / snake / game over */
 	void					Game::renderTest(  )
 	{
+		int					i = 1;
+		std::list<std::pair<int, int> >::iterator it_sn;
+		std::list<std::pair<int, int> >  snake_node;
+		Snake 				*snake;
 
-	}
+		//system("clear");
+		std::cout<<"Map size: "<< this->getHeight()  << "/" << this->getWidth() << std::endl;
 
-	/* watch if exist */
-	bool					Game::mapCmpSnake(int x, int y)
-	{
-		if (this->_snake->getX() == x && this->_snake->getY() == y)
-			return (true);
-		return (false);
-	}
-
-	bool					Game::mapCmpEnt(int x, int y)
-	{
-		std::list<AEntities *>:iterator it;
-
-		for (it=this->_entities.begin(); it!=this->_entities.end(); ++it)
+		snake = this->_snake;
+		snake_node = snake->getNodes();
+		for (it_sn=snake_node.begin(); it_sn!=snake_node.end(); ++it_sn)
 		{
-			if (it->getX() == x && it->getY() == y)
-				return (true);
+			std::cout<<"Snake Coord "<< i <<": ("<< it_sn->first  << "," << it_sn->second << ")" << std::endl;
+			i++;
 		}
-		return (false);
 	}
 
+	/* add Entities to the game */
+	void					Game::addEntities(AEntities *elem)
+	{
+		std::list<AEntities *> *list;
 
+		list = &this->_entities;
+		list->insert(list->begin(), elem);
+	}
+
+	/* add Entities to the game */
+	void					Game::delEntities(AEntities *elem)
+	{
+		std::list<AEntities *> *list;
+
+		list = &this->_entities;
+		list->remove(elem);
+	}

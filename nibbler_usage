@@ -1,7 +1,7 @@
 Usage: Nibbler <Map Height> <Map Width>
 
 	Map Height / Map Width : Must be lenght of 9 characters
-				 and must be numerical.
+				 and numerical.
 				 Naturally it can't be negative.
 
 	Good Game...

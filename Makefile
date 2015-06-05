@@ -25,7 +25,12 @@ INC =			-I ./include
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
 				getopt.class.cpp\
-				gettest.class.cpp
+				gettest.class.cpp\
+				Game.class.cpp\
+				Apple.class.cpp\
+				AEntities.class.cpp\
+				MapTools.class.cpp\
+				Snake.class.cpp
 
 SRCS =			$(addprefix $(SRCDIR), $(SRCSFILES))
 OBJS =			$(SRCS:.cpp=.o)
