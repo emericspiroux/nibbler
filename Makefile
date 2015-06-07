@@ -6,7 +6,7 @@
 #    By: jvincent <jvincent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 18:33:50 by jvincent          #+#    #+#              #
-#    Updated: 2015/04/03 14:33:18 by jvincent         ###   ########.fr        #
+#    Updated: 2015/05/28 11:00:06 by jvincent         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,8 @@ NAME = 			nibbler
 
 CFLAGS = 		-Wall -Werror -Wextra
 
-INC =			-I ./include
+INC =			-I ./include \
+				-I ./lib
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
@@ -32,22 +33,46 @@ SRCSFILES =		main.cpp \
 				MapTools.class.cpp\
 				Snake.class.cpp
 
+DYLIBDIR =		lib/
+DYLIB =			lib/libftcurse.dylib
+DYLIB2 =		lib/libftsfml.dylib
+
+DYLIBSRC =		LibftCurse.cpp
+DYLIB2SRC =		LibftSfml.cpp
+
+DYLIBSRCS =		$(addprefix $(DYLIBDIR), $(DYLIBSRC))
+DYLIBOBJS =		$(DYLIBSRCS:.cpp=.o)
+DYLIB2SRCS =	$(addprefix $(DYLIBDIR), $(DYLIB2SRC))
+DYLIB2OBJS =	$(DYLIB2SRCS:.cpp=.o)
+
 SRCS =			$(addprefix $(SRCDIR), $(SRCSFILES))
 OBJS =			$(SRCS:.cpp=.o)
 
-all: $(NAME)
+all: $(DYLIB) $(DYLIB2) $(NAME)
+
+$(DYLIB): $(DYLIBOBJS)
+	@$(CC) -o $(DYLIB) -shared -fPIC $(DYLIBOBJS) -lncurses && \
+	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
+
+$(DYLIB2): $(DYLIB2OBJS)
+	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) && \
+	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
 
 %.o: %.cpp
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ && echo "[$(GREEN)OK$(RESET)] $<"
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LFLAGS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
 	@echo "$(GREEN)Binary successfully compiled$(RESET)" : $(NAME)
 
 clean:
+	@rm -f $(DYLIBOBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB) objects"
+	@rm -f $(DYLIB2OBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB2) objects"
 	@rm -f $(OBJS) && echo "[$(RED)DEL$(RESET)] $(NAME) objects"
 
 fclean: clean
+	@rm -f $(DYLIB) && echo "[$(RED)DEL$(RESET)] $(DYLIB)"
+	@rm -f $(DYLIB2) && echo "[$(RED)DEL$(RESET)] $(DYLIB2)"
 	@rm -f $(NAME) && echo "[$(RED)DEL$(RESET)] $(NAME)"
 
 test: re
