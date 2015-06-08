@@ -6,11 +6,12 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/06/04 23:37:32 by larry            ###   ########.fr       */
+/*   Updated: 2015/06/08 12:01:52 by jvincent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Game.class.hpp"
+#include "IDisplayLib.hpp"
 
 	Game::Game()
 	{
@@ -26,6 +27,25 @@
 		this->_shouldClose = false;
 		this->setWidth(width);
 		this->setHeight(height);
+		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
+		if (!handle)
+		{
+			std::cout << "Error opening dynlib" << std::endl;
+			exit (1);
+		}
+		this->GraphicCreator = (IDisplayLib *(*)(int, int)) dlsym(handle, "createGraphic");
+		if (!GraphicCreator)
+		{
+			std::cout << "Error finding symbol creator" << std::endl;
+			exit (1);
+		}
+		this->GraphicDestructor = (void (*)(IDisplayLib *)) dlsym(handle, "deleteGraphic");
+		if (!GraphicDestructor)
+		{
+			std::cout << "Error finding symbol destructor" << std::endl;
+			exit (1);
+		}
+		_gobj = GraphicCreator(width, height);
 	}
 
 	Game::Game( Game const & rhs )

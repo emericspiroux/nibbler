@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/06/03 14:21:28 by larry            ###   ########.fr       */
+/*   Updated: 2015/06/08 12:00:17 by jvincent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include <unistd.h>
 # include <thread>
 # include <chrono>
+# include <dlfcn.h>
 # include "nibbler.hpp"
 # include "AEntities.class.hpp"
 # include "Snake.class.hpp"
 # include "Apple.class.hpp"
+# include "IDisplayLib.hpp"
 
 class Game
 {
@@ -76,6 +78,7 @@ public:
 
 	/* del Entities*/
 	void					delEntities(AEntities *elem);
+
 private:
 	int						_width;
 	int						_height;
@@ -84,6 +87,10 @@ private:
 	std::list<AEntities *>	_entities;
 	bool					_gameOver;
 	bool					_shouldClose;
+	void *					handle;
+	IDisplayLib				*(*GraphicCreator)(int, int);
+	void					(*GraphicDestructor)(IDisplayLib *);
+	IDisplayLib *			_gobj;
 };
 
 #endif
