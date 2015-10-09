@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/09 14:19:15 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/09 14:35:33 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,27 +95,23 @@
 		std::chrono::duration<double> 					time_span;
 		std::chrono::milliseconds					    dt;
 		time_t											dtc;
+		int												wait_time;
 
 		time(&dtc);
 		Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
 		this->setSnake(snake);
+		this->_snake->setSpeed(0.25);
 		while (!this->end())
 		{
-/*			this->update(dtc);
-			now = clock_::now();
-			std::cout<<(now - before).count()<<std::endl;
-			std::this_thread::sleep_for(std::chrono::milliseconds(2000 - (now - before).count()));
-			this->render();
-			before = std::chrono::high_resolution_clock::now();*/
-
 			before = std::chrono::high_resolution_clock::now();
 			this->update(dtc);
 			this->render();
 			now = std::chrono::high_resolution_clock::now();
 			time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
-			usleep((1000000 * 0.3) - (time_span.count() * 1000000));
+			wait_time = (1000000 * this->_snake->getSpeed()) - (time_span.count() * 1000000);
+			usleep(wait_time);
 		}
 	}
 
