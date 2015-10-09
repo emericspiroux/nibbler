@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/06/08 11:41:02 by jvincent         ###   ########.fr       */
+/*   Updated: 2015/10/09 13:29:46 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ Snake::Snake( int Heightmap, int Widthmap, unsigned int lenght)
 	this->setHeightMap(Heightmap);
 	this->setWidthMap(Widthmap);
 	for (unsigned int i = 0; i <= lenght; i++)
-	{
 		this->add_node((Widthmap/2) - i, (Heightmap/2));
-		std::cout << "Add node :" << " (" << (Widthmap/2) - i << "," << (Heightmap/2) << ")" << std::endl;
-	}
 }
 
 Snake::Snake( Snake const & rhs )
@@ -85,12 +82,12 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 				this->change_dir(dir, &x_head, &y_head, it_el);
 				if (this->eat_collidable(x_head, y_head, listEnt))
 					*game_over = true;
-				else if (x_head > this->getWidthMap())
+				else if (x_head > (this->getWidthMap() - 1))
 				{
 					it_el->first = 0;
 					it_el->second = y_head;
 				}
-				else if (y_head > this->getHeightMap())
+				else if (y_head > (this->getHeightMap() - 1))
 				{
 					it_el->first = x_head;
 					it_el->second = 0;
@@ -185,8 +182,6 @@ void					Snake::change_dir(int dir, int *x, int *y, std::list<std::pair<int, int
 	x_save = it_el->first;
 	y_save = it_el->second;
 
-
-	std::cout << "head : " << x_save << "/" << y_save << std::endl;
 	switch (dir)
 	{
 		case 1:	y_save--;

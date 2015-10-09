@@ -18,7 +18,7 @@ public:
 	void			init( void ) const;
 	void			drawMap( void );
 	void			drawSnake( std::list<std::pair<int, int> > & snake );
-	void			drawAll( void );
+	void			drawAll( std::list<std::pair<int, int> > & snake );
 
 	std::string		getName( void ) const;
 	int				getWidth( void ) const;

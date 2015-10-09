@@ -93,7 +93,10 @@ void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake )
 	}
 }
 
-void			CurseGraphics::drawAll( void )
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake )
 {
+	this->clearScreen();
+	this->drawMap();
+	this->drawSnake(snake);
 	wrefresh(_window);
 }
