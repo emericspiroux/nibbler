@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/09 14:35:33 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/10 18:36:43 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@
 
 		time(&dtc);
 		Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
+		this->setSnake(snake);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
-		this->setSnake(snake);
 		this->_snake->setSpeed(0.25);
 		while (!this->end())
 		{
@@ -163,17 +163,17 @@
 		std::list<std::pair<int, int> > cpy_snake;
 
 		cpy_snake = this->_snake->getNodes();
-		this->_gobj->drawAll(cpy_snake);
+		this->_gobj->drawAll(cpy_snake, this->_entities);
 	}
 
 
-	/* render test map / entities / snake / game over */
+	/* render test map / entities / snake / game over  for testing game*/
 	void					Game::renderTest(  )
 	{
-		int					i = 1;
-		std::list<std::pair<int, int> >::iterator it_sn;
-		std::list<std::pair<int, int> >  snake_node;
-		Snake 				*snake;
+		int											i = 1;
+		std::list<std::pair<int, int> >::iterator	it_sn;
+		std::list<std::pair<int, int> >				snake_node;
+		Snake 										*snake;
 
 		//system("clear");
 		std::cout<<"Map size: "<< this->getHeight()  << "/" << this->getWidth() << std::endl;

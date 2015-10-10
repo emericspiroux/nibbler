@@ -1,4 +1,5 @@
 #include <iostream>
+#include "AEntities.class.hpp"
 #include "LibftCurse.hpp"
 
 CurseGraphics::CurseGraphics():
@@ -8,8 +9,9 @@ _name("Curse Display")
 	initscr();
 	curs_set(0);
 	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(1, COLOR_WHITE, COLOR_BLUE);
 	init_pair(2, COLOR_WHITE, COLOR_WHITE);
+	init_pair(3, COLOR_WHITE, COLOR_RED);
 	_window = newwin(10, 10, 0, 0);
 }
 
@@ -20,8 +22,9 @@ _name("Curse Display"), _width(w), _height(h)
 	initscr();
 	curs_set(0);
 	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(1, COLOR_WHITE, COLOR_BLUE);
 	init_pair(2, COLOR_WHITE, COLOR_WHITE);
+	init_pair(3, COLOR_WHITE, COLOR_RED);
 	_window = newwin(_height + 2, _width * 2 + 2, 0, 0);
 }
 
@@ -93,10 +96,21 @@ void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake )
 	}
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake )
+void			CurseGraphics::drawEntities( std::list<AEntities *> & entitiesList )
+{
+	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
+	{
+		wattron(_window, COLOR_PAIR(3));
+		mvwprintw(_window, (*it)->coordY() + 1, (*it)->coordX() * 2 + 1, "  ");
+		wattroff(_window, COLOR_PAIR(3));
+	}
+}
+
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList)
 {
 	this->clearScreen();
 	this->drawMap();
+	this->drawEntities(entitiesList);
 	this->drawSnake(snake);
 	wrefresh(_window);
 }

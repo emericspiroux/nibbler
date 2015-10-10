@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/09 13:29:46 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/10 20:26:57 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ Snake::Snake( int Heightmap, int Widthmap, unsigned int lenght)
 {
 	this->setHeightMap(Heightmap);
 	this->setWidthMap(Widthmap);
+	this->setDirection(2);
 	for (unsigned int i = 0; i <= lenght; i++)
 		this->add_node((Widthmap/2) - i, (Heightmap/2));
+
 }
 
 Snake::Snake( Snake const & rhs )
@@ -58,7 +60,6 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 	std::list<std::pair<int, int> >::iterator	it_el;
 	AEntities						*object;
 	bool							head;
-	int								dir = 2;
 	int								x_head;
 	int								y_head;
 	int								x_save;
@@ -79,7 +80,7 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 			{
 				x_save = it_el->first;
 				y_save = it_el->second;
-				this->change_dir(dir, &x_head, &y_head, it_el);
+				this->change_dir(&x_head, &y_head, it_el);
 				if (this->eat_collidable(x_head, y_head, listEnt))
 					*game_over = true;
 				else if (x_head > (this->getWidthMap() - 1))
@@ -121,6 +122,7 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 		}
 		if ((object = this->eat_good(x_head, y_head, listEnt)) != nullptr)
 		{
+			std::cout << "test" << std::endl;
 			this->add_node(x_save, y_save);
 			return (object);
 		}
@@ -169,35 +171,35 @@ AEntities*				Snake::eat_good(int x, int y, std::list<AEntities *> *listEnti)
 	//search in entities
 	for (it_ent=listEnti->begin(); it_ent!=listEnti->end(); ++it_ent)
 	{
-		if ((*it_ent)->getCollidable() == false && (*it_ent)->getX() == x && (*it_ent)->getY() == y)
+		if ((*it_ent)->getCollidable() == false && (*it_ent)->coordX() == x && (*it_ent)->coordY() == y)
 			return (*it_ent);
 	}
 	return (nullptr);
 }
 
-void					Snake::change_dir(int dir, int *x, int *y, std::list<std::pair<int, int> >::iterator it_el)
+void					Snake::change_dir(int *x, int *y, std::list<std::pair<int, int> >::iterator it_el)
 {
 	int					x_save;
 	int					y_save;
 	x_save = it_el->first;
 	y_save = it_el->second;
 
-	switch (dir)
+	switch (this->getDirection())
 	{
-		case 1:	y_save--;
+		case 1:	if (this->getLastDirection() != 3) y_save--;
 				break;
 
-		case 2:	x_save++;
+		case 2:	if (this->getLastDirection() != 4) x_save++;
 				break;
 
-		case 3:	y_save++;
+		case 3:	if (this->getLastDirection() != 1) y_save++;
 				break;
 
-		case 4:	x_save--;
+		case 4:	if (this->getLastDirection() != 2) x_save--;
 				break;
 	}
+	this->setLastDirection(this->getDirection());
 	*x = x_save;
 	*y = y_save;
-	this->setLastDirection(dir);
 }
 

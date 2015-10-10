@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 14:58:53 by larry             #+#    #+#             */
-/*   Updated: 2015/06/03 14:40:12 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/10 18:32:31 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ class Apple : public AEntities
 		Apple( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
 		virtual 			~Apple(  );
 		virtual void		update( time_t dt );
+		virtual int			coordX( void );
+		virtual int			coordY( void );
 };
 
 #endif

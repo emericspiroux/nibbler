@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/06/03 14:39:50 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/10 18:32:15 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ void	AEntities::update( time_t dt )
 	(void)dt;
 }
 
+int		AEntities::coordX( void )
+{
+	return (this->_x);
+}
+
+int		AEntities::coordY( void )
+{
+	return (this->_x);
+}
 
 AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes)
 {
@@ -38,8 +47,8 @@ AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std
 	while (!set)
 	{
 		srand (time(NULL));
-		rnd_x = rand() % width + 0;
-		rnd_y = rand() %  height + 0;
+		rnd_x = (rand() % width) + 0;
+		rnd_y = (rand() %  height) + 0;
 		if (!MapTools::cmpMap(list_ent, snake_nodes, rnd_x, rnd_y))
 		{
 			this->setX(rnd_x);

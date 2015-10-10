@@ -44,7 +44,7 @@ private:
 	int					_last_direction;
 
 protected:
-	void					change_dir(int dir, int *x, int *y, std::list<std::pair<int, int> >::iterator it_el);
+	void					change_dir(int *x, int *y, std::list<std::pair<int, int> >::iterator it_el);
 };
 
 #endif

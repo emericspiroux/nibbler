@@ -6,11 +6,12 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 15:04:06 by larry             #+#    #+#             */
-/*   Updated: 2015/06/03 14:40:08 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/10 18:32:23 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Apple.class.hpp"
+#include <iostream>
 
 Apple::~Apple()
 {
@@ -49,7 +50,17 @@ Apple::Apple( )
 	this->setCollidable(false);
 }
 
-void	Apple::update( time_t dt )
+void		Apple::update( time_t dt )
 {
 	(void)dt;
+}
+
+int			Apple::coordX( void )
+{
+	return (this->_x);
+}
+
+int			Apple::coordY( void )
+{
+	return (this->_y);
 }

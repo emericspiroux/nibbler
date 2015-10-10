@@ -44,4 +44,5 @@ void			SfmlGraphics::init( void ) const
 
 void			SfmlGraphics::drawMap( void ) {}
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) { static_cast<void>(snake); }
-void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake ) {(void)snake;}
+void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList) {(void)snake;(void)entitiesList;}
+void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList ) {(void)entitiesList;}

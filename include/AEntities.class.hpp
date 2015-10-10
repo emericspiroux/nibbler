@@ -29,8 +29,10 @@ public:
 	bool				getCollidable() const;
 
 	virtual void		update( time_t dt );
+	virtual int			coordX( void );
+	virtual int			coordY( void );
 
-private:
+protected:
 	int		_x;
 	int		_y;
 	float	_duration;

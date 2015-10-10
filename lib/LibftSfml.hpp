@@ -16,7 +16,8 @@ public:
 	void			init( void ) const;
 	void			drawMap( void );
 	void			drawSnake( std::list<std::pair<int, int> > & snake );
-	void			drawAll( std::list<std::pair<int, int> > & snake );
+	void			drawEntities( std::list<AEntities *> & entitiesList );
+	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList);
 
 	std::string		getName( void ) const;
 
