@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/11 13:49:09 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/11 14:47:32 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@
 			now = std::chrono::high_resolution_clock::now();
 			time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
 			wait_time = (1000000 * this->_snake->getSpeed()) - (time_span.count() * 1000000);
-			usleep(wait_time);
+			if (wait_time >= 0)
+				usleep(wait_time);
 		}
 	}
 

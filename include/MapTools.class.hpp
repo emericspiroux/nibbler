@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/31 12:30:35 by larry             #+#    #+#             */
-/*   Updated: 2015/06/02 18:41:32 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/11 15:38:14 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ public:
 	static bool				cmpMap(std::list<AEntities *> list_ent, std::list<std::pair<int, int> > map_sna, int x, int y);
 	static bool				cmpSnake(std::list<std::pair<int, int> > map_sna, int x, int y);
 	static bool				cmpAEntities(std::list<AEntities *> list_ent, int x, int y);
-
+	//static bool				empty_place(int width, int  height, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > map_sna, int *x, int *y);
 };
 
 #endif

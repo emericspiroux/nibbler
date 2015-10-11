@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/11 14:05:47 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/11 15:04:23 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,20 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 					it_el->first = 0;
 					it_el->second = y_head;
 				}
-				else if (y_head > (this->getHeightMap()))
+				else if (y_head > (this->getHeightMap()) - 1)
 				{
 					it_el->first = x_head;
 					it_el->second = 0;
 				}
 				else if (x_head < 0)
 				{
-					it_el->first = this->getWidthMap();
+					it_el->first = this->getWidthMap() - 1;
 					it_el->second = y_head;
 				}
 				else if (y_head < 0)
 				{
 					it_el->first = x_head;
-					it_el->second = this->getHeightMap();
+					it_el->second = this->getHeightMap() - 1;
 				}
 				else
 				{
