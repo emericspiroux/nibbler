@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/10 18:36:43 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/11 13:49:09 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
 	void					Game::getInput(  )
 	{
-
+		this->_snake->setDirection(_gobj->getInput());
 	}
 
 	void					Game::switchDylib(  )
@@ -145,6 +145,7 @@
 		std::list<AEntities *>::iterator it_en;
 		AEntities *object;
 
+		this->getInput();
 		if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
 		{
 			this->setScore(object->getScore());

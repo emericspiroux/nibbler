@@ -19,6 +19,8 @@ public:
 	void			drawEntities( std::list<AEntities *> & entitiesList );
 	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList);
 
+	int				getInput( void );
+
 	std::string		getName( void ) const;
 
 private:

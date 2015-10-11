@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/10 20:26:57 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/11 14:05:47 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 					it_el->first = 0;
 					it_el->second = y_head;
 				}
-				else if (y_head > (this->getHeightMap() - 1))
+				else if (y_head > (this->getHeightMap()))
 				{
 					it_el->first = x_head;
 					it_el->second = 0;
@@ -122,7 +122,6 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 		}
 		if ((object = this->eat_good(x_head, y_head, listEnt)) != nullptr)
 		{
-			std::cout << "test" << std::endl;
 			this->add_node(x_save, y_save);
 			return (object);
 		}
@@ -181,25 +180,55 @@ void					Snake::change_dir(int *x, int *y, std::list<std::pair<int, int> >::iter
 {
 	int					x_save;
 	int					y_save;
+	bool				err;
+
 	x_save = it_el->first;
 	y_save = it_el->second;
+	err = false;
+
+	if (this->getDirection() == 0 && this->getLastDirection() == 0)
+		this->setLastDirection(2);
+	else if (this->getDirection() == 0)
+		this->setDirection(this->getLastDirection());
 
 	switch (this->getDirection())
 	{
-		case 1:	if (this->getLastDirection() != 3) y_save--;
+		case 1:	if (this->getLastDirection() != 3) y_save--; else err = true;
 				break;
 
-		case 2:	if (this->getLastDirection() != 4) x_save++;
+		case 2:	if (this->getLastDirection() != 4) x_save++; else err = true;
 				break;
 
-		case 3:	if (this->getLastDirection() != 1) y_save++;
+		case 3:	if (this->getLastDirection() != 1) y_save++; else err = true;
 				break;
 
-		case 4:	if (this->getLastDirection() != 2) x_save--;
+		case 4:	if (this->getLastDirection() != 2) x_save--; else err = true;
 				break;
+
 	}
-	this->setLastDirection(this->getDirection());
+	if (this->getDirection() != 0 && err == false)
+		this->setLastDirection(this->getDirection());
+
+	if (err == true)
+	{
+		switch (this->getLastDirection())
+		{
+			case 1:	y_save--;
+					break;
+
+			case 2:	x_save++;
+					break;
+
+			case 3:	y_save++;
+					break;
+
+			case 4:	x_save--;
+					break;
+
+		}
+	}
 	*x = x_save;
 	*y = y_save;
+
 }
 

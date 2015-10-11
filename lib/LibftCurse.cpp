@@ -114,3 +114,26 @@ void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::lis
 	this->drawSnake(snake);
 	wrefresh(_window);
 }
+
+int				CurseGraphics::getInput( void )
+{
+	int			keyboard;
+
+	nodelay(_window, TRUE);
+	noecho();
+	cbreak();
+	for (int i = 0; i < 3; i++)
+		keyboard = wgetch(_window);
+	switch (keyboard)
+	{
+		case 65:return (1);
+				break ;
+		case 67:return (2);
+				break ;
+		case 66:return (3);
+				break ;
+		case 68:return (4);
+				break ;
+	}
+	return (0);
+}
