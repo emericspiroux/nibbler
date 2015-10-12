@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/06/08 12:00:17 by jvincent         ###   ########.fr       */
+/*   Updated: 2015/10/12 16:23:40 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ public:
 	void					setWidth( int width);
 	void					setHeight( int width);
 	void					setScore( int score);
+	void					addScore( int score);
 	void					setSnake( Snake * snake);
 	void					setEntities( std::list<AEntities *> entities);
 	void					setGameOver( bool gameover);

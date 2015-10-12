@@ -19,7 +19,8 @@ public:
 	void			drawMap( void );
 	void			drawSnake( std::list<std::pair<int, int> > & snake );
 	void			drawEntities( std::list<AEntities *> & entitiesList );
-	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList);
+	void			drawScore( int score );
+	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score);
 
 	int				getInput( void );
 

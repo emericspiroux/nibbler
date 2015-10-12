@@ -106,12 +106,21 @@ void			CurseGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 	}
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList)
+void			CurseGraphics::drawScore( int score )
+{
+	std::string		sent;
+
+	sent = "Score " + std::to_string(score);
+	mvwprintw(_window, _height + 1, 1, sent.c_str());
+}
+
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score)
 {
 	this->clearScreen();
 	this->drawMap();
 	this->drawEntities(entitiesList);
 	this->drawSnake(snake);
+	this->drawScore(score);
 	wrefresh(_window);
 }
 

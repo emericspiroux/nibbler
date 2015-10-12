@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 15:57:46 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 16:24:28 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@
 	void					Game::setWidth( int width) {this->_width = width;}
 	void					Game::setHeight( int height) {this->_height = height;}
 	void					Game::setScore( int score){this->_score = score;};
+	void					Game::addScore( int score){this->_score += score;};
 	void					Game::setSnake( Snake * snake) {this->_snake = snake;}
 	void					Game::setEntities( std::list<AEntities *> entities) {this->_entities = entities;}
 	void					Game::setGameOver( bool gameover) {this->_gameOver = gameover;}
@@ -157,7 +158,7 @@
 		{
 			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
 			{
-				this->setScore(object->getScore());
+				this->addScore(object->getScore());
 				this->delEntities(object);
 				Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
 				this->addEntities(apple);
@@ -174,7 +175,7 @@
 		std::list<std::pair<int, int> > cpy_snake;
 
 		cpy_snake = this->_snake->getNodes();
-		this->_gobj->drawAll(cpy_snake, this->_entities/*, this->_gameOver*/);
+		this->_gobj->drawAll(cpy_snake, _entities, _score/*, this->_gameOver*/);
 	}
 
 
