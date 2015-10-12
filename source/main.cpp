@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/22 13:20:50 by larry             #+#    #+#             */
-/*   Updated: 2015/06/02 04:48:57 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 12:47:42 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int		main( int argc, char **argv )
 		verif.myUsage("nibbler_usage");
 	Game *game = new Game(atoi(argv[1]), atoi(argv[2]));
 	game->start();
+	delete game;
 	return (0);
 }
