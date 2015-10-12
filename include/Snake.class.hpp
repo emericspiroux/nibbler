@@ -45,6 +45,12 @@ private:
 
 protected:
 	void					change_dir(int *x, int *y, std::list<std::pair<int, int> >::iterator it_el);
+	struct snode			fixedOutOfMap(int x_head, int y_head);
 };
+
+typedef struct	snode{
+		int		x;
+		int		y;
+} tnode;
 
 #endif

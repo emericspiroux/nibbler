@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/11 14:47:32 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 13:35:01 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 	Game::Game( int width, int height )
 	{
 		this->_shouldClose = false;
+		this->_gameOver = false;
 		this->setWidth(width);
 		this->setHeight(height);
 		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
@@ -147,16 +148,19 @@
 		AEntities *object;
 
 		this->getInput();
-		if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
+		if (this->_gameOver == false)
 		{
-			this->setScore(object->getScore());
-			this->delEntities(object);
-			Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
-			this->addEntities(apple);
-		}
+			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
+			{
+				this->setScore(object->getScore());
+				this->delEntities(object);
+				Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
+				this->addEntities(apple);
+			}
 
-		for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
-			(*it_en)->update(dt);
+			for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
+				(*it_en)->update(dt);
+		}
 	}
 
 	/* render map / entities / snake / game over */
@@ -165,7 +169,7 @@
 		std::list<std::pair<int, int> > cpy_snake;
 
 		cpy_snake = this->_snake->getNodes();
-		this->_gobj->drawAll(cpy_snake, this->_entities);
+		this->_gobj->drawAll(cpy_snake, this->_entities/*, this->_gameOver*/);
 	}
 
 

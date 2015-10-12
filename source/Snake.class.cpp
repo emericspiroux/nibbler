@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/11 15:04:23 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 13:56:42 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 	int								y_save;
 	int								x_save_body;
 	int								y_save_body;
+	tnode							node;
 
 	head = true;
 	(void)dt;
@@ -81,33 +82,14 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 				x_save = it_el->first;
 				y_save = it_el->second;
 				this->change_dir(&x_head, &y_head, it_el);
-				if (this->eat_collidable(x_head, y_head, listEnt))
+				node = this->fixedOutOfMap(x_head, y_head);
+				if (this->eat_collidable(node.x, node.y, listEnt))
+				{
 					*game_over = true;
-				else if (x_head > (this->getWidthMap() - 1))
-				{
-					it_el->first = 0;
-					it_el->second = y_head;
+					return (nullptr);
 				}
-				else if (y_head > (this->getHeightMap()) - 1)
-				{
-					it_el->first = x_head;
-					it_el->second = 0;
-				}
-				else if (x_head < 0)
-				{
-					it_el->first = this->getWidthMap() - 1;
-					it_el->second = y_head;
-				}
-				else if (y_head < 0)
-				{
-					it_el->first = x_head;
-					it_el->second = this->getHeightMap() - 1;
-				}
-				else
-				{
-					it_el->first = x_head;
-					it_el->second = y_head;
-				}
+				it_el->first = node.x;
+				it_el->second = node.y;
 				head = false;
 			}
 			else // et le corps
@@ -120,7 +102,7 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 				y_save = y_save_body;
 			}
 		}
-		if ((object = this->eat_good(x_head, y_head, listEnt)) != nullptr)
+		if ((object = this->eat_good(node.x, node.y, listEnt)) != nullptr)
 		{
 			this->add_node(x_save, y_save);
 			return (object);
@@ -152,13 +134,15 @@ bool				Snake::eat_collidable(int x, int y, std::list<AEntities *> *listEnt)
 			return (true);
 	}
 
-	//search in snake
+	//search in snake without head
 	it_sn = this->_nodes.begin();
 	it_sn++;
 	for ((void)it_sn; it_sn!=this->_nodes.end(); ++it_sn)
 	{
 		if (it_sn->first == x && it_sn->second == y)
+		{
 			return (true);
+		}
 	}
 	return (false);
 }
@@ -230,5 +214,37 @@ void					Snake::change_dir(int *x, int *y, std::list<std::pair<int, int> >::iter
 	*x = x_save;
 	*y = y_save;
 
+}
+
+struct snode			Snake::fixedOutOfMap(int x_head, int y_head)
+{
+	tnode				node;
+
+	if (x_head > (this->getWidthMap() - 1))
+	{
+		node.x = 0;
+		node.y = y_head;
+	}
+	else if (y_head > (this->getHeightMap()) - 1)
+	{
+		node.x = x_head;
+		node.y = 0;
+	}
+	else if (x_head < 0)
+	{
+		node.x = this->getWidthMap() - 1;
+		node.y = y_head;
+	}
+	else if (y_head < 0)
+	{
+		node.x = x_head;
+		node.y = this->getHeightMap() - 1;
+	}
+	else
+	{
+		node.x = x_head;
+		node.y = y_head;
+	}
+	return (node);
 }
 
