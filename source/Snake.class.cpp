@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 13:56:42 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 15:30:49 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,16 +177,16 @@ void					Snake::change_dir(int *x, int *y, std::list<std::pair<int, int> >::iter
 
 	switch (this->getDirection())
 	{
-		case 1:	if (this->getLastDirection() != 3) y_save--; else err = true;
+		case K_UP:	if (this->getLastDirection() != K_DW) y_save--; else err = true;
 				break;
 
-		case 2:	if (this->getLastDirection() != 4) x_save++; else err = true;
+		case K_LT:	if (this->getLastDirection() != K_RT) x_save++; else err = true;
 				break;
 
-		case 3:	if (this->getLastDirection() != 1) y_save++; else err = true;
+		case K_DW:	if (this->getLastDirection() != K_UP) y_save++; else err = true;
 				break;
 
-		case 4:	if (this->getLastDirection() != 2) x_save--; else err = true;
+		case K_RT:	if (this->getLastDirection() != K_LT) x_save--; else err = true;
 				break;
 
 	}

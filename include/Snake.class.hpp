@@ -4,6 +4,7 @@
 # include <string>
 # include <vector>
 # include "AEntities.class.hpp"
+# include "nibbler.hpp"
 
 class Snake
 {

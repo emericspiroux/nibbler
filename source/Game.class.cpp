@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 13:35:01 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/12 15:57:46 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,12 @@
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
 	void					Game::getInput(  )
 	{
-		this->_snake->setDirection(_gobj->getInput());
+		int					current_keycode;
+
+		if ((current_keycode = _gobj->getInput()))
+		{
+			this->_snake->setDirection(current_keycode);
+		}
 	}
 
 	void					Game::switchDylib(  )
