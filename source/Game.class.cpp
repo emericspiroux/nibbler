@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 01:01:45 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 01:11:50 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@
 		while (this->again())
 		{
 			before = std::chrono::high_resolution_clock::now();
+			if (!this->getInput())
+				break ;
 			this->update(dtc);
 			this->render();
 			now = std::chrono::high_resolution_clock::now();
@@ -146,18 +148,22 @@
 
 
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
-	void					Game::getInput(  )
+	bool					Game::getInput(  )
 	{
 		int					current_keycode;
 
 		if ((current_keycode = _gobj->getInput()))
 		{
 			if (current_keycode == K_EX)
+			{
 				this->stop();
+				return (false);
+			}
 			if (current_keycode == K_CT)
 				this->setContinue(false);
 			this->_snake->setDirection(current_keycode);
 		}
+		return (true);
 	}
 
 	void					Game::switchDylib(  )
@@ -171,7 +177,6 @@
 		std::list<AEntities *>::iterator it_en;
 		AEntities *object;
 
-		this->getInput();
 		if (this->_gameOver == false)
 		{
 			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)

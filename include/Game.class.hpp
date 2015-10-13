@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 00:52:18 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 01:10:07 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ public:
 	bool					end(  );
 
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
-	void					getInput(  );
+	bool					getInput(  );
 	void					switchDylib(  );
 	/* call sanke and entities update */
 	void					update( time_t dt );
