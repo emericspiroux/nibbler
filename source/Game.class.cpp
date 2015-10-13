@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 16:24:28 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 01:01:45 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 		this->_gameOver = false;
 		this->setWidth(width);
 		this->setHeight(height);
+		this->setContinue(true);
+		this->setScore(0);
 		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
 		if (!handle)
 		{
@@ -61,6 +63,7 @@
 		this->_snake = rhs.getSnake();
 		this->_entities = rhs.getEntities();
 		this->_gameOver = rhs.getGameOver();
+		this->_continue = rhs.getContinue();
 		this->_shouldClose = rhs.getShouldClose();
 		return (*this);
 	}
@@ -72,6 +75,7 @@
 	void					Game::setSnake( Snake * snake) {this->_snake = snake;}
 	void					Game::setEntities( std::list<AEntities *> entities) {this->_entities = entities;}
 	void					Game::setGameOver( bool gameover) {this->_gameOver = gameover;}
+	void					Game::setContinue( bool again ) {this->_continue = again;}
 	void					Game::setShouldClose( bool shouldclose) {this->_shouldClose = shouldclose;}
 
 	int						Game::getWidth( void ) const {return (this->_width);}
@@ -80,6 +84,7 @@
 	Snake *					Game::getSnake( void ) const {return (this->_snake);}
 	std::list<AEntities *>	Game::getEntities( void ) const {return (this->_entities);}
 	bool					Game::getGameOver( void ) const {return (this->_gameOver);}
+	bool					Game::getContinue( void ) const {return (this->_continue);}
 	bool					Game::getShouldClose( void ) const {return (this->_shouldClose);}
 
 	/* Flush the entities map and create a new level */
@@ -90,7 +95,7 @@
 
 
 	/* launch the main game loop */
-	void					Game::start(  )
+	bool					Game::start(  )
 	{
 		//typedef std::chrono::high_resolution_clock 		clock_;
 		std::chrono::high_resolution_clock::time_point  before, now;
@@ -105,7 +110,7 @@
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
 		this->_snake->setSpeed(0.25);
-		while (!this->end())
+		while (this->again())
 		{
 			before = std::chrono::high_resolution_clock::now();
 			this->update(dtc);
@@ -116,6 +121,10 @@
 			if (wait_time >= 0)
 				usleep(wait_time);
 		}
+		delete snake;
+		delete apple;
+		GraphicDestructor(_gobj);
+		return (this->end());
 	}
 
 	/* set the _shouldClose bool to true */
@@ -130,6 +139,11 @@
 		return (this->_shouldClose);
 	}
 
+	bool					Game::again(  )
+	{
+		return (this->_continue);
+	}
+
 
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
 	void					Game::getInput(  )
@@ -138,6 +152,10 @@
 
 		if ((current_keycode = _gobj->getInput()))
 		{
+			if (current_keycode == K_EX)
+				this->stop();
+			if (current_keycode == K_CT)
+				this->setContinue(false);
 			this->_snake->setDirection(current_keycode);
 		}
 	}
@@ -175,7 +193,7 @@
 		std::list<std::pair<int, int> > cpy_snake;
 
 		cpy_snake = this->_snake->getNodes();
-		this->_gobj->drawAll(cpy_snake, _entities, _score/*, this->_gameOver*/);
+		this->_gobj->drawAll(cpy_snake, _entities, _score, _gameOver);
 	}
 
 

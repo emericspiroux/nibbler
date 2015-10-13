@@ -51,6 +51,7 @@ int				SfmlGraphics::getInput( void )
 
 void			SfmlGraphics::drawMap( void ) {}
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) { static_cast<void>(snake); }
-void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score) {(void)snake;(void)entitiesList;(void)score;}
+void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover) {(void)snake;(void)entitiesList;(void)score;(void)gameover;}
 void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList ) {(void)entitiesList;}
 void			SfmlGraphics::drawScore( int score ) {(void)score;}
+void			SfmlGraphics::drawGameOver(  ) {}

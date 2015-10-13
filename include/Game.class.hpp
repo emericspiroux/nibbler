@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 16:23:40 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 00:52:18 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ public:
 	void					setSnake( Snake * snake);
 	void					setEntities( std::list<AEntities *> entities);
 	void					setGameOver( bool gameover);
+	void					setContinue( bool again);
 	void					setShouldClose( bool shouldclose);
 
 	int						getWidth(void) const;
@@ -51,15 +52,18 @@ public:
 	Snake *					getSnake(void) const;
 	std::list<AEntities *>	getEntities(void) const;
 	bool					getGameOver(void) const;
+	bool					getContinue(void) const;
 	bool					getShouldClose(void) const;
 
 	/* Flush the entities map and create a new level */
 	void					createLevel( std::string filename);
 
 	/* launch the main game loop */
-	void					start( void );
+	bool					start( void );
 	/* set the _shouldClose bool to true */
 	void					stop( void );
+	/* set the _shouldClose bool to true */
+	bool					again( void );
 	/* get _shouldClose */
 	bool					end(  );
 
@@ -87,6 +91,7 @@ private:
 	Snake *					_snake;
 	std::list<AEntities *>	_entities;
 	bool					_gameOver;
+	bool					_continue;
 	bool					_shouldClose;
 	void *					handle;
 	IDisplayLib				*(*GraphicCreator)(int, int);

@@ -20,7 +20,8 @@ public:
 	void			drawSnake( std::list<std::pair<int, int> > & snake );
 	void			drawEntities( std::list<AEntities *> & entitiesList );
 	void			drawScore( int score );
-	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score);
+	void			drawGameOver(  );
+	void			drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover);
 
 	int				getInput( void );
 
@@ -34,6 +35,8 @@ private:
 	int				_width;
 	int				_height;
 	WINDOW *		_window;
+
+	int 			key_compare(int a, int b, int c);
 };
 
 extern "C" {

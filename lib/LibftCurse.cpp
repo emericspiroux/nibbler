@@ -114,35 +114,49 @@ void			CurseGraphics::drawScore( int score )
 	mvwprintw(_window, _height + 1, 1, sent.c_str());
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score)
+void			CurseGraphics::drawGameOver(  )
+{
+	mvwprintw(_window, _height/2, _width - 3, "Game Over");
+	mvwprintw(_window, _height/2 + 1, _width - 4, "Press Enter");
+
+}
+
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover)
 {
 	this->clearScreen();
 	this->drawMap();
 	this->drawEntities(entitiesList);
 	this->drawSnake(snake);
 	this->drawScore(score);
+	if (gameover)
+		this->drawGameOver();
 	wrefresh(_window);
 }
 
 int				CurseGraphics::getInput( void )
 {
-	int			keyboard;
+	int			key[3];
 
 	nodelay(_window, TRUE);
 	noecho();
-	cbreak();
 	for (int i = 0; i < 3; i++)
-		keyboard = wgetch(_window);
-	switch (keyboard)
-	{
-		case 65:return (1);
-				break ;
-		case 67:return (2);
-				break ;
-		case 66:return (3);
-				break ;
-		case 68:return (4);
-				break ;
-	}
-	return (0);
+		key[i] = wgetch(_window);
+	return (key_compare(key[0], key[1], key[2]));
+}
+
+int				CurseGraphics::key_compare(int a, int b, int c)
+{
+	if ( a == 27 && b == 91 && c == 65)
+		return (K_UP);
+	if ( a == 27 && b == 91 && c == 67)
+		return (K_LT);
+	if ( a == 27 && b == 91 && c == 66)
+		return (K_DW);
+	if ( a == 27 && b == 91 && c == 68)
+		return (K_RT);
+	if ( a == 27 && b == -1 && c == -1)
+		return (K_EX);
+	if ( a == 10 && b == -1 && c == -1)
+		return (K_CT);
+	else return (0);
 }
