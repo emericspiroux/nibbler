@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/25 03:15:32 by larry             #+#    #+#             */
-/*   Updated: 2015/06/02 15:45:35 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 16:32:13 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ private:
 
 	/* check if lenght value is under the min set : max[<my max>] */
 	std::string					min();
+
+	/* check if value is above the min set : min[<my min>] */
+	std::string					min_int();
 
 	/* check if it's number */
 	std::string					is_numeric();

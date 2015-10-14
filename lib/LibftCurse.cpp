@@ -130,7 +130,6 @@ void			CurseGraphics::drawTime( int min, int sec )
 
 	str_min = ((min >= 10)?"":"0") + std::to_string(min);
 	str_sec = ((sec >= 10)?"":"0") + std::to_string(sec);
-	//sent = "Time " + std::to_string(time.tm_min) + ":" + std::to_string(time->tm_sec);
 	mvwprintw(_window, 0, _width - 4, ("Time " + str_min + ":" + str_sec).c_str());
 }
 
