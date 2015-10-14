@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 01:11:50 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 15:46:04 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 		this->setHeight(height);
 		this->setContinue(true);
 		this->setScore(0);
+		this->setTime(0);
 		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
 		if (!handle)
 		{
@@ -76,6 +77,7 @@
 	void					Game::setEntities( std::list<AEntities *> entities) {this->_entities = entities;}
 	void					Game::setGameOver( bool gameover) {this->_gameOver = gameover;}
 	void					Game::setContinue( bool again ) {this->_continue = again;}
+	void					Game::setTime( int z_time ) {this->_time = z_time;}
 	void					Game::setShouldClose( bool shouldclose) {this->_shouldClose = shouldclose;}
 
 	int						Game::getWidth( void ) const {return (this->_width);}
@@ -85,6 +87,7 @@
 	std::list<AEntities *>	Game::getEntities( void ) const {return (this->_entities);}
 	bool					Game::getGameOver( void ) const {return (this->_gameOver);}
 	bool					Game::getContinue( void ) const {return (this->_continue);}
+	int						Game::getTime( void ) const {return (this->_time);}
 	bool					Game::getShouldClose( void ) const {return (this->_shouldClose);}
 
 	/* Flush the entities map and create a new level */
@@ -101,10 +104,8 @@
 		std::chrono::high_resolution_clock::time_point  before, now;
 		std::chrono::duration<double> 					time_span;
 		std::chrono::milliseconds					    dt;
-		time_t											dtc;
 		int												wait_time;
 
-		time(&dtc);
 		Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
 		this->setSnake(snake);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
@@ -115,7 +116,7 @@
 			before = std::chrono::high_resolution_clock::now();
 			if (!this->getInput())
 				break ;
-			this->update(dtc);
+			this->update(_time);
 			this->render();
 			now = std::chrono::high_resolution_clock::now();
 			time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
@@ -195,10 +196,23 @@
 	/* render map / entities / snake / game over */
 	void					Game::render(  )
 	{
-		std::list<std::pair<int, int> > cpy_snake;
+		std::list<std::pair<int, int> >		cpy_snake;
+		std::time_t							sec_dt = 0;
+		std::time_t							min_dt = 0;
+		static std::time_t					new_result;
 
 		cpy_snake = this->_snake->getNodes();
-		this->_gobj->drawAll(cpy_snake, _entities, _score, _gameOver);
+		if (!_gameOver)
+			new_result = std::time(nullptr);
+		if (_time == 0)
+			_time = std::time(nullptr);
+		else
+			sec_dt = new_result - _time;
+		if ((min_dt = sec_dt / 60) != 0)
+		{
+			sec_dt %= 60;
+		}
+		this->_gobj->drawAll(cpy_snake, _entities, _score, _gameOver, min_dt, sec_dt);
 	}
 
 

@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 01:10:07 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/14 15:25:59 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ public:
 	void					setEntities( std::list<AEntities *> entities);
 	void					setGameOver( bool gameover);
 	void					setContinue( bool again);
+	void					setTime( int z_time );
 	void					setShouldClose( bool shouldclose);
 
 	int						getWidth(void) const;
@@ -53,6 +54,7 @@ public:
 	std::list<AEntities *>	getEntities(void) const;
 	bool					getGameOver(void) const;
 	bool					getContinue(void) const;
+	int						getTime(void) const;
 	bool					getShouldClose(void) const;
 
 	/* Flush the entities map and create a new level */
@@ -88,6 +90,7 @@ private:
 	int						_width;
 	int						_height;
 	int						_score;
+	int						_time;
 	Snake *					_snake;
 	std::list<AEntities *>	_entities;
 	bool					_gameOver;

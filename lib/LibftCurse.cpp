@@ -121,13 +121,27 @@ void			CurseGraphics::drawGameOver(  )
 
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover)
+void			CurseGraphics::drawTime( int min, int sec )
+{
+	std::string		sent;
+	std::string		str_min;
+	std::string		str_sec;
+
+
+	str_min = ((min >= 10)?"":"0") + std::to_string(min);
+	str_sec = ((sec >= 10)?"":"0") + std::to_string(sec);
+	//sent = "Time " + std::to_string(time.tm_min) + ":" + std::to_string(time->tm_sec);
+	mvwprintw(_window, 0, _width - 4, ("Time " + str_min + ":" + str_sec).c_str());
+}
+
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
 	this->clearScreen();
 	this->drawMap();
 	this->drawEntities(entitiesList);
 	this->drawSnake(snake);
 	this->drawScore(score);
+	this->drawTime(min, sec);
 	if (gameover)
 		this->drawGameOver();
 	wrefresh(_window);
