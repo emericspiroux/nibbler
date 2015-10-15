@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/12 15:30:49 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/15 14:30:04 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,10 @@ AEntities*				Snake::eat_good(int x, int y, std::list<AEntities *> *listEnti)
 	for (it_ent=listEnti->begin(); it_ent!=listEnti->end(); ++it_ent)
 	{
 		if ((*it_ent)->getCollidable() == false && (*it_ent)->coordX() == x && (*it_ent)->coordY() == y)
+		{
+			std::cout << "Score :" << (*it_ent)->getScore() << std::endl;
 			return (*it_ent);
+		}
 	}
 	return (nullptr);
 }

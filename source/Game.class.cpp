@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 15:46:04 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/15 14:50:03 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 		this->setWidth(width);
 		this->setHeight(height);
 		this->setContinue(true);
+		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
 		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
@@ -110,7 +111,8 @@
 		this->setSnake(snake);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
-		this->_snake->setSpeed(0.25);
+		this->_snake->setSpeed(0.9);
+		this->setGameOver(false);
 		while (this->again())
 		{
 			before = std::chrono::high_resolution_clock::now();
@@ -120,7 +122,7 @@
 			this->render();
 			now = std::chrono::high_resolution_clock::now();
 			time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
-			wait_time = (1000000 * this->_snake->getSpeed()) - (time_span.count() * 1000000);
+			wait_time = (250000 * this->_snake->getSpeed()) - (time_span.count() * 10000);
 			if (wait_time >= 0)
 				usleep(wait_time);
 		}
@@ -183,6 +185,8 @@
 			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
 			{
 				this->addScore(object->getScore());
+				if (this->_snake->getSpeed() > 0.4)
+					this->_snake->setSpeed(this->_snake->getSpeed() - 0.05);
 				this->delEntities(object);
 				Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
 				this->addEntities(apple);

@@ -1,6 +1,7 @@
 #ifndef AENTITIES_CLASS_HPP
 # define AENTITIES_CLASS_HPP
 
+# include <iostream>
 # include <stdlib.h>
 # include <time.h>
 # include <list>
@@ -38,6 +39,8 @@ protected:
 	float	_duration;
 	int		_score;
 	bool	_collidable;
+
+	bool				already_test(int x, int y, std::list<std::pair<int, int> > list_test);
 };
 
 #include "MapTools.class.hpp"

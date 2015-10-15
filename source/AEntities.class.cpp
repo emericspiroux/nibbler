@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/10/11 15:38:11 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/15 14:06:24 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std
 
 	//Too slow and freeze game with big snake
 	set = false;
+	srand (time(NULL));
 	while (!set)
 	{
-		srand (time(NULL));
 		rnd_x = (rand() % width) + 0;
 		rnd_y = (rand() %  height) + 0;
 		if (!MapTools::cmpMap(list_ent, snake_nodes, rnd_x, rnd_y))
@@ -57,80 +57,19 @@ AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std
 			set = true;
 		}
 	}
+}
 
-/*	int		rnd_x;
-	int		rnd_y;
-	bool	set;
 
-	//with recucivity
-	set = false;
-	while (!set)
+bool			AEntities::already_test(int x, int y, std::list<std::pair<int, int> > list_test)
+{
+	std::list<std::pair<int, int> >::iterator it_sn;
+
+	for (it_sn=list_test.begin(); it_sn!=list_test.end(); ++it_sn)
 	{
-		srand (time(NULL));
-		rnd_x = (rand() % width) + 0;
-		rnd_y = (rand() %  height) + 0;
-		if (MapTools::empty_place(width, height, list_ent, snake_nodes, &rnd_x, &rnd_y))
-		{
-			this->setX(rnd_x);
-			this->setY(rnd_y);
-			set = true;
-		}
-	}*/
-
-/*
-	//Algo with if fail a search with x and y
-	int		rnd_x;
-	int		rnd_y;
-	bool	set;
-	int		x_test;
-	int		save_x;
-	int		y_test;
-
-	x_test = 0;
-	y_test = 0;
-	set = false;
-	while (!set)
-	{
-		srand (time(NULL));
-		rnd_x = (rand() % width) + 0;
-		rnd_y = (rand() %  height) + 0;
-		if (!MapTools::cmpMap(list_ent, snake_nodes, rnd_x, rnd_y))
-		{
-			this->setX(rnd_x);
-			this->setY(rnd_y);
-			set = true;
-		}
-		else
-		{
-			save_x = rnd_x;
-			while (x_test < width)
-			{
-				rnd_x = x_test;
-				if (!MapTools::cmpMap(list_ent, snake_nodes, rnd_x, rnd_y))
-				{
-					this->setX(rnd_x);
-					this->setY(rnd_y);
-					set = true;
-					break ;
-				}
-			}
-
-			if (set != true)
-			{
-				while (y_test < height)
-				{
-					rnd_y = y_test;
-					if (!MapTools::cmpMap(list_ent, snake_nodes, save_x, rnd_y))
-					{
-						this->setX(save_x);
-						this->setY(rnd_y);
-						set = true;
-						break ;
-					}
-				}
-			}
-		}
-	}*/
+		if (it_sn->first == x && it_sn->second == y)
+			return (true);
+	}
+	return (false);
 }
 
 AEntities::AEntities( AEntities const & rhs )
