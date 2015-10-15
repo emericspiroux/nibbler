@@ -5,6 +5,14 @@ SfmlGraphics::SfmlGraphics():
 _name("SFML Graphics")
 {
 	std::cout << "SFML Graphic CREATION" << std::endl;
+	t_rw	_window(sf::VideoMode(10 * CELL_SIZE, CELL_SIZE), "Hello");
+}
+
+SfmlGraphics::SfmlGraphics(int x, int y):
+_name("SFML Graphics")
+{
+	std::cout << "SFML Graphic CREATION" << std::endl;
+	t_rw	_window(sf::VideoMode(x * CELL_SIZE, y * CELL_SIZE), "Hello");
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -17,9 +25,9 @@ SfmlGraphics::~SfmlGraphics()
 	std::cout << "SFML Graphic DESTRUCTION" << std::endl;
 }
 
-SfmlGraphics		*createGraphic( void )
+SfmlGraphics		*createGraphic( int w, int h )
 {
-	return new SfmlGraphics();
+	return new SfmlGraphics(w, h);
 }
 
 void			deleteGraphic( SfmlGraphics *graphic )

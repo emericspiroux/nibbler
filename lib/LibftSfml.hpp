@@ -1,12 +1,17 @@
 #ifndef LIBFTSFML_HPP
 # define LIBFTSFML_HPP
 
+# include <SFML/Graphics.hpp>
 # include "IDisplayLib.hpp"
+
+# define CELL_SIZE 32
 
 class SfmlGraphics: public IDisplayLib
 {
 public:
+	typedef sf::RenderWindow	t_rw;
 	SfmlGraphics(  );
+	SfmlGraphics( int x, int y );
 	SfmlGraphics( SfmlGraphics const & _ );
 	virtual ~SfmlGraphics(  );
 
@@ -28,11 +33,12 @@ public:
 
 private:
 	std::string		_name;
+	t_rw			_window;
 };
 
 extern "C" {
 
-	SfmlGraphics	*createGraphic( void );
+	SfmlGraphics	*createGraphic( int x, int y );
 
 	void			deleteGraphic( SfmlGraphics *graphics );
 
