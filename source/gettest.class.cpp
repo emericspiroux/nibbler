@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/22 14:12:31 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 16:58:34 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/15 14:56:31 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ std::string					Gettest::makeTest( char *value, std::string test )
 		ret += this->max();
 	if ((test.find("min_int[", 0)) != std::string::npos)
 		ret += this->min_int();
+	if ((test.find("max_int[", 0)) != std::string::npos)
+		ret += this->max_int();
 	if ((test.find("unsigned_int", 0)) != std::string::npos)
 		ret += this->is_unsigned_int();
 	if ((test.find("is_numeric", 0)) != std::string::npos)
@@ -152,8 +154,27 @@ std::string					Gettest::min_int()
 	{
 		ret = "Gettest : error : value of Argument \"";
 		ret += this->getValue();
-		ret += "\" must be above ";
+		ret += "\" must be under ";
 		ret += min;
+		ret += ".\n";
+		return (ret);
+	}
+}
+
+std::string					Gettest::max_int()
+{
+	int				max;
+	std::string		ret;
+
+	max = std::stoi(this->getParam());
+	if (std::stoi(this->_value) <= max)
+		return ("");
+	else
+	{
+		ret = "Gettest : error : value of Argument \"";
+		ret += this->getValue();
+		ret += "\" must be above ";
+		ret += max;
 		ret += ".\n";
 		return (ret);
 	}
