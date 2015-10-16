@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/15 14:50:03 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/16 16:29:06 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,14 +162,17 @@
 				this->stop();
 				return (false);
 			}
-			if (current_keycode == K_CT)
+			else if (current_keycode == K_CT)
 				this->setContinue(false);
-			this->_snake->setDirection(current_keycode);
+			else if (current_keycode == K_L1 || current_keycode == K_L2 || current_keycode == K_L3)
+				std::cout << "Changement de LIIIIBBBB" << std::endl;
+			else
+				this->_snake->setDirection(current_keycode);
 		}
 		return (true);
 	}
 
-	void					Game::switchDylib(  )
+	void					Game::switchDylib( int lib_key )
 	{
 
 	}

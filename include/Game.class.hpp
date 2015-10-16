@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/14 15:25:59 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/16 16:29:59 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ public:
 
 	/* call display getInput and process it ( stop || snake direction || switchDylib ) */
 	bool					getInput(  );
-	void					switchDylib(  );
+	void					switchDylib( int lib_key );
 	/* call sanke and entities update */
 	void					update( time_t dt );
 	/* render map / entities / snake / game over */

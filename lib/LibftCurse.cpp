@@ -161,15 +161,21 @@ int				CurseGraphics::key_compare(int a, int b, int c)
 {
 	if ( a == 27 && b == 91 && c == 65)
 		return (K_UP);
-	if ( a == 27 && b == 91 && c == 67)
+	else if ( a == 27 && b == 91 && c == 67)
 		return (K_LT);
-	if ( a == 27 && b == 91 && c == 66)
+	else if ( a == 27 && b == 91 && c == 66)
 		return (K_DW);
-	if ( a == 27 && b == 91 && c == 68)
+	else if ( a == 27 && b == 91 && c == 68)
 		return (K_RT);
-	if ( a == 27 && b == -1 && c == -1)
+	else if ( a == 27 && b == -1 && c == -1)
 		return (K_EX);
-	if ( a == 10 && b == -1 && c == -1)
+	else if ( a == 10 && b == -1 && c == -1)
 		return (K_CT);
+	else if ( a == 49 && b == -1 && c == -1)
+		return (K_L1);
+	else if ( a == 50 && b == -1 && c == -1)
+		return (K_L2);
+	else if ( a == 51 && b == -1 && c == -1)
+		return (K_L3);
 	else return (0);
 }
