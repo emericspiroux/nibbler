@@ -32,7 +32,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftcurse.dylib", RTLD_NOW);
+		handle = dlopen("lib/libftsfml.dylib", RTLD_NOW);
 		if (!handle)
 		{
 			std::cout << "Error opening dynlib" << std::endl;

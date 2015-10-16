@@ -21,7 +21,10 @@ NAME = 			nibbler
 CFLAGS = 		-Wall -Werror -Wextra
 
 INC =			-I ./include \
-				-I ./lib
+				-I ./lib \
+				-I ~/.brew/Cellar/sfml/2.3/include
+
+SFMLLIB =		-L ~/.brew/Cellar/sfml/2.3/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
@@ -55,7 +58,7 @@ $(DYLIB): $(DYLIBOBJS)
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
 
 $(DYLIB2): $(DYLIB2OBJS)
-	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) && \
+	@$(CC) -o $(DYLIB2) -shared -fPIC $(SFMLLIB) $(DYLIB2OBJS) && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
 
 %.o: %.cpp
