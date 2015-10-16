@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/16 16:29:06 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/16 16:31:44 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@
 			else if (current_keycode == K_CT)
 				this->setContinue(false);
 			else if (current_keycode == K_L1 || current_keycode == K_L2 || current_keycode == K_L3)
-				std::cout << "Changement de LIIIIBBBB" << std::endl;
+				this->switchDylib(current_keycode);
 			else
 				this->_snake->setDirection(current_keycode);
 		}
@@ -174,7 +174,8 @@
 
 	void					Game::switchDylib( int lib_key )
 	{
-
+		(void)lib_key;
+		std::cout << "Changement de LIIIIBBBB" << std::endl;
 	}
 
 	/* call snake and entities update */
