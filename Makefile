@@ -22,9 +22,9 @@ CFLAGS = 		-Wall -Werror -Wextra
 
 INC =			-I ./include \
 				-I ./lib \
-				-I ~/.brew/Cellar/sfml/2.3/include
 
-SFMLLIB =		-L ~/.brew/Cellar/sfml/2.3/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+SFMLLIB =		-L /usr/local/Cellar/sfml/HEAD/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
