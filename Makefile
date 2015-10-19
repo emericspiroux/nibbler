@@ -22,9 +22,15 @@ CFLAGS = 		-Wall -Werror -Wextra
 
 INC =			-I ./include \
 				-I ./lib \
+				-I ~/.brew/Cellar/sfml/HEAD/include
 
+ifeq ($(USER), larry)
+	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
+else ifeq ($(USER), jvincent)
+	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
+endif
 
-SFMLLIB =		-L /usr/local/Cellar/sfml/HEAD/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
@@ -35,6 +41,8 @@ SRCSFILES =		main.cpp \
 				AEntities.class.cpp\
 				MapTools.class.cpp\
 				Snake.class.cpp
+
+DYLD_LIBRARY_PATH=~/.brew/opt/sfml/lib/
 
 DYLIBDIR =		lib/
 DYLIB =			lib/libftcurse.dylib
@@ -58,7 +66,7 @@ $(DYLIB): $(DYLIBOBJS)
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
 
 $(DYLIB2): $(DYLIB2OBJS)
-	@$(CC) -o $(DYLIB2) -shared -fPIC $(SFMLLIB) $(DYLIB2OBJS) && \
+	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) $(SFMLLIB) && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
 
 %.o: %.cpp
