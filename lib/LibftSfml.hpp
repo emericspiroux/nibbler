@@ -47,4 +47,11 @@ extern "C" {
 
 }
 
+typedef struct		s_sprite
+{
+		sf::Texture	texture;
+		sf::Image	image;
+		sf::Sprite	sprite;
+} t_sprite;
+
 #endif
