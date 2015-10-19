@@ -24,8 +24,7 @@ INC =			-I ./include \
 				-I ./lib \
 
 ifeq ($(USER), larry)
-	SFMLLIB =
-	INC +=
+	SFMLLIB = -L /usr/local/Cellar/sfml/HEAD/lib
 else ifeq ($(USER), jvincent)
 	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
 	INC += -I ~/.brew/Cellar/sfml/HEAD/include
