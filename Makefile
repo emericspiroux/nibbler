@@ -22,12 +22,13 @@ CFLAGS = 		-Wall -Werror -Wextra
 
 INC =			-I ./include \
 				-I ./lib \
-				-I ~/.brew/Cellar/sfml/HEAD/include
 
 ifeq ($(USER), larry)
-	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
+	SFMLLIB =
+	INC +=
 else ifeq ($(USER), jvincent)
 	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
+	INC += -I ~/.brew/Cellar/sfml/HEAD/include
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
