@@ -80,8 +80,9 @@ void			CurseGraphics::drawMap( void )
 	wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
 }
 
-void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake )
+void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction )
 {
+	(void)direction;
 	for (std::list<std::pair<int, int> >::iterator it = snake.begin(); it != snake.end(); ++it)
 	{
 		if (it == snake.begin())
@@ -133,12 +134,12 @@ void			CurseGraphics::drawTime( int min, int sec )
 	mvwprintw(_window, 0, _width - 4, ("Time " + str_min + ":" + str_sec).c_str());
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
 	this->clearScreen();
 	this->drawMap();
 	this->drawEntities(entitiesList);
-	this->drawSnake(snake);
+	this->drawSnake(snake, direction);
 	this->drawScore(score);
 	this->drawTime(min, sec);
 	if (gameover)
@@ -161,21 +162,15 @@ int				CurseGraphics::key_compare(int a, int b, int c)
 {
 	if ( a == 27 && b == 91 && c == 65)
 		return (K_UP);
-	else if ( a == 27 && b == 91 && c == 67)
+	if ( a == 27 && b == 91 && c == 67)
 		return (K_LT);
-	else if ( a == 27 && b == 91 && c == 66)
+	if ( a == 27 && b == 91 && c == 66)
 		return (K_DW);
-	else if ( a == 27 && b == 91 && c == 68)
+	if ( a == 27 && b == 91 && c == 68)
 		return (K_RT);
-	else if ( a == 27 && b == -1 && c == -1)
+	if ( a == 27 && b == -1 && c == -1)
 		return (K_EX);
-	else if ( a == 10 && b == -1 && c == -1)
+	if ( a == 10 && b == -1 && c == -1)
 		return (K_CT);
-	else if ( a == 49 && b == -1 && c == -1)
-		return (K_L1);
-	else if ( a == 50 && b == -1 && c == -1)
-		return (K_L2);
-	else if ( a == 51 && b == -1 && c == -1)
-		return (K_L3);
 	else return (0);
 }

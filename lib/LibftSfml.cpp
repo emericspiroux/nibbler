@@ -137,7 +137,7 @@ void			SfmlGraphics::drawMap( void )
 	}
 }
 
-void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
+void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction ) {
 	sf::Texture texture;
 	sf::Image image;
 	sf::Sprite sprite;
@@ -154,6 +154,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 				image.createMaskFromColor(sf::Color::White);
 				texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
 				sprite.setTexture(texture);
+				std::cout << direction << std::endl;
 				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
 			}
 		}
@@ -164,6 +165,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 				image.createMaskFromColor(sf::Color::White);
 				texture.loadFromImage(image);
 				sprite.setTexture(texture);
+				sprite.rotate(45);
 				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
 			}
 		}
@@ -203,7 +205,7 @@ void			SfmlGraphics::drawScore( int score ) {(void)score;}
 void			SfmlGraphics::drawTime( int min, int sec ) {(void)min;(void)sec;}
 void			SfmlGraphics::drawGameOver(  ) {}
 
-void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
+void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
 	sf::Texture texture;
 	sf::Image image;
@@ -217,7 +219,7 @@ void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list
 	(void)sec;
 
 	_window.clear();
-	drawSnake(snake);
+	drawSnake(snake, direction);
 	drawMap();
 	drawEntities(entitiesList);
 	_window.display();
