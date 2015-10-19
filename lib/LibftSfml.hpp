@@ -33,7 +33,10 @@ public:
 
 private:
 	std::string		_name;
+	int				_width;
+	int				_height;
 	t_rw			_window;
+
 };
 
 extern "C" {

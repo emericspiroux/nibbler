@@ -12,7 +12,9 @@ SfmlGraphics::SfmlGraphics(int x, int y):
 _name("SFML Graphics")
 {
 	std::cout << "SFML Graphic CREATION" << std::endl;
-	_window.create(sf::VideoMode(x * CELL_SIZE, y * CELL_SIZE), "Nibbler");
+	_width = x;
+	_height = y;
+	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 2), "Nibbler");
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -78,7 +80,46 @@ int				SfmlGraphics::getInput( void )
 	return (0);
 }
 
-void			SfmlGraphics::drawMap( void ) {}
+void			SfmlGraphics::drawMap( void )
+{
+	sf::Texture texture;
+	sf::Image image;
+	sf::Sprite sprite;
+
+	if (image.loadFromFile("sprites/wall-corner-left.png"))
+	{
+		image.createMaskFromColor(sf::Color::White);
+		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
+		sprite.setTexture(texture);
+		sprite.setPosition(0, 0);
+		_window.draw(sprite);
+		sprite.setRotation(180);
+		sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
+		_window.draw(sprite);
+	}
+	if (image.loadFromFile("sprites/wall-left.png"))
+	{
+		image.createMaskFromColor(sf::Color::White);
+		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
+		sprite.setTexture(texture);
+		for (int y = 1; y <= _height; y++)
+		{
+			sprite.setPosition(0, y * CELL_SIZE);
+			_window.draw(sprite);
+		}
+	}
+	/*if (image.loadFromFile("sprites/wall-right.png"))
+	{
+		image.createMaskFromColor(sf::Color::White);
+		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
+		sprite.setTexture(texture);
+		for (int y = 1; y <= _height; y++)
+		{
+			sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE);
+			_window.draw(sprite);
+		}
+	}*/
+}
 
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 	sf::Texture texture;
@@ -97,7 +138,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 				image.createMaskFromColor(sf::Color::White);
 				texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
 				sprite.setTexture(texture);
-				sprite.setPosition(it->first * CELL_SIZE, it->second * CELL_SIZE);
+				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
 			}
 		}
 		else if (it == it_tail)
@@ -107,7 +148,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 				image.createMaskFromColor(sf::Color::White);
 				texture.loadFromImage(image);
 				sprite.setTexture(texture);
-				sprite.setPosition(it->first * CELL_SIZE, it->second * CELL_SIZE);
+				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
 			}
 		}
 		else
@@ -117,7 +158,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
 				image.createMaskFromColor(sf::Color::White);
 				texture.loadFromImage(image);
 				sprite.setTexture(texture);
-				sprite.setPosition(it->first * CELL_SIZE, it->second * CELL_SIZE);
+				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
 			}
 		}
 		_window.draw(sprite);
@@ -137,7 +178,7 @@ void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 			image.createMaskFromColor(sf::Color::White);
 			texture.loadFromImage(image);
 			sprite.setTexture(texture);
-			sprite.setPosition((*it)->coordX() * CELL_SIZE, (*it)->coordY() * CELL_SIZE);
+			sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
 			_window.draw(sprite);
 		}
 	}
@@ -161,6 +202,7 @@ void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, std::list
 
 	_window.clear();
 	drawSnake(snake);
+	drawMap();
 	drawEntities(entitiesList);
 	_window.display();
 }

@@ -1,0 +1,4 @@
+*.o
+nibbler
+*.dylib
+.DS_STORE
