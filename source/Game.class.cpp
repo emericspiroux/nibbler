@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/16 23:12:25 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/19 19:33:08 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
+		handle = dlopen("lib/libftsdl.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
 			std::cerr << dlerror() << std::endl;

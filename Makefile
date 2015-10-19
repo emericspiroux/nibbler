@@ -25,12 +25,14 @@ INC =			-I ./include \
 
 ifeq ($(USER), larry)
 	SFMLLIB = -L /usr/local/Cellar/sfml/HEAD/lib
+	SDLLLIB = -L /usr/local/opt/sdl/lib
 else ifeq ($(USER), jvincent)
 	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
 	INC += -I ~/.brew/Cellar/sfml/HEAD/include
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+SDLLLIB +=		-lSDLmain -lSDL
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
@@ -47,19 +49,23 @@ DYLD_LIBRARY_PATH=~/.brew/opt/sfml/lib/
 DYLIBDIR =		lib/
 DYLIB =			lib/libftcurse.dylib
 DYLIB2 =		lib/libftsfml.dylib
+DYLIB3 =		lib/libftsdl.dylib
 
 DYLIBSRC =		LibftCurse.cpp
 DYLIB2SRC =		LibftSfml.cpp
+DYLIB3SRC =		LibftSdl.cpp
 
 DYLIBSRCS =		$(addprefix $(DYLIBDIR), $(DYLIBSRC))
 DYLIBOBJS =		$(DYLIBSRCS:.cpp=.o)
 DYLIB2SRCS =	$(addprefix $(DYLIBDIR), $(DYLIB2SRC))
 DYLIB2OBJS =	$(DYLIB2SRCS:.cpp=.o)
+DYLIB3SRCS =	$(addprefix $(DYLIBDIR), $(DYLIB3SRC))
+DYLIB3OBJS =	$(DYLIB3SRCS:.cpp=.o)
 
 SRCS =			$(addprefix $(SRCDIR), $(SRCSFILES))
 OBJS =			$(SRCS:.cpp=.o)
 
-all: $(DYLIB) $(DYLIB2) $(NAME)
+all: $(DYLIB) $(DYLIB2) $(DYLIB3) $(NAME)
 
 $(DYLIB): $(DYLIBOBJS)
 	@$(CC) -o $(DYLIB) -shared -fPIC $(DYLIBOBJS) -lncurses && \
@@ -68,6 +74,10 @@ $(DYLIB): $(DYLIBOBJS)
 $(DYLIB2): $(DYLIB2OBJS)
 	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) $(SFMLLIB) && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
+
+$(DYLIB3): $(DYLIB3OBJS)
+	@$(CC) -o $(DYLIB3) -shared -fPIC $(DYLIB3OBJS) $(SDLLLIB) && \
+	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB3)
 
 %.o: %.cpp
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ && echo "[$(GREEN)OK$(RESET)] $<"
@@ -79,11 +89,13 @@ $(NAME): $(OBJS)
 clean:
 	@rm -f $(DYLIBOBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB) objects"
 	@rm -f $(DYLIB2OBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB2) objects"
+	@rm -f $(DYLIB3OBJS) && echo "[$(RED)DEL$(RESET)] $(DYLIB3) objects"
 	@rm -f $(OBJS) && echo "[$(RED)DEL$(RESET)] $(NAME) objects"
 
 fclean: clean
 	@rm -f $(DYLIB) && echo "[$(RED)DEL$(RESET)] $(DYLIB)"
 	@rm -f $(DYLIB2) && echo "[$(RED)DEL$(RESET)] $(DYLIB2)"
+	@rm -f $(DYLIB3) && echo "[$(RED)DEL$(RESET)] $(DYLIB3)"
 	@rm -f $(NAME) && echo "[$(RED)DEL$(RESET)] $(NAME)"
 
 test: re
