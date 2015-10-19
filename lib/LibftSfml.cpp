@@ -82,43 +82,59 @@ int				SfmlGraphics::getInput( void )
 
 void			SfmlGraphics::drawMap( void )
 {
-	sf::Texture texture;
-	sf::Image image;
-	sf::Sprite sprite;
+	t_sprite	corner_left;
+	t_sprite	left;
+	t_sprite	corner_right;
 
-	if (image.loadFromFile("sprites/wall-corner-left.png"))
+	if (corner_left.image.loadFromFile("sprites/wall-corner-left.png"))
 	{
-		image.createMaskFromColor(sf::Color::White);
-		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
-		sprite.setTexture(texture);
-		sprite.setPosition(0, 0);
-		_window.draw(sprite);
-		sprite.setRotation(180);
-		sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
-		_window.draw(sprite);
+		corner_left.texture.loadFromImage(corner_left.image, sf::IntRect(0, 0, 32, 32));
+		corner_left.sprite.setTexture(corner_left.texture);
+		corner_left.sprite.setPosition(0, 0);
+		_window.draw(corner_left.sprite);
+		corner_left.sprite.setRotation(180);
+		corner_left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
+		_window.draw(corner_left.sprite);
 	}
-	if (image.loadFromFile("sprites/wall-left.png"))
+	if (left.image.loadFromFile("sprites/wall-left.png"))
 	{
-		image.createMaskFromColor(sf::Color::White);
-		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
-		sprite.setTexture(texture);
+		left.texture.loadFromImage(left.image, sf::IntRect(0, 0, 32, 32));
+		left.sprite.setTexture(left.texture);
 		for (int y = 1; y <= _height; y++)
 		{
-			sprite.setPosition(0, y * CELL_SIZE);
-			_window.draw(sprite);
+			left.sprite.setPosition(0, y * CELL_SIZE);
+			_window.draw(left.sprite);
 		}
-	}
-	/*if (image.loadFromFile("sprites/wall-right.png"))
-	{
-		image.createMaskFromColor(sf::Color::White);
-		texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
-		sprite.setTexture(texture);
+		left.sprite.setRotation(90);
+		for (int x = 1; x <= _width; x++)
+		{
+			left.sprite.setPosition(x * CELL_SIZE + CELL_SIZE, 0);
+			_window.draw(left.sprite);
+		}
+		left.sprite.setRotation(270);
+		for (int x = 1; x <= _width; x++)
+		{
+			left.sprite.setPosition(x * CELL_SIZE, _height * CELL_SIZE + CELL_SIZE*2);
+			_window.draw(left.sprite);
+		}
+		left.sprite.setRotation(180);
 		for (int y = 1; y <= _height; y++)
 		{
-			sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE);
-			_window.draw(sprite);
+			left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE + CELL_SIZE);
+			_window.draw(left.sprite);
 		}
-	}*/
+	}
+	if (corner_right.image.loadFromFile("sprites/wall-corner-right.png"))
+	{
+		corner_right.image.createMaskFromColor(sf::Color::White);
+		corner_right.texture.loadFromImage(corner_right.image, sf::IntRect(0, 0, 32, 32));
+		corner_right.sprite.setTexture(corner_right.texture);
+		corner_right.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE, 0);
+		_window.draw(corner_right.sprite);
+		corner_right.sprite.setRotation(180);
+		corner_right.sprite.setPosition(32, _height * CELL_SIZE + CELL_SIZE * 2);
+		_window.draw(corner_right.sprite);
+	}
 }
 
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake ) {
