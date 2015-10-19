@@ -13,6 +13,9 @@
 #include "Game.class.hpp"
 #include "IDisplayLib.hpp"
 
+#include <string.h>
+#include <errno.h>
+
 	Game::Game()
 	{
 
@@ -32,9 +35,10 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftsfml.dylib", RTLD_NOW);
+		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
+			std::cerr << dlerror() << std::endl;
 			std::cout << "Error opening dynlib" << std::endl;
 			exit (1);
 		}
