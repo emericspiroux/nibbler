@@ -59,6 +59,7 @@ _name("Sdl Graphics")
 	{
 		_Twall = IMG_LoadTexture(_Renderer, "sprites/wall-2.bmp");
 		_Tcorner = IMG_LoadTexture(_Renderer, "sprites/wall-corner-2.bmp");
+		_Tapple = IMG_LoadTexture(_Renderer, "sprites/apple.png");
 		_rect.x = 0;
 		_rect.y = 0;
 		_rect.w = 32;
@@ -146,7 +147,10 @@ int				SdlGraphics::getInput( void )
 
 void SdlGraphics::drawCorners(void) {
 	float angle = 0.0f;
+	_rect.x = 0;
+	_rect.y = 0;
 	SDL_RenderCopyEx(_Renderer, _Tcorner, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+
 	angle = 180.0f;
 	_rect.x = _width * CELL_SIZE + CELL_SIZE;
 	_rect.y = _height * CELL_SIZE + CELL_SIZE;
@@ -208,7 +212,13 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 
 void			SdlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 {
-	(void) entitiesList;
+	float angle = 0.0f;
+	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
+	{
+		_rect.x = (*it)->coordX() * CELL_SIZE + CELL_SIZE;
+		_rect.y = (*it)->coordY() * CELL_SIZE + CELL_SIZE;
+		SDL_RenderCopyEx(_Renderer, _Tapple, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	}
 }
 void			SdlGraphics::drawScore( int score ) {(void)score;}
 void			SdlGraphics::drawTime( int min, int sec ) {(void)min;(void)sec;}
@@ -223,6 +233,8 @@ void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direct
 	(void)gameover;
 	(void)min;
 	(void)sec;
+	SDL_RenderClear(_Renderer);
 	drawMap();
+	drawEntities(entitiesList);
 	SDL_RenderPresent(_Renderer);
 }

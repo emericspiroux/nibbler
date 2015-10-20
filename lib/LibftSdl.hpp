@@ -41,6 +41,7 @@ private:
 	SDL_Renderer *	_Renderer;
 	SDL_Texture *	_Tcorner;
 	SDL_Texture *	_Twall;
+	SDL_Texture *	_Tapple;
 	SDL_Rect		_rect;
 	SDL_Rect		_crop;
 	SDL_Point		_center;
