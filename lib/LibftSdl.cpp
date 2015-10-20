@@ -39,14 +39,14 @@ _name("Sdl Graphics")
         std::cout << "Can't init SDL:  "<< SDL_GetError( ) << std::endl;
         exit(-1);
     }
-    atexit( SDL_Quit );
+    //atexit( SDL_Quit );
     _window = SDL_CreateWindow(
         "Nibbler",                  // window title
-        0,           // initial x position
-        0,           // initial y position
-        x * CELL_SIZE,                               // width, in pixels
-        y * CELL_SIZE,                               // height, in pixels
-        SDL_WINDOW_ALLOW_HIGHDPI                  // flags - see below
+        SDL_WINDOWPOS_UNDEFINED,           // initial x position
+        SDL_WINDOWPOS_UNDEFINED,           // initial y position
+        x * CELL_SIZE + CELL_SIZE * 2,                               // width, in pixels
+        y * CELL_SIZE + CELL_SIZE * 2,                               // height, in pixels
+        SDL_WINDOW_BORDERLESS                 // flags - see below
     );
 
     if ( _window == NULL)
@@ -54,6 +54,22 @@ _name("Sdl Graphics")
         std::cout << "Can't set video mode: "<< SDL_GetError( ) << std::endl;
         exit(-1);
     }
+    _Renderer = SDL_CreateRenderer(_window,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_TARGETTEXTURE);
+	if ( _Renderer )
+	{
+		_Twall = IMG_LoadTexture(_Renderer, "sprites/wall-2.bmp");
+		_Tcorner = IMG_LoadTexture(_Renderer, "sprites/wall-corner-2.bmp");
+		_rect.x = 0;
+		_rect.y = 0;
+		_rect.w = 32;
+		_rect.h = 32;
+    	_crop.x = 0;
+		_crop.y = 0;
+		_crop.w = 32;
+		_crop.h = 32;
+    	_center.x = 16;
+		_center.y = 16;
+	}
 }
 
 SdlGraphics::SdlGraphics( SdlGraphics const & rhs )
@@ -128,61 +144,61 @@ int				SdlGraphics::getInput( void )
 	return (0);
 }
 
+void SdlGraphics::drawCorners(void) {
+	float angle = 0.0f;
+	SDL_RenderCopyEx(_Renderer, _Tcorner, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	angle = 180.0f;
+	_rect.x = _width * CELL_SIZE + CELL_SIZE;
+	_rect.y = _height * CELL_SIZE + CELL_SIZE;
+	SDL_RenderCopyEx(_Renderer, _Tcorner, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+
+	angle = 90.0f;
+	_rect.x = _width * CELL_SIZE + CELL_SIZE;
+	_rect.y = 0;
+	SDL_RenderCopyEx(_Renderer, _Tcorner, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+
+	angle = 270.0f;
+	_rect.x = 0;
+	_rect.y =  _height * CELL_SIZE + CELL_SIZE;
+	SDL_RenderCopyEx(_Renderer, _Tcorner, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+}
+
+void SdlGraphics::drawWalls(void) {
+	float angle = 180.0f;
+
+	for (int y = 1; y <= _height; y++)
+	{
+		_rect.x = 0;
+		_rect.y =  y * CELL_SIZE;
+		SDL_RenderCopyEx(_Renderer, _Twall, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	}
+	angle = 270.0f;
+	for (int x = 1; x <= _width; x++)
+	{
+		_rect.x = x * CELL_SIZE;
+		_rect.y =  0;
+		SDL_RenderCopyEx(_Renderer, _Twall, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	}
+	angle = 90.0f;
+	for (int x = 1; x <= _width; x++)
+	{
+		_rect.x = x * CELL_SIZE;
+		_rect.y =  _height * CELL_SIZE + CELL_SIZE;
+		SDL_RenderCopyEx(_Renderer, _Twall, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	}
+	angle = 0.0f;
+	for (int y = 1; y <= _width; y++)
+	{
+		_rect.x = _width * CELL_SIZE + CELL_SIZE;
+		_rect.y =   y * CELL_SIZE;
+		SDL_RenderCopyEx(_Renderer, _Twall, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+	}
+}
+
 void			SdlGraphics::drawMap( void )
 {
-/*	t_sprite	corner_left;
-	t_sprite	left;
-	t_sprite	corner_right;
-
-	if (corner_left.image.loadFromFile("sprites/wall-corner-left.png"))
-	{
-		corner_left.texture.loadFromImage(corner_left.image, sf::IntRect(0, 0, 32, 32));
-		corner_left.sprite.setTexture(corner_left.texture);
-		corner_left.sprite.setPosition(0, 0);
-		_window.draw(corner_left.sprite);
-		corner_left.sprite.setRotation(180);
-		corner_left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
-		_window.draw(corner_left.sprite);
-	}
-	if (left.image.loadFromFile("sprites/wall-left.png"))
-	{
-		left.texture.loadFromImage(left.image, sf::IntRect(0, 0, 32, 32));
-		left.sprite.setTexture(left.texture);
-		for (int y = 1; y <= _height; y++)
-		{
-			left.sprite.setPosition(0, y * CELL_SIZE);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(90);
-		for (int x = 1; x <= _width; x++)
-		{
-			left.sprite.setPosition(x * CELL_SIZE + CELL_SIZE, 0);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(270);
-		for (int x = 1; x <= _width; x++)
-		{
-			left.sprite.setPosition(x * CELL_SIZE, _height * CELL_SIZE + CELL_SIZE*2);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(180);
-		for (int y = 1; y <= _height; y++)
-		{
-			left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE + CELL_SIZE);
-			_window.draw(left.sprite);
-		}
-	}
-	if (corner_right.image.loadFromFile("sprites/wall-corner-right.png"))
-	{
-		corner_right.image.createMaskFromColor(sf::Color::White);
-		corner_right.texture.loadFromImage(corner_right.image, sf::IntRect(0, 0, 32, 32));
-		corner_right.sprite.setTexture(corner_right.texture);
-		corner_right.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE, 0);
-		_window.draw(corner_right.sprite);
-		corner_right.sprite.setRotation(180);
-		corner_right.sprite.setPosition(32, _height * CELL_SIZE + CELL_SIZE * 2);
-		_window.draw(corner_right.sprite);
-	}*/
+	drawCorners();
+	drawWalls();
 }
 
 void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction) {
@@ -207,4 +223,6 @@ void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direct
 	(void)gameover;
 	(void)min;
 	(void)sec;
+	drawMap();
+	SDL_RenderPresent(_Renderer);
 }
