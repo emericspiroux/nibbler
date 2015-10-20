@@ -2,6 +2,7 @@
 # define LIBFTSdl_HPP
 
 # include <SDL2/SDL.h>
+# include <SDL2/SDL_image.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include "IDisplayLib.hpp"
@@ -37,7 +38,16 @@ private:
 	int				_width;
 	int				_height;
 	SDL_Window *	_window;
+	SDL_Renderer *	_Renderer;
+	SDL_Texture *	_Tcorner;
+	SDL_Texture *	_Twall;
+	SDL_Rect		_rect;
+	SDL_Rect		_crop;
+	SDL_Point		_center;
 
+
+	void			drawCorners(void);
+	void			drawWalls(void);
 };
 
 extern "C" {

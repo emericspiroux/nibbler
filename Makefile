@@ -32,7 +32,7 @@ else ifeq ($(USER), jvincent)
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-SDLLLIB +=		-lSDL2main -lSDL2
+SDLLLIB +=		-lSDL2main -lSDL2 -lSDL2_image
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
