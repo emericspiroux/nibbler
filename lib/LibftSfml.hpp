@@ -46,6 +46,9 @@ private:
 	t_sprite		_corner;
 	t_sprite		_wall;
 
+	void			drawCorners(void);
+	void			drawWalls(void);
+
 };
 
 extern "C" {
