@@ -6,6 +6,13 @@
 
 # define CELL_SIZE 32
 
+typedef struct		s_sprite
+{
+		sf::Texture	texture;
+		sf::Image	image;
+		sf::Sprite	sprite;
+} t_sprite;
+
 class SfmlGraphics: public IDisplayLib
 {
 public:
@@ -36,6 +43,8 @@ private:
 	int				_width;
 	int				_height;
 	t_rw			_window;
+	t_sprite		_corner;
+	t_sprite		_wall;
 
 };
 
@@ -46,12 +55,5 @@ extern "C" {
 	void			deleteGraphic( SfmlGraphics *graphics );
 
 }
-
-typedef struct		s_sprite
-{
-		sf::Texture	texture;
-		sf::Image	image;
-		sf::Sprite	sprite;
-} t_sprite;
 
 #endif
