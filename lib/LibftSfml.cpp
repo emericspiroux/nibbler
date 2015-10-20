@@ -17,10 +17,24 @@ _name("SFML Graphics")
 	_width = x;
 	_height = y;
 	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 2), "Nibbler");
+
 	_corner.image.loadFromFile("sprites/wall-corner.png");
 	_corner.texture.loadFromImage(_corner.image, sf::IntRect(0, 0, 32, 32));
+
 	_wall.image.loadFromFile("sprites/wall.png");
 	_wall.texture.loadFromImage(_wall.image, sf::IntRect(0, 0, 32, 32));
+
+	_snake_head.image.loadFromFile("sprites/head-snake.png");
+	_snake_head.image.createMaskFromColor(sf::Color::White);
+	_snake_head.texture.loadFromImage(_snake_head.image, sf::IntRect(0, 0, 32, 32));
+
+	_snake_tail.image.loadFromFile("sprites/tail-snake.png");
+	_snake_tail.image.createMaskFromColor(sf::Color::White);
+	_snake_tail.texture.loadFromImage(_snake_tail.image);
+
+	_snake_body.image.loadFromFile("sprites/body-snake.png");
+	_snake_body.image.createMaskFromColor(sf::Color::White);
+	_snake_body.texture.loadFromImage(_snake_body.image);
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -140,48 +154,66 @@ void			SfmlGraphics::drawMap( void )
 }
 
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction ) {
-	sf::Texture texture;
-	sf::Image image;
-	sf::Sprite sprite;
 	std::list<std::pair<int, int> >::iterator it_tail;
+	int			angle;
 
-	(void)direction;
 	it_tail = snake.end();
 	it_tail--;
 	for (std::list<std::pair<int, int> >::iterator it = snake.begin(); it != snake.end(); ++it)
 	{
 		if (it == snake.begin())
 		{
-			if (image.loadFromFile("sprites/head-snake.png"))
-			{
-				image.createMaskFromColor(sf::Color::White);
-				texture.loadFromImage(image, sf::IntRect(0, 0, 32, 32));
-				sprite.setTexture(texture);
-				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
-			}
+				_snake_head.sprite.setTexture(_snake_head.texture);
+				_snake_head.sprite.setOrigin(16, 16);
+				if (direction == 1)
+					angle = 0;
+				else if (direction == 2)
+					angle = 90;
+				else if (direction == 3)
+					angle = 180;
+				else
+					angle = 270;
+				_snake_head.sprite.setRotation(angle);
+				_snake_head.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE + 16, it->second * CELL_SIZE + CELL_SIZE + 16);
+				_window.draw(_snake_head.sprite);
 		}
 		else if (it == it_tail)
 		{
-			if (image.loadFromFile("sprites/tail-snake.png"))
-			{
-				image.createMaskFromColor(sf::Color::White);
-				texture.loadFromImage(image);
-				sprite.setTexture(texture);
-				sprite.rotate(45);
-				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
-			}
+				std::list<std::pair<int, int> >::iterator	it_body;
+
+				_snake_tail.sprite.setTexture(_snake_tail.texture);
+				_snake_tail.sprite.setOrigin(16, 16);
+				it_body = it_tail--;
+				if (it_tail->first == it_body->first)
+				{
+					if (it_tail->second == it_body->second + 1)
+						angle = 180;
+					else
+						angle = 0;
+				}
+				else
+				{
+					if (it_tail->first == it_body->first + 1)
+						angle = 90;
+					else
+						angle = 270;
+				}
+				_snake_tail.sprite.setRotation(angle);
+				_snake_tail.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE + 16, it->second * CELL_SIZE + CELL_SIZE + 16);
+				_window.draw(_snake_tail.sprite);
 		}
 		else
 		{
-			if (image.loadFromFile("sprites/body-snake.png"))
-			{
-				image.createMaskFromColor(sf::Color::White);
-				texture.loadFromImage(image);
-				sprite.setTexture(texture);
-				sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
-			}
+				std::list<std::pair<int, int> >::iterator	it_body_prev;
+				std::list<std::pair<int, int> >::iterator	it_body_next;
+
+				it_body_prev = it--;
+				it_body_next = it++;
+
+				_snake_body.sprite.setTexture(_snake_body.texture);
+				_snake_body.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
+				_window.draw(_snake_body.sprite);
 		}
-		_window.draw(sprite);
 	}
 }
 

@@ -34,15 +34,15 @@ public:
 	AEntities *				update(time_t dt, bool *game_over, std::list<AEntities *> *listEnt);
 	void					add_node(int x, int y);
 	bool					eat_collidable(int x, int y, std::list<AEntities *> *listEnt);
-	AEntities*				eat_good(int x, int y, std::list<AEntities *> *listEnt);
+	AEntities *				eat_good(int x, int y, std::list<AEntities *> *listEnt);
 
 private:
 	std::list<std::pair<int, int> >	_nodes;
-	float				_speed;
-	int					_direction;
-	int					_heightMap;
-	int					_widthMap;
-	int					_last_direction;
+	float					_speed;
+	int						_direction;
+	int						_heightMap;
+	int						_widthMap;
+	int						_last_direction;
 
 protected:
 	void					change_dir(int *x, int *y, std::list<std::pair<int, int> >::iterator it_el);
