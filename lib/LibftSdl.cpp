@@ -39,13 +39,18 @@ _name("Sdl Graphics")
         std::cout << "Can't init SDL:  "<< SDL_GetError( ) << std::endl;
         exit(-1);
     }
-    //atexit( SDL_Quit );
+    if(TTF_Init() == -1)
+	{
+    	fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+    	exit(EXIT_FAILURE);
+	}
+    atexit( SDL_Quit );
     _window = SDL_CreateWindow(
         "Nibbler",                  // window title
         SDL_WINDOWPOS_UNDEFINED,           // initial x position
         SDL_WINDOWPOS_UNDEFINED,           // initial y position
         x * CELL_SIZE + CELL_SIZE * 2,                               // width, in pixels
-        y * CELL_SIZE + CELL_SIZE * 2,                               // height, in pixels
+        y * CELL_SIZE + CELL_SIZE * 2 + CELL_SIZE,                               // height, in pixels
         SDL_WINDOW_BORDERLESS                 // flags - see below
     );
 
@@ -71,6 +76,7 @@ _name("Sdl Graphics")
     	_center.x = 16;
 		_center.y = 16;
 	}
+	_police = TTF_OpenFont("fonts/neuropolitical.ttf", 28);
 }
 
 SdlGraphics::SdlGraphics( SdlGraphics const & rhs )
@@ -82,6 +88,8 @@ SdlGraphics::~SdlGraphics()
 {
 	std::cout << "Sdl Graphic DESTRUCTION" << std::endl;
 	SDL_DestroyWindow(_window);
+	TTF_CloseFont(_police);
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -134,7 +142,7 @@ int				SdlGraphics::getInput( void )
 						return (K_LT);
 					case SDLK_RIGHT:
 						return (K_RT);
-					case SDLK_BACKSPACE:
+					case SDLK_RETURN:
 						return (K_CT);
 					default:
 						return (0);
@@ -220,9 +228,58 @@ void			SdlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 		SDL_RenderCopyEx(_Renderer, _Tapple, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
 	}
 }
-void			SdlGraphics::drawScore( int score ) {(void)score;}
+void			SdlGraphics::drawScore( int score )
+{
+	SDL_Color		couleurBlanc;
+	SDL_Rect		rect;
+	SDL_Surface		*texte = NULL;
+	const char			*c_text;
+
+	couleurBlanc.r = 255;
+	couleurBlanc.g = 255;
+	couleurBlanc.b = 255;
+
+	c_text = ("Score " + std::to_string(score)).c_str();
+
+	rect.x = 10;
+	rect.y =  _height * CELL_SIZE + CELL_SIZE * 2;
+	rect.h = 28;
+	rect.w = _width * strlen(c_text);
+
+	texte = TTF_RenderText_Solid(_police, c_text, couleurBlanc);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
+	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+}
+
 void			SdlGraphics::drawTime( int min, int sec ) {(void)min;(void)sec;}
-void			SdlGraphics::drawGameOver(  ) {}
+void			SdlGraphics::drawGameOver(  )
+{
+	SDL_Color		couleurBlanc;
+	SDL_Rect		rect;
+	SDL_Surface		*texte = NULL;
+
+	couleurBlanc.r = 255;
+	couleurBlanc.g = 255;
+	couleurBlanc.b = 255;
+
+	rect.x = (_width * CELL_SIZE)/2 - (CELL_SIZE)*2;
+	rect.y = (_height * CELL_SIZE)/2 + (CELL_SIZE)/2;
+	rect.h = 28;
+	rect.w = _width * 20;
+
+	texte = TTF_RenderText_Solid(_police, "Game Over", couleurBlanc);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
+	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+
+	rect.x = (_width * CELL_SIZE)/2 - (CELL_SIZE)*2;
+	rect.y = (_height * CELL_SIZE)/2 + (CELL_SIZE)/2 + 32;
+	rect.h = 28;
+	rect.w = _width * 20;
+
+	texte = TTF_RenderText_Solid(_police, "Press Enter", couleurBlanc);
+	Message = SDL_CreateTextureFromSurface(_Renderer, texte);
+	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+}
 
 void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
@@ -236,5 +293,8 @@ void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direct
 	SDL_RenderClear(_Renderer);
 	drawMap();
 	drawEntities(entitiesList);
+	drawScore( score );
+	if (gameover)
+		drawGameOver();
 	SDL_RenderPresent(_Renderer);
 }

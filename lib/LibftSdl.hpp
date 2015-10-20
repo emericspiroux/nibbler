@@ -3,6 +3,7 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
+# include <SDL2/SDL_ttf.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include "IDisplayLib.hpp"
@@ -45,6 +46,7 @@ private:
 	SDL_Rect		_rect;
 	SDL_Rect		_crop;
 	SDL_Point		_center;
+	TTF_Font *		_police;
 
 
 	void			drawCorners(void);
