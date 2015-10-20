@@ -25,14 +25,14 @@ INC =			-I ./include \
 
 ifeq ($(USER), larry)
 	SFMLLIB = -L /usr/local/Cellar/sfml/HEAD/lib
-	SDLLLIB = -L /usr/local/opt/sdl/lib
+	SDLLLIB = -L /usr/local/opt/sdl2/lib
 else ifeq ($(USER), jvincent)
 	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
 	INC += -I ~/.brew/Cellar/sfml/HEAD/include
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-SDLLLIB +=		-lSDLmain -lSDL
+SDLLLIB +=		-lSDL2main -lSDL2
 
 SRCDIR =		source/
 SRCSFILES =		main.cpp \
