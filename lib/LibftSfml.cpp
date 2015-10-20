@@ -1,6 +1,8 @@
 #include <iostream>
 #include "LibftSfml.hpp"
 
+#include <unistd.h>
+
 SfmlGraphics::SfmlGraphics():
 _name("SFML Graphics")
 {
@@ -15,6 +17,14 @@ _name("SFML Graphics")
 	_width = x;
 	_height = y;
 	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 2), "Nibbler");
+	_corner.image.loadFromFile("sprites/wall-corner.png");
+	_corner.texture.loadFromImage(_corner.image, sf::IntRect(0, 0, 32, 32));
+	_wall.image.loadFromFile("sprites/wall.png");
+	_wall.texture.loadFromImage(_wall.image, sf::IntRect(0, 0, 32, 32));
+	// _corner.image.loadFromFile("sprites/wall-corner-right.png");
+	// _corner.image.createMaskFromColor(sf::Color::White);
+	// _corner.texture.loadFromImage(_corner.image, sf::IntRect(0, 0, 32, 32));
+	// _corner.sprite.setTexture(_corner.texture);
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -82,59 +92,48 @@ int				SfmlGraphics::getInput( void )
 
 void			SfmlGraphics::drawMap( void )
 {
-	t_sprite	corner_left;
-	t_sprite	left;
-	t_sprite	corner_right;
+	sf::Sprite  corner;
+	sf::Sprite	wall;
 
-	if (corner_left.image.loadFromFile("sprites/wall-corner-left.png"))
+	corner.setTexture(_corner.texture);
+	wall.setTexture(_wall.texture);
+
+	corner.setPosition(0, 0);
+	_window.draw(corner);
+	corner.setRotation(180);
+	corner.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
+	_window.draw(corner);
+	corner.setRotation(90);
+	corner.setPosition(_width * CELL_SIZE + CELL_SIZE*2, 0);
+	_window.draw(corner);
+	corner.setRotation(270);
+	corner.setPosition(0, _height * CELL_SIZE + CELL_SIZE * 2);
+	_window.draw(corner);
+	for (int y = 1; y <= _height; y++)
 	{
-		corner_left.texture.loadFromImage(corner_left.image, sf::IntRect(0, 0, 32, 32));
-		corner_left.sprite.setTexture(corner_left.texture);
-		corner_left.sprite.setPosition(0, 0);
-		_window.draw(corner_left.sprite);
-		corner_left.sprite.setRotation(180);
-		corner_left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, _height * CELL_SIZE + CELL_SIZE*2);
-		_window.draw(corner_left.sprite);
+		wall.setPosition(0, y * CELL_SIZE);
+		_window.draw(wall);
 	}
-	if (left.image.loadFromFile("sprites/wall-left.png"))
+	wall.setRotation(90);
+	for (int x = 1; x <= _width; x++)
 	{
-		left.texture.loadFromImage(left.image, sf::IntRect(0, 0, 32, 32));
-		left.sprite.setTexture(left.texture);
-		for (int y = 1; y <= _height; y++)
-		{
-			left.sprite.setPosition(0, y * CELL_SIZE);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(90);
-		for (int x = 1; x <= _width; x++)
-		{
-			left.sprite.setPosition(x * CELL_SIZE + CELL_SIZE, 0);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(270);
-		for (int x = 1; x <= _width; x++)
-		{
-			left.sprite.setPosition(x * CELL_SIZE, _height * CELL_SIZE + CELL_SIZE*2);
-			_window.draw(left.sprite);
-		}
-		left.sprite.setRotation(180);
-		for (int y = 1; y <= _height; y++)
-		{
-			left.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE + CELL_SIZE);
-			_window.draw(left.sprite);
-		}
+		wall.setPosition(x * CELL_SIZE + CELL_SIZE, 0);
+		_window.draw(wall);
 	}
-	if (corner_right.image.loadFromFile("sprites/wall-corner-right.png"))
+	wall.setRotation(270);
+	for (int x = 1; x <= _width; x++)
 	{
-		corner_right.image.createMaskFromColor(sf::Color::White);
-		corner_right.texture.loadFromImage(corner_right.image, sf::IntRect(0, 0, 32, 32));
-		corner_right.sprite.setTexture(corner_right.texture);
-		corner_right.sprite.setPosition(_width * CELL_SIZE + CELL_SIZE, 0);
-		_window.draw(corner_right.sprite);
-		corner_right.sprite.setRotation(180);
-		corner_right.sprite.setPosition(32, _height * CELL_SIZE + CELL_SIZE * 2);
-		_window.draw(corner_right.sprite);
+		wall.setPosition(x * CELL_SIZE, _height * CELL_SIZE + CELL_SIZE*2);
+		_window.draw(wall);
 	}
+	wall.setRotation(180);
+	for (int y = 1; y <= _height; y++)
+	{
+		wall.setPosition(_width * CELL_SIZE + CELL_SIZE*2, y * CELL_SIZE + CELL_SIZE);
+		_window.draw(wall);
+	}
+	wall.setRotation(180);
+	sleep(3);
 }
 
 void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction ) {
