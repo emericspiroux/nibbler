@@ -11,7 +11,7 @@ typedef struct		s_sprite
 		sf::Texture	texture;
 		sf::Image	image;
 		sf::Sprite	sprite;
-} t_sprite;
+}					t_sprite;
 
 class SfmlGraphics: public IDisplayLib
 {
@@ -33,9 +33,7 @@ public:
 	void			drawGameOver(  );
 	void			drawTime( int min, int sec );
 	void			drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec);
-
 	int				getInput( void );
-
 	std::string		getName( void ) const;
 
 private:
@@ -45,6 +43,10 @@ private:
 	t_rw			_window;
 	t_sprite		_corner;
 	t_sprite		_wall;
+	t_sprite		_snake_head;
+	t_sprite		_snake_tail;
+	t_sprite		_snake_body;
+	t_sprite		_snake_curve;
 
 	void			drawCorners(void);
 	void			drawWalls(void);
