@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 15:04:06 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 15:34:58 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 17:30:04 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ Apple::Apple( )
 	this->setCollidable(false);
 }
 
-void		Apple::update( time_t dt )
+bool		Apple::update( time_t dt )
 {
 	(void)dt;
+	return (false);
 }
 
 int			Apple::coordX( void )

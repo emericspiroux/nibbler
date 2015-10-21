@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 15:04:06 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 14:53:18 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:06:51 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ Eggs::Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<st
 	std::list<std::pair<int, int> > al_test;
 
 	//Too slow and freeze game with big snake
-	this->setDuration(-1);
+	this->setDuration(3);
 	this->setScore(EGGS_SCORE);
 	this->setCollidable(false);
+	_born = std::time(nullptr);
 
 	set = false;
 	srand (time(NULL));
@@ -56,14 +57,25 @@ Eggs::Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<st
 
 Eggs::Eggs( )
 {
-	this->setDuration(-1);
+	this->setDuration(3);
 	this->setScore(EGGS_SCORE);
 	this->setCollidable(false);
+	_born = std::time(nullptr);
 }
 
-void		Eggs::update( time_t dt )
+bool		Eggs::update( time_t dt )
 {
-	(void)dt;
+	std::time_t							sec_dt = 0;
+	std::time_t							min_dt = 0;
+
+	dt = std::time(nullptr);
+	sec_dt = dt - _born;
+
+	if ((min_dt = sec_dt / 60) != 0)
+		sec_dt %= 60;
+	if (sec_dt > this->_duration)
+		return (true);
+	return (false);
 }
 
 int			Eggs::coordX( void )

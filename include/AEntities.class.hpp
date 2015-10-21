@@ -29,7 +29,7 @@ public:
 	int					getScore() const;
 	bool				getCollidable() const;
 
-	virtual void		update( time_t dt );
+	virtual bool		update( time_t dt );
 	virtual int			coordX( void );
 	virtual int			coordY( void );
 	virtual std::string	getName( void );
@@ -38,6 +38,7 @@ protected:
 	int		_x;
 	int		_y;
 	float	_duration;
+	time_t	_born;
 	int		_score;
 	bool	_collidable;
 

@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 15:35:04 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:17:47 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ AEntities::~AEntities( )
 
 }
 
-void	AEntities::update( time_t dt )
+bool	AEntities::update( time_t dt )
 {
 	(void)dt;
+	return (false);
 }
 
 int		AEntities::coordX( void )
@@ -99,9 +100,9 @@ void			AEntities::setX(int x) {this->_x = x;}
 void			AEntities::setY(int y) {this->_y = y;}
 void			AEntities::setDuration(float duration) {this->_duration = duration;}
 void			AEntities::setScore(int score) {this->_score = score;}
-void			AEntities::setCollidable(bool collidable) {this->_collidable = collidable;}
+void			AEntities::setCollidable(bool collidable) {_collidable = collidable;}
 int				AEntities::getX() const { return (this->_x); }
 int				AEntities::getY() const { return (this->_y); }
 float			AEntities::getDuration() const { return (this->_duration); }
 int				AEntities::getScore() const { return (this->_score); }
-bool			AEntities::getCollidable() const { return (this->_collidable); }
+bool			AEntities::getCollidable() const { return (_collidable); }

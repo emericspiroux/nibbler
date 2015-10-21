@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 16:04:19 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:30:41 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftsdl.dylib", RTLD_LAZY | RTLD_LOCAL);
+		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
 			std::cerr << dlerror() << std::endl;
@@ -217,22 +217,26 @@
 
 		if (this->_gameOver == false)
 		{
+			for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
+			{
+				if ((*it_en)->update(dt))
+				{
+					this->delEntities((*it_en));
+				}
+			}
 			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
 			{
 				this->addScore(object->getScore());
-				if (this->_snake->getSpeed() > 0.4)
-					this->_snake->setSpeed(this->_snake->getSpeed() - 0.05);
 				if (object->getName() == "Apple")
 				{
 					this->takeChance();
+					if (this->_snake->getSpeed() > 0.1)
+						this->_snake->setSpeed(this->_snake->getSpeed() - 0.02);
 					Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
 					this->addEntities(apple);
 				}
 				this->delEntities(object);
 			}
-
-			for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
-				(*it_en)->update(dt);
 		}
 	}
 
@@ -304,7 +308,6 @@
 		int chance;
 
 		chance = (rand() % 100);
-		std::cout << "chance :" << chance << std::endl;
 		if (chance <= 10)
 		{
 			Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());

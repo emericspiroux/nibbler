@@ -25,7 +25,7 @@ class Apple : public AEntities
 		Apple();
 		Apple( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
 		virtual 			~Apple(  );
-		virtual void		update( time_t dt );
+		virtual bool		update( time_t dt );
 		virtual int			coordX( void );
 		virtual int			coordY( void );
 		virtual std::string	getName( void );

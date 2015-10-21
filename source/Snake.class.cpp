@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/19 01:54:18 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:23:24 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 		}
 		if ((object = this->eat_good(node.x, node.y, listEnt)) != nullptr)
 		{
-			this->add_node(x_save, y_save);
+			if (object->getName() == "Apple")
+				this->add_node(x_save, y_save);
 			return (object);
 		}
 	}
@@ -140,9 +141,7 @@ bool				Snake::eat_collidable(int x, int y, std::list<AEntities *> *listEnt)
 	for ((void)it_sn; it_sn!=this->_nodes.end(); ++it_sn)
 	{
 		if (it_sn->first == x && it_sn->second == y)
-		{
 			return (true);
-		}
 	}
 	return (false);
 }
