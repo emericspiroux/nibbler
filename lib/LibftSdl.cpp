@@ -144,6 +144,12 @@ int				SdlGraphics::getInput( void )
 						return (K_RT);
 					case SDLK_RETURN:
 						return (K_CT);
+					case SDLK_1:
+						return (K_L1);
+					case SDLK_2:
+						return (K_L2);
+					case SDLK_3:
+						return (K_L3);
 					default:
 						return (0);
 				}

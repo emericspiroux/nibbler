@@ -81,6 +81,12 @@ int				SfmlGraphics::getInput( void )
 				return (K_RT);
 			else if (event.key.code == sf::Keyboard::Down)
 				return (K_DW);
+			else if (event.key.code == sf::Keyboard::Return)
+				return (K_CT);
+			else if (event.key.code == sf::Keyboard::Num1)
+				return (K_L1);
+			else if (event.key.code == sf::Keyboard::Num3)
+				return (K_L3);
 		}
 	}
 	return (0);
