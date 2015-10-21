@@ -12,6 +12,7 @@ _name("Curse Display")
 	init_pair(1, COLOR_WHITE, COLOR_BLUE);
 	init_pair(2, COLOR_WHITE, COLOR_WHITE);
 	init_pair(3, COLOR_WHITE, COLOR_RED);
+	init_pair(4, COLOR_WHITE, COLOR_YELLOW);
 	_window = newwin(10, 10, 0, 0);
 }
 
@@ -25,6 +26,7 @@ _name("Curse Display"), _width(w), _height(h)
 	init_pair(1, COLOR_WHITE, COLOR_BLUE);
 	init_pair(2, COLOR_WHITE, COLOR_WHITE);
 	init_pair(3, COLOR_WHITE, COLOR_RED);
+	init_pair(4, COLOR_WHITE, COLOR_YELLOW);
 	_window = newwin(_height + 2, _width * 2 + 2, 0, 0);
 }
 
@@ -99,11 +101,16 @@ void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int di
 
 void			CurseGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 {
+	int 		color;
 	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
 	{
-		wattron(_window, COLOR_PAIR(3));
+		if ((*it)->getName() == "Apple")
+			color = 3;
+		else
+			color = 4;
+		wattron(_window, COLOR_PAIR(color));
 		mvwprintw(_window, (*it)->coordY() + 1, (*it)->coordX() * 2 + 1, "  ");
-		wattroff(_window, COLOR_PAIR(3));
+		wattroff(_window, COLOR_PAIR(color));
 	}
 }
 

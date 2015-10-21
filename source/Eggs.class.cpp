@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Apple.class.cpp                                    :+:      :+:    :+:   */
+/*   Eggs.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 15:04:06 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 20:38:59 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:06:51 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Apple.class.hpp"
+#include "Eggs.class.hpp"
 #include <iostream>
 
-Apple::~Apple()
+Eggs::~Eggs()
 {
 
 }
 
-Apple::Apple( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes )
+Eggs::Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes )
 {
 	int		rnd_x;
 	int		rnd_y;
@@ -26,9 +26,10 @@ Apple::Apple( int height, int width, std::list<AEntities *> list_ent, std::list<
 	std::list<std::pair<int, int> > al_test;
 
 	//Too slow and freeze game with big snake
-	this->setDuration(-1);
-	this->setScore(APPLE_SCORE);
+	this->setDuration(3);
+	this->setScore(EGGS_SCORE);
 	this->setCollidable(false);
+	_born = std::time(nullptr);
 
 	set = false;
 	srand (time(NULL));
@@ -54,30 +55,40 @@ Apple::Apple( int height, int width, std::list<AEntities *> list_ent, std::list<
 }
 
 
-Apple::Apple( )
+Eggs::Eggs( )
 {
-	this->setDuration(-1);
-	this->setScore(APPLE_SCORE);
+	this->setDuration(3);
+	this->setScore(EGGS_SCORE);
 	this->setCollidable(false);
+	_born = std::time(nullptr);
 }
 
-bool		Apple::update( time_t dt )
+bool		Eggs::update( time_t dt )
 {
-	(void)dt;
+	std::time_t							sec_dt = 0;
+	std::time_t							min_dt = 0;
+
+	dt = std::time(nullptr);
+	sec_dt = dt - _born;
+
+	if ((min_dt = sec_dt / 60) != 0)
+		sec_dt %= 60;
+	if (sec_dt > this->_duration)
+		return (true);
 	return (false);
 }
 
-int			Apple::coordX( void )
+int			Eggs::coordX( void )
 {
 	return (this->_x);
 }
 
-int			Apple::coordY( void )
+int			Eggs::coordY( void )
 {
 	return (this->_y);
 }
 
-std::string	Apple::getName( void )
+std::string	Eggs::getName( void )
 {
-	return ("Apple");
+	return ("Egg");
 }

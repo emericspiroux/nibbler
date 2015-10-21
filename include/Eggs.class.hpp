@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Apple.class.hpp                                    :+:      :+:    :+:   */
+/*   Eggs.class.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 14:58:53 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 20:38:45 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 17:26:31 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef APPLE_CLASS_HPP
-# define APPLE_CLASS_HPP
+#ifndef EGGS_CLASS_HPP
+# define EGGS_CLASS_HPP
 
 # include "AEntities.class.hpp"
 
-# define APPLE_SCORE 10
+# define EGGS_SCORE 100
 # include <list>
 # include <map>
 
-class Apple : public AEntities
+class Eggs : public AEntities
 {
 	public:
-		Apple();
-		Apple( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
-		virtual 			~Apple(  );
+		Eggs();
+		Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
+		virtual 			~Eggs(  );
 		virtual bool		update( time_t dt );
 		virtual int			coordX( void );
 		virtual int			coordY( void );

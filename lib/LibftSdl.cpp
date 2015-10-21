@@ -65,6 +65,7 @@ _name("Sdl Graphics")
 		_Twall = IMG_LoadTexture(_Renderer, "sprites/wall-2.bmp");
 		_Tcorner = IMG_LoadTexture(_Renderer, "sprites/wall-corner-2.bmp");
 		_Tapple = IMG_LoadTexture(_Renderer, "sprites/apple.png");
+		_Tegg = IMG_LoadTexture(_Renderer, "sprites/egg.png");
 		_rect.x = 0;
 		_rect.y = 0;
 		_rect.w = 32;
@@ -226,12 +227,17 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 
 void			SdlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 {
-	float angle = 0.0f;
+	SDL_Texture *	_Tentitie;
+
 	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
 	{
 		_rect.x = (*it)->coordX() * CELL_SIZE + CELL_SIZE;
 		_rect.y = (*it)->coordY() * CELL_SIZE + CELL_SIZE;
-		SDL_RenderCopyEx(_Renderer, _Tapple, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+		if ((*it)->getName() == "Apple")
+			_Tentitie = _Tapple;
+		else
+			_Tentitie = _Tegg;
+		SDL_RenderCopyEx(_Renderer, _Tentitie, &_crop , &_rect, 0.0f, &_center, SDL_FLIP_NONE);
 	}
 }
 void			SdlGraphics::drawScore( int score )
