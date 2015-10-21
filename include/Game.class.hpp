@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/16 16:29:59 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 14:30:08 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "AEntities.class.hpp"
 # include "Snake.class.hpp"
 # include "Apple.class.hpp"
+# include "Eggs.class.hpp"
 # include "IDisplayLib.hpp"
 
 class Game
