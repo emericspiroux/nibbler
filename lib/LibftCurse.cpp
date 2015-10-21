@@ -172,5 +172,9 @@ int				CurseGraphics::key_compare(int a, int b, int c)
 		return (K_EX);
 	if ( a == 10 && b == -1 && c == -1)
 		return (K_CT);
+	if ( a == 50 && b == -1 && c == -1)
+		return (K_L2);
+	if ( a == 51 && b == -1 && c == -1)
+		return (K_L3);
 	else return (0);
 }

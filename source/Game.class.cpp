@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/20 22:37:16 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 02:49:23 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,35 @@
 
 	void					Game::switchDylib( int lib_key )
 	{
-		(void)lib_key;
-		std::cout << "Changement de LIIIIBBBB" << std::endl;
+		std::string			lib_path;
+
+		GraphicDestructor(_gobj);
+		if (lib_key == K_L1)
+			lib_path = "lib/libftcurse.dylib";
+		else if (lib_key == K_L2)
+			lib_path = "lib/libftsfml.dylib";
+		else if (lib_key == K_L3)
+			lib_path = "lib/libftsdl.dylib";
+		handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+		if (!handle)
+		{
+			std::cerr << dlerror() << std::endl;
+			std::cout << "Error opening dynlib" << std::endl;
+			exit (1);
+		}
+		this->GraphicCreator = (IDisplayLib *(*)(int, int)) dlsym(handle, "createGraphic");
+		if (!GraphicCreator)
+		{
+			std::cout << "Error finding symbol creator" << std::endl;
+			exit (1);
+		}
+		this->GraphicDestructor = (void (*)(IDisplayLib *)) dlsym(handle, "deleteGraphic");
+		if (!GraphicDestructor)
+		{
+			std::cout << "Error finding symbol destructor" << std::endl;
+			exit (1);
+		}
+		this->_gobj = GraphicCreator(_width, _height);
 	}
 
 	/* call snake and entities update */
