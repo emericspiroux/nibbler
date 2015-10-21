@@ -28,7 +28,10 @@ ifeq ($(USER), larry)
 	SDLLLIB = -L /usr/local/opt/sdl2/lib
 else ifeq ($(USER), jvincent)
 	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
+	SDLLLIB = -L ~/.brew/opt/sdl2/lib
 	INC += -I ~/.brew/Cellar/sfml/HEAD/include
+	INC += -I ~/.brew/opt/sdl2/include
+	INC += -I ~/.brew/opt/sdl2_image/include
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
@@ -44,7 +47,7 @@ SRCSFILES =		main.cpp \
 				MapTools.class.cpp\
 				Snake.class.cpp
 
-DYLD_LIBRARY_PATH=~/.brew/opt/sfml/lib/
+# DYLD_LIBRARY_PATH=~/.brew/opt/sfml/lib/
 
 DYLIBDIR =		lib/
 DYLIB =			lib/libftcurse.dylib
