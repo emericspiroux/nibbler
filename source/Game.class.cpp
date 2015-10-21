@@ -253,7 +253,7 @@
 		{
 			sec_dt %= 60;
 		}
-		this->_gobj->drawAll(cpy_snake, this->_snake->getDirection(), _entities, _score, _gameOver, min_dt, sec_dt);
+		this->_gobj->drawAll(cpy_snake, this->_snake->getLastDirection(), _entities, _score, _gameOver, min_dt, sec_dt);
 	}
 
 
