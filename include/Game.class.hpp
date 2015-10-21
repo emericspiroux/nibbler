@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/16 16:29:59 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 16:01:49 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "nibbler.hpp"
 # include "AEntities.class.hpp"
 # include "Snake.class.hpp"
+# include "Eggs.class.hpp"
 # include "Apple.class.hpp"
 # include "IDisplayLib.hpp"
 
@@ -85,6 +86,9 @@ public:
 
 	/* del Entities*/
 	void					delEntities(AEntities *elem);
+
+	/*add special entities randomly*/
+	void					takeChance(void);
 
 private:
 	int						_width;

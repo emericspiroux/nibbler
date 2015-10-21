@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:55:27 by larry             #+#    #+#             */
-/*   Updated: 2015/10/15 14:06:24 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 15:35:04 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int		AEntities::coordX( void )
 int		AEntities::coordY( void )
 {
 	return (this->_x);
+}
+
+std::string	AEntities::getName( void )
+{
+	return ("Entitie");
 }
 
 AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes)

@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 02:49:23 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 16:04:19 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,15 +222,20 @@
 				this->addScore(object->getScore());
 				if (this->_snake->getSpeed() > 0.4)
 					this->_snake->setSpeed(this->_snake->getSpeed() - 0.05);
+				if (object->getName() == "Apple")
+				{
+					this->takeChance();
+					Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
+					this->addEntities(apple);
+				}
 				this->delEntities(object);
-				Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
-				this->addEntities(apple);
 			}
 
 			for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
 				(*it_en)->update(dt);
 		}
 	}
+
 
 	/* render map / entities / snake / game over */
 	void					Game::render(  )
@@ -292,3 +297,19 @@
 		list = &this->_entities;
 		list->remove(elem);
 	}
+
+	/* add Special Entities randomly */
+	void					Game::takeChance(void)
+	{
+		int chance;
+
+		chance = (rand() % 100);
+		std::cout << "chance :" << chance << std::endl;
+		if (chance <= 10)
+		{
+			Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
+			this->addEntities(eggs);
+		}
+	}
+
+

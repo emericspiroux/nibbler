@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/29 15:04:06 by larry             #+#    #+#             */
-/*   Updated: 2015/10/15 14:25:01 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 15:34:58 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,9 @@ int			Apple::coordX( void )
 int			Apple::coordY( void )
 {
 	return (this->_y);
+}
+
+std::string	Apple::getName( void )
+{
+	return ("Apple");
 }
