@@ -32,6 +32,7 @@ public:
 	virtual void		update( time_t dt );
 	virtual int			coordX( void );
 	virtual int			coordY( void );
+	virtual std::string	getName( void );
 
 protected:
 	int		_x;

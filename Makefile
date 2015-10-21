@@ -45,7 +45,8 @@ SRCSFILES =		main.cpp \
 				Apple.class.cpp\
 				AEntities.class.cpp\
 				MapTools.class.cpp\
-				Snake.class.cpp
+				Snake.class.cpp\
+				Eggs.class.cpp
 
 # DYLD_LIBRARY_PATH=~/.brew/opt/sfml/lib/
 

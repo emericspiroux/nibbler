@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 02:49:23 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 14:29:48 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@
 		this->setSnake(snake);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
+		Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
+		this->addEntities(eggs);
 		this->_snake->setSpeed(0.9);
 		this->setGameOver(false);
 		while (this->again())
