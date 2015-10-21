@@ -46,6 +46,7 @@ private:
 	t_sprite		_snake_head;
 	t_sprite		_snake_tail;
 	t_sprite		_snake_body;
+	t_sprite		_snake_curve;
 
 	void			drawCorners(void);
 	void			drawWalls(void);

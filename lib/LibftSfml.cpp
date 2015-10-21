@@ -27,14 +27,26 @@ _name("SFML Graphics")
 	_snake_head.image.loadFromFile("sprites/head-snake.png");
 	_snake_head.image.createMaskFromColor(sf::Color::White);
 	_snake_head.texture.loadFromImage(_snake_head.image, sf::IntRect(0, 0, 32, 32));
+	_snake_head.sprite.setTexture(_snake_head.texture);
+	_snake_head.sprite.setOrigin(16, 16);
 
 	_snake_tail.image.loadFromFile("sprites/tail-snake.png");
 	_snake_tail.image.createMaskFromColor(sf::Color::White);
 	_snake_tail.texture.loadFromImage(_snake_tail.image);
+	_snake_tail.sprite.setTexture(_snake_tail.texture);
+	_snake_tail.sprite.setOrigin(16, 16);
 
 	_snake_body.image.loadFromFile("sprites/body-snake.png");
 	_snake_body.image.createMaskFromColor(sf::Color::White);
 	_snake_body.texture.loadFromImage(_snake_body.image);
+	_snake_body.sprite.setTexture(_snake_body.texture);
+	_snake_body.sprite.setOrigin(16, 16);
+
+	_snake_curve.image.loadFromFile("sprites/side-snake.png");
+	_snake_curve.image.createMaskFromColor(sf::Color::White);
+	_snake_curve.texture.loadFromImage(_snake_curve.image);
+	_snake_curve.sprite.setTexture(_snake_curve.texture);
+	_snake_curve.sprite.setOrigin(16, 16);
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -159,12 +171,11 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 
 	it_tail = snake.end();
 	it_tail--;
+
 	for (std::list<std::pair<int, int> >::iterator it = snake.begin(); it != snake.end(); ++it)
 	{
 		if (it == snake.begin())
 		{
-				_snake_head.sprite.setTexture(_snake_head.texture);
-				_snake_head.sprite.setOrigin(16, 16);
 				if (direction == 1)
 					angle = 0;
 				else if (direction == 2)
@@ -181,8 +192,6 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 		{
 				std::list<std::pair<int, int> >::iterator	it_body;
 
-				_snake_tail.sprite.setTexture(_snake_tail.texture);
-				_snake_tail.sprite.setOrigin(16, 16);
 				it_body = it_tail--;
 				if (it_tail->first == it_body->first)
 				{
@@ -204,15 +213,63 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 		}
 		else
 		{
-				std::list<std::pair<int, int> >::iterator	it_body_prev;
-				std::list<std::pair<int, int> >::iterator	it_body_next;
+			std::list<std::pair<int, int> >::iterator	it_body_prev;
+			std::list<std::pair<int, int> >::iterator	it_body_next;
+			// int angle = 0;
 
-				it_body_prev = it--;
-				it_body_next = it++;
+			it_body_prev = --it;
+			it++;
+			it_body_next = ++it;
+			it--;
 
-				_snake_body.sprite.setTexture(_snake_body.texture);
-				_snake_body.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE, it->second * CELL_SIZE + CELL_SIZE);
+			// std::cout << "NODE" << std::endl;
+			// std::cout << it_body_next->first << " : " << it_body_next->second << std::endl;
+			// std::cout << it->first << " : " << it->second << std::endl;
+			// std::cout << it_body_prev->first << " : " << it_body_prev->second << std::endl;
+
+			if (it->first == it_body_prev->first && it->first == it_body_next->first)
+			{
+				_snake_body.sprite.setRotation(0);
+				_snake_body.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
 				_window.draw(_snake_body.sprite);
+			}
+			else if (it->second == it_body_prev->second && it->second == it_body_next->second)
+			{
+				_snake_body.sprite.setRotation(90);
+				_snake_body.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
+				_window.draw(_snake_body.sprite);
+			}
+			else
+			{
+				if ((it->second == it_body_prev->second + 1 && it->first == it_body_next->first + 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + 1))
+				{
+					_snake_curve.sprite.setRotation(180);
+					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
+					_window.draw(_snake_curve.sprite);
+				}
+				if ((it->second == it_body_prev->second - 1 && it->first == it_body_next->first - 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - 1))
+				{
+					_snake_curve.sprite.setRotation(0);
+					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
+					_window.draw(_snake_curve.sprite);
+				}
+				if ((it->first == it_body_prev->first + 1 && it->second == it_body_next->second - 1) ||
+					(it->second == it_body_prev->second - 1 && it->first == it_body_next->first + 1))
+				{
+					_snake_curve.sprite.setRotation(90);
+					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
+					_window.draw(_snake_curve.sprite);
+				}
+				if ((it->first == it_body_prev->first - 1 && it->second == it_body_next->second + 1) ||
+					(it->second == it_body_prev->second + 1 && it->first == it_body_next->first - 1))
+				{
+					_snake_curve.sprite.setRotation(270);
+					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
+					_window.draw(_snake_curve.sprite);
+				}
+			}
 		}
 	}
 }
