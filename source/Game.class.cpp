@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 20:38:23 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/21 20:50:41 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@
 				this->setContinue(false);
 			else if (current_keycode == K_L1 || current_keycode == K_L2 || current_keycode == K_L3)
 				this->switchDylib(current_keycode);
-			else
+			else if (!_gameOver)
 				this->_snake->setDirection(current_keycode);
 		}
 		return (true);
@@ -262,7 +262,7 @@
 		{
 			sec_dt %= 60;
 		}
-		this->_gobj->drawAll(cpy_snake, this->_snake->getLastDirection(), _entities, _score, _gameOver, min_dt, sec_dt);
+		this->_gobj->drawAll(cpy_snake, this->_snake->getDirection(), _entities, _score, _gameOver, min_dt, sec_dt);
 	}
 
 
