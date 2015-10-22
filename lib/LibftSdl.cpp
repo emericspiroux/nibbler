@@ -211,7 +211,7 @@ void SdlGraphics::drawWalls(void) {
 		SDL_RenderCopyEx(_Renderer, _Twall, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
 	}
 	angle = 0.0f;
-	for (int y = 1; y <= _width; y++)
+	for (int y = 1; y <= _height; y++)
 	{
 		_rect.x = _width * CELL_SIZE + CELL_SIZE;
 		_rect.y =   y * CELL_SIZE;
@@ -377,14 +377,40 @@ void			SdlGraphics::drawScore( int score )
 	rect.x = 10;
 	rect.y =  _height * CELL_SIZE + CELL_SIZE * 2;
 	rect.h = 28;
-	rect.w = _width * strlen(c_text);
+	rect.w = _width * (CELL_SIZE / 4);
 
-	texte = TTF_RenderText_Solid(_police, c_text, couleurBlanc);
+	texte = TTF_RenderText_Blended(_police, c_text, couleurBlanc);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
 }
 
-void			SdlGraphics::drawTime( int min, int sec ) {(void)min;(void)sec;}
+void			SdlGraphics::drawTime( int min, int sec )
+{
+	SDL_Color		couleurBlanc;
+	SDL_Rect		rect;
+	SDL_Surface		*texte = NULL;
+	std::string		str_min;
+	std::string		str_sec;
+	const char			*c_text;
+
+	couleurBlanc.r = 255;
+	couleurBlanc.g = 255;
+	couleurBlanc.b = 255;
+
+	str_min = ((min >= 10)?"":"0") + std::to_string(min);
+	str_sec = ((sec >= 10)?"":"0") + std::to_string(sec);
+	c_text = ("Time " + str_min + ":" + str_sec).c_str();
+
+	rect.w = _width * (CELL_SIZE / 4);
+	rect.x = ((_width * CELL_SIZE) + CELL_SIZE * 2) - (_width * (CELL_SIZE / 4)) - 10;
+	rect.y =  _height * CELL_SIZE + CELL_SIZE * 2;
+	rect.h = 28;
+
+	texte = TTF_RenderText_Blended(_police, c_text, couleurBlanc);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
+	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+}
+
 void			SdlGraphics::drawGameOver(  )
 {
 	SDL_Color		couleurBlanc;
@@ -416,13 +442,12 @@ void			SdlGraphics::drawGameOver(  )
 
 void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
-	(void)min;
-	(void)sec;
 	SDL_RenderClear(_Renderer);
 	drawMap();
 	drawSnake(snake, direction);
 	drawEntities(entitiesList);
 	drawScore( score );
+	drawTime( min, sec );
 	if (gameover)
 		drawGameOver();
 	SDL_RenderPresent(_Renderer);
