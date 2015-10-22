@@ -45,6 +45,10 @@ private:
 	SDL_Texture *	_TwallEnt;
 	SDL_Texture *	_Tapple;
 	SDL_Texture *	_Tegg;
+	SDL_Texture *	_snake_head;
+	SDL_Texture *	_snake_tail;
+	SDL_Texture *	_snake_body;
+	SDL_Texture *	_snake_curve;
 	SDL_Rect		_rect;
 	SDL_Rect		_crop;
 	SDL_Point		_center;
