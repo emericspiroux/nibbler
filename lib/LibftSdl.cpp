@@ -51,7 +51,7 @@ _name("Sdl Graphics")
         SDL_WINDOWPOS_UNDEFINED,           // initial y position
         x * CELL_SIZE + CELL_SIZE * 2,                               // width, in pixels
         y * CELL_SIZE + CELL_SIZE * 2 + CELL_SIZE,                               // height, in pixels
-        SDL_WINDOW_BORDERLESS                 // flags - see below
+        SDL_WINDOW_OPENGL                  // flags - see below
     );
 
     if ( _window == NULL)
