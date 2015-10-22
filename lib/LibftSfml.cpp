@@ -288,6 +288,16 @@ void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 
 	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
 	{
+		if ((*it)->getName() == "Egg")
+		{
+		if (image.loadFromFile("sprites/egg.png"))
+		{
+			texture.loadFromImage(image);
+			sprite.setTexture(texture);
+			sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
+			_window.draw(sprite);
+		}
+		} else {
 		if (image.loadFromFile("sprites/apple.png"))
 		{
 			image.createMaskFromColor(sf::Color::White);
@@ -295,6 +305,7 @@ void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 			sprite.setTexture(texture);
 			sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
 			_window.draw(sprite);
+		}
 		}
 	}
 }
