@@ -35,7 +35,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftsdl.dylib", RTLD_LAZY | RTLD_LOCAL);
+		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
 			std::cerr << dlerror() << std::endl;
@@ -181,6 +181,7 @@
 		std::string			lib_path;
 
 		GraphicDestructor(_gobj);
+		dlclose(handle);
 		if (lib_key == K_L1)
 			lib_path = "lib/libftcurse.dylib";
 		else if (lib_key == K_L2)
@@ -318,5 +319,3 @@
 			this->addEntities(wall);
 		}
 	}
-
-
