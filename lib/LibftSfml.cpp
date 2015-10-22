@@ -306,22 +306,32 @@ void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 	{
 		if ((*it)->getName() == "Egg")
 		{
-		if (image.loadFromFile("sprites/egg.png"))
+			if (image.loadFromFile("sprites/egg.png"))
+			{
+				texture.loadFromImage(image);
+				sprite.setTexture(texture);
+				sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
+				_window.draw(sprite);
+			}
+		} else if ((*it)->getName() == "Apple"){
+			if (image.loadFromFile("sprites/apple.png"))
+			{
+				image.createMaskFromColor(sf::Color::White);
+				texture.loadFromImage(image);
+				sprite.setTexture(texture);
+				sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
+				_window.draw(sprite);
+			}
+		} else
 		{
-			texture.loadFromImage(image);
-			sprite.setTexture(texture);
-			sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
-			_window.draw(sprite);
-		}
-		} else {
-		if (image.loadFromFile("sprites/apple.png"))
-		{
-			image.createMaskFromColor(sf::Color::White);
-			texture.loadFromImage(image);
-			sprite.setTexture(texture);
-			sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
-			_window.draw(sprite);
-		}
+			if (image.loadFromFile("sprites/wall-entitie.png"))
+			{
+				image.createMaskFromColor(sf::Color::White);
+				texture.loadFromImage(image);
+				sprite.setTexture(texture);
+				sprite.setPosition((*it)->coordX() * CELL_SIZE + CELL_SIZE, (*it)->coordY() * CELL_SIZE + CELL_SIZE);
+				_window.draw(sprite);
+			}
 		}
 	}
 }
