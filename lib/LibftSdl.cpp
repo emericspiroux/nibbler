@@ -256,16 +256,16 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 				if (it_tail->first == it_body->first)
 				{
 					if (it_tail->second == it_body->second + 1)
-						angle = 0;
-					else
 						angle = 180;
+					else
+						angle = 0;
 				}
 				else
 				{
 					if (it_tail->first == it_body->first + 1)
-						angle = 270;
-					else
 						angle = 90;
+					else
+						angle = 270;
 				}
 				_rect.x = it->first * CELL_SIZE + CELL_SIZE;
 				_rect.y = it->second * CELL_SIZE + CELL_SIZE;
