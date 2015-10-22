@@ -241,29 +241,45 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 			}
 			else
 			{
-				if ((it->second == it_body_prev->second + 1 && it->first == it_body_next->first + 1) ||
-					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + 1))
+				if ((it->first == it_body_next->first + 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second - _height + 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second - _height + 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + 1))
 				{
 					_snake_curve.sprite.setRotation(180);
 					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
 					_window.draw(_snake_curve.sprite);
 				}
-				if ((it->second == it_body_prev->second - 1 && it->first == it_body_next->first - 1) ||
-					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - 1))
+				if ((it->first == it_body_next->first - 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second + _height - 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second + _height - 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - 1))
 				{
 					_snake_curve.sprite.setRotation(0);
 					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
 					_window.draw(_snake_curve.sprite);
 				}
 				if ((it->first == it_body_prev->first + 1 && it->second == it_body_next->second - 1) ||
-					(it->second == it_body_prev->second - 1 && it->first == it_body_next->first + 1))
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second + _height - 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + _height - 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - 1))
 				{
 					_snake_curve.sprite.setRotation(90);
 					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
 					_window.draw(_snake_curve.sprite);
 				}
 				if ((it->first == it_body_prev->first - 1 && it->second == it_body_next->second + 1) ||
-					(it->second == it_body_prev->second + 1 && it->first == it_body_next->first - 1))
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second - _height + 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - _height + 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + 1))
 				{
 					_snake_curve.sprite.setRotation(270);
 					_snake_curve.sprite.setPosition(it->first * CELL_SIZE + CELL_SIZE * 3/2, it->second * CELL_SIZE + CELL_SIZE * 3/2);
