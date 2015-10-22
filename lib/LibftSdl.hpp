@@ -42,6 +42,7 @@ private:
 	SDL_Renderer *	_Renderer;
 	SDL_Texture *	_Tcorner;
 	SDL_Texture *	_Twall;
+	SDL_Texture *	_TwallEnt;
 	SDL_Texture *	_Tapple;
 	SDL_Texture *	_Tegg;
 	SDL_Rect		_rect;

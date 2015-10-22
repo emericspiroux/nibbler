@@ -102,15 +102,23 @@ void			CurseGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int di
 void			CurseGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 {
 	int 		color;
+	std::string		name;
 	for (std::list<AEntities *>::const_iterator it = entitiesList.begin(); it != entitiesList.end(); ++it)
 	{
-		if ((*it)->getName() == "Apple")
-			color = 3;
-		else
-			color = 4;
-		wattron(_window, COLOR_PAIR(color));
-		mvwprintw(_window, (*it)->coordY() + 1, (*it)->coordX() * 2 + 1, "  ");
-		wattroff(_window, COLOR_PAIR(color));
+		name = (*it)->getName();
+		if (name == "Apple" || name == "Egg")
+		{
+			if (name == "Apple")
+				color = 3;
+			else
+				color = 4;
+			wattron(_window, COLOR_PAIR(color));
+			mvwprintw(_window, (*it)->coordY() + 1, (*it)->coordX() * 2 + 1, "  ");
+			wattroff(_window, COLOR_PAIR(color));
+		} else
+		{
+			mvwprintw(_window, (*it)->coordY() + 1, (*it)->coordX() * 2 + 1, "##");
+		}
 	}
 }
 
