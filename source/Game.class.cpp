@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 20:50:41 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/22 17:23:32 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
-		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
+		handle = dlopen("lib/libftsdl.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
 			std::cerr << dlerror() << std::endl;
@@ -115,8 +115,6 @@
 		this->setSnake(snake);
 		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
 		this->addEntities(apple);
-		Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
-		this->addEntities(eggs);
 		this->_snake->setSpeed(0.9);
 		this->setGameOver(false);
 		while (this->again())
@@ -314,6 +312,10 @@
 		{
 			Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
 			this->addEntities(eggs);
+		} else if (chance <= 90)
+		{
+			Wall *wall = new Wall( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
+			this->addEntities(wall);
 		}
 	}
 

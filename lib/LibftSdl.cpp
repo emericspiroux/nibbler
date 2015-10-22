@@ -66,6 +66,7 @@ _name("Sdl Graphics")
 		_Tcorner = IMG_LoadTexture(_Renderer, "sprites/wall-corner-2.bmp");
 		_Tapple = IMG_LoadTexture(_Renderer, "sprites/apple.png");
 		_Tegg = IMG_LoadTexture(_Renderer, "sprites/egg.png");
+		_TwallEnt = IMG_LoadTexture(_Renderer, "sprites/wall-entitie-2.png");
 		_rect.x = 0;
 		_rect.y = 0;
 		_rect.w = 32;
@@ -235,8 +236,10 @@ void			SdlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 		_rect.y = (*it)->coordY() * CELL_SIZE + CELL_SIZE;
 		if ((*it)->getName() == "Apple")
 			_Tentitie = _Tapple;
-		else
+		else if ((*it)->getName() == "Egg")
 			_Tentitie = _Tegg;
+		else
+			_Tentitie = _TwallEnt;
 		SDL_RenderCopyEx(_Renderer, _Tentitie, &_crop , &_rect, 0.0f, &_center, SDL_FLIP_NONE);
 	}
 }
