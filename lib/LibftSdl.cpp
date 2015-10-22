@@ -51,7 +51,7 @@ _name("Sdl Graphics")
         SDL_WINDOWPOS_UNDEFINED,           // initial y position
         x * CELL_SIZE + CELL_SIZE * 2,                               // width, in pixels
         y * CELL_SIZE + CELL_SIZE * 2 + CELL_SIZE,                               // height, in pixels
-        SDL_WINDOW_BORDERLESS                 // flags - see below
+        SDL_WINDOW_OPENGL                  // flags - see below
     );
 
     if ( _window == NULL)
@@ -67,6 +67,10 @@ _name("Sdl Graphics")
 		_Tapple = IMG_LoadTexture(_Renderer, "sprites/apple.png");
 		_Tegg = IMG_LoadTexture(_Renderer, "sprites/egg.png");
 		_TwallEnt = IMG_LoadTexture(_Renderer, "sprites/wall-entitie-2.png");
+		_snake_head = IMG_LoadTexture(_Renderer, "sprites/head-snake.png");
+		_snake_tail = IMG_LoadTexture(_Renderer, "sprites/tail-snake.png");
+		_snake_body = IMG_LoadTexture(_Renderer, "sprites/body-snake.png");
+		_snake_curve = IMG_LoadTexture(_Renderer, "sprites/side-snake.png");
 		_rect.x = 0;
 		_rect.y = 0;
 		_rect.w = 32;
@@ -141,9 +145,9 @@ int				SdlGraphics::getInput( void )
 					case SDLK_DOWN:
 						return (K_DW);
 					case SDLK_LEFT:
-						return (K_LT);
-					case SDLK_RIGHT:
 						return (K_RT);
+					case SDLK_RIGHT:
+						return (K_LT);
 					case SDLK_RETURN:
 						return (K_CT);
 					case SDLK_1:
@@ -222,8 +226,122 @@ void			SdlGraphics::drawMap( void )
 }
 
 void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int direction) {
-	(void)snake;
-	(void)direction;
+	std::list<std::pair<int, int> >::iterator it_tail;
+	float			angle;
+
+	it_tail = snake.end();
+	it_tail--;
+
+	for (std::list<std::pair<int, int> >::iterator it = snake.begin(); it != snake.end(); ++it)
+	{
+		if (it == snake.begin())
+		{
+				if (direction == 1)
+					angle = 0;
+				else if (direction == 2)
+					angle = 90;
+				else if (direction == 3)
+					angle = 180;
+				else
+					angle = 270;
+				_rect.x = it->first * CELL_SIZE + CELL_SIZE;
+				_rect.y = it->second * CELL_SIZE + CELL_SIZE;
+				SDL_RenderCopyEx(_Renderer, _snake_head, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+		}
+		else if (it == it_tail)
+		{
+				std::list<std::pair<int, int> >::iterator	it_body;
+
+				it_body = it_tail--;
+				if (it_tail->first == it_body->first)
+				{
+					if (it_tail->second == it_body->second + 1)
+						angle = 0;
+					else
+						angle = 180;
+				}
+				else
+				{
+					if (it_tail->first == it_body->first + 1)
+						angle = 270;
+					else
+						angle = 90;
+				}
+				_rect.x = it->first * CELL_SIZE + CELL_SIZE;
+				_rect.y = it->second * CELL_SIZE + CELL_SIZE;
+				SDL_RenderCopyEx(_Renderer, _snake_tail, &_crop , &_rect, angle, &_center, SDL_FLIP_NONE);
+		}
+		else
+		{
+			std::list<std::pair<int, int> >::iterator	it_body_prev;
+			std::list<std::pair<int, int> >::iterator	it_body_next;
+
+			it_body_prev = --it;
+			it++;
+			it_body_next = ++it;
+			it--;
+
+			if (it->first == it_body_prev->first && it->first == it_body_next->first)
+			{
+				_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+				_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+				SDL_RenderCopyEx(_Renderer, _snake_body, &_crop , &_rect, 0.0f, &_center, SDL_FLIP_NONE);
+			}
+			else if (it->second == it_body_prev->second && it->second == it_body_next->second)
+			{
+				_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+				_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+				SDL_RenderCopyEx(_Renderer, _snake_body, &_crop , &_rect, 90.0f, &_center, SDL_FLIP_NONE);
+			}
+			else
+			{
+				if ((it->first == it_body_next->first + 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second - _height + 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second - _height + 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + 1))
+				{
+					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+					SDL_RenderCopyEx(_Renderer, _snake_curve, &_crop , &_rect, 180.0f, &_center, SDL_FLIP_NONE);
+				}
+				if ((it->first == it_body_next->first - 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second + _height - 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second + _height - 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - 1))
+				{
+					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+					SDL_RenderCopyEx(_Renderer, _snake_curve, &_crop , &_rect, 0.0f, &_center, SDL_FLIP_NONE);
+				}
+				if ((it->first == it_body_prev->first + 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second + _height - 1) ||
+					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + _height - 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second - 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - 1))
+				{
+					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+					SDL_RenderCopyEx(_Renderer, _snake_curve, &_crop , &_rect, 90.0f, &_center, SDL_FLIP_NONE);
+				}
+				if ((it->first == it_body_prev->first - 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second - _height + 1) ||
+					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - _height + 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second + 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + 1))
+				{
+					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
+					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
+					SDL_RenderCopyEx(_Renderer, _snake_curve, &_crop , &_rect, 270.0f, &_center, SDL_FLIP_NONE);
+				}
+			}
+		}
+	}
 }
 
 void			SdlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
@@ -298,15 +416,11 @@ void			SdlGraphics::drawGameOver(  )
 
 void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
-	(void)snake;
-	(void)direction;
-	(void)entitiesList;
-	(void)score;
-	(void)gameover;
 	(void)min;
 	(void)sec;
 	SDL_RenderClear(_Renderer);
 	drawMap();
+	drawSnake(snake, direction);
 	drawEntities(entitiesList);
 	drawScore( score );
 	if (gameover)

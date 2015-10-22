@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/22 17:38:03 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/22 18:42:35 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,7 @@
 		{
 			Eggs *eggs = new Eggs( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
 			this->addEntities(eggs);
-		} else if (chance <= 10)
+		} else if (chance <= 20)
 		{
 			Wall *wall = new Wall( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
 			this->addEntities(wall);
