@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/22 18:42:35 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 15:56:57 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@
 				if (object->getName() == "Apple")
 				{
 					this->takeChance();
-					if (this->_snake->getSpeed() > 0.1)
+					if (this->_snake->getSpeed() > 0.3)
 						this->_snake->setSpeed(this->_snake->getSpeed() - 0.02);
 					Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
 					this->addEntities(apple);
