@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/21 20:23:24 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 17:27:53 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ AEntities *				Snake::update(time_t dt, bool *game_over, std::list<AEntities *> 
 				return (nullptr);
 			if (head)//avancer la tete
 			{
+				int save_dir = this->getLastDirection();
 				x_save = it_el->first;
 				y_save = it_el->second;
 				this->change_dir(&x_head, &y_head, it_el);
 				node = this->fixedOutOfMap(x_head, y_head);
 				if (this->eat_collidable(node.x, node.y, listEnt))
 				{
+					this->setDirection(save_dir);
 					*game_over = true;
 					return (nullptr);
 				}
@@ -194,6 +196,7 @@ void					Snake::change_dir(int *x, int *y, std::list<std::pair<int, int> >::iter
 
 	if (err == true)
 	{
+		this->setDirection(this->getLastDirection());
 		switch (this->getLastDirection())
 		{
 			case 1:	y_save--;
