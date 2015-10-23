@@ -255,14 +255,16 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 				it_body = it_tail--;
 				if (it_tail->first == it_body->first)
 				{
-					if (it_tail->second == it_body->second + 1)
+					if ((it_tail->second == it_body->second + 1) ||
+						(it_tail->second == 0 && it_body->second == _height - 1))
 						angle = 180;
 					else
 						angle = 0;
 				}
 				else
 				{
-					if (it_tail->first == it_body->first + 1)
+					if ((it_tail->first == it_body->first + 1) ||
+						(it_tail->first == 0 && it_body->first == _width - 1))
 						angle = 90;
 					else
 						angle = 270;
