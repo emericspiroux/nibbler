@@ -6,17 +6,15 @@
 SfmlGraphics::SfmlGraphics():
 _name("SFML Graphics")
 {
-	std::cout << "SFML Graphic CREATION" << std::endl;
 	_window.create(sf::VideoMode(10 * CELL_SIZE, 10 * CELL_SIZE), "Nibbler");
 }
 
 SfmlGraphics::SfmlGraphics(int x, int y):
 _name("SFML Graphics")
 {
-	std::cout << "SFML Graphic CREATION" << std::endl;
 	_width = x;
 	_height = y;
-	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 3), "Nibbler");
+	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 3), "Nibbler on SFML");
 
 	_corner.image.loadFromFile("sprites/wall-corner.png");
 	_corner.texture.loadFromImage(_corner.image, sf::IntRect(0, 0, 32, 32));
@@ -62,7 +60,6 @@ SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
 
 SfmlGraphics::~SfmlGraphics()
 {
-	std::cout << "SFML Graphic DESTRUCTION" << std::endl;
 	_window.close();
 }
 
@@ -119,6 +116,9 @@ int				SfmlGraphics::getInput( void )
 				return (K_L1);
 			else if (event.key.code == sf::Keyboard::Num3)
 				return (K_L3);
+			else if (event.key.code == sf::Keyboard::P
+				|| event.key.code == sf::Keyboard::Space)
+				return (K_PA);
 		}
 	}
 	return (0);
@@ -372,6 +372,7 @@ void			SfmlGraphics::drawTime( int min, int sec )
 	text.setColor(sf::Color(255, 255, 0));
 	_window.draw(text);
 }
+
 void			SfmlGraphics::drawGameOver(  ) {
 
 	sf::Text   	text;
@@ -398,7 +399,22 @@ void			SfmlGraphics::drawGameOver(  ) {
 	_window.draw(text);
 }
 
-void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
+void			SfmlGraphics::drawPause(  ) {
+
+	sf::Text   	text;
+	std::string	c_text;
+
+	c_text = "Pause";
+
+	text.setFont(_MyFont);
+	text.setString(c_text);
+	text.setPosition((_width * CELL_SIZE + CELL_SIZE * 2)/2 - 58, ((_height * CELL_SIZE) + CELL_SIZE * 2)/2 - 14);
+	text.setCharacterSize(28);
+	text.setColor(sf::Color(255, 255, 0));
+	_window.draw(text);
+}
+
+void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover,  bool pause, int min, int sec)
 {
 	_window.clear();
 	drawSnake(snake, direction);
@@ -408,5 +424,7 @@ void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direc
 	drawTime(min, sec);
 	if (gameover)
 		drawGameOver();
+	else if (pause)
+		drawPause();
 	_window.display();
 }

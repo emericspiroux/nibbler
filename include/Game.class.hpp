@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/23 17:58:43 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 21:37:28 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ public:
 	void					setEntities( std::list<AEntities *> entities);
 	void					setGameOver( bool gameover);
 	void					setContinue( bool again);
+	void					setPause( bool pause );
 	void					setTime( int z_time );
 	void					setShouldClose( bool shouldclose);
 
@@ -57,6 +58,7 @@ public:
 	std::list<AEntities *>	getEntities(void) const;
 	bool					getGameOver(void) const;
 	bool					getContinue(void) const;
+	bool					getPause(void) const;
 	int						getTime(void) const;
 	bool					getShouldClose(void) const;
 
@@ -72,6 +74,9 @@ public:
 
 	/* Reset Snake, entities, time, score and direction */
 	void					reset( void );
+
+	/* set pause false if true and conversely */
+	void					pause( void );
 	/* get _shouldClose */
 	bool					end(  );
 
@@ -98,6 +103,9 @@ public:
 	/*add special entities randomly*/
 	void					takeChance(void);
 
+	/* get time passed on game without pause */
+	std::time_t					getDt(void);
+
 private:
 	int						_width;
 	int						_height;
@@ -106,6 +114,7 @@ private:
 	Snake *					_snake;
 	std::list<AEntities *>	_entities;
 	bool					_gameOver;
+	bool					_pause;
 	bool					_continue;
 	bool					_shouldClose;
 	void *					handle;

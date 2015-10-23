@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/23 17:58:57 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 22:00:12 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 		this->setGameOver(false);
 		this->setScore(0);
 		this->setTime(0);
+		this->setPause(false);
 		handle = dlopen("lib/libftsfml.dylib", RTLD_LAZY | RTLD_LOCAL);
 		if (!handle)
 		{
@@ -82,6 +83,7 @@
 	void					Game::setEntities( std::list<AEntities *> entities) {this->_entities = entities;}
 	void					Game::setGameOver( bool gameover) {this->_gameOver = gameover;}
 	void					Game::setContinue( bool again ) {this->_continue = again;}
+	void					Game::setPause( bool pause ) {this->_pause = pause;}
 	void					Game::setTime( int z_time ) {this->_time = z_time;}
 	void					Game::setShouldClose( bool shouldclose) {this->_shouldClose = shouldclose;}
 
@@ -92,6 +94,7 @@
 	std::list<AEntities *>	Game::getEntities( void ) const {return (this->_entities);}
 	bool					Game::getGameOver( void ) const {return (this->_gameOver);}
 	bool					Game::getContinue( void ) const {return (this->_continue);}
+	bool					Game::getPause( void ) const {return (this->_pause);}
 	int						Game::getTime( void ) const {return (this->_time);}
 	bool					Game::getShouldClose( void ) const {return (this->_shouldClose);}
 
@@ -126,7 +129,8 @@
 				before = std::chrono::high_resolution_clock::now();
 				if (!this->getInput())
 					break ;
-				this->update(_time);
+				if (!this->getPause())
+					this->update(_time);
 				this->render();
 				now = std::chrono::high_resolution_clock::now();
 				time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
@@ -158,6 +162,14 @@
 		return (this->_continue);
 	}
 
+	void					Game::pause(  )
+	{
+		if (this->_pause == false)
+			this->_pause = true;
+		else
+			this->_pause = false;
+	}
+
 	void					Game::reset(  )
 	{
 		this->clearEntities();
@@ -180,11 +192,13 @@
 				this->stop();
 				return (false);
 			}
+			else if (current_keycode == K_PA)
+				this->pause();
 			else if (current_keycode == K_CT)
 				this->setContinue(false);
 			else if (current_keycode == K_L1 || current_keycode == K_L2 || current_keycode == K_L3)
 				this->switchDylib(current_keycode);
-			else if (!_gameOver)
+			else if (!_gameOver && !_pause)
 				this->_snake->setDirection(current_keycode);
 		}
 		return (true);
@@ -194,6 +208,7 @@
 	{
 		std::string			lib_path;
 
+		this->setPause(true);
 		GraphicDestructor(_gobj);
 		dlclose(handle);
 		if (lib_key == K_L1)
@@ -260,22 +275,14 @@
 	void					Game::render(  )
 	{
 		std::list<std::pair<int, int> >		cpy_snake;
-		std::time_t							sec_dt = 0;
 		std::time_t							min_dt = 0;
-		static std::time_t					new_result;
+		std::time_t							sec_dt = 0;
 
 		cpy_snake = this->_snake->getNodes();
-		if (!_gameOver)
-			new_result = std::time(nullptr);
-		if (_time == 0)
-			_time = std::time(nullptr);
-		else
-			sec_dt = new_result - _time;
+		sec_dt = getDt();
 		if ((min_dt = sec_dt / 60) != 0)
-		{
 			sec_dt %= 60;
-		}
-		this->_gobj->drawAll(cpy_snake, this->_snake->getDirection(), _entities, _score, _gameOver, min_dt, sec_dt);
+		this->_gobj->drawAll(cpy_snake, this->_snake->getDirection(), _entities, _score, _gameOver, _pause, min_dt, sec_dt);
 	}
 
 
@@ -337,4 +344,29 @@
 			Wall *wall = new Wall( this->getHeight(), this->getWidth(), this->getEntities(), _snake->getNodes());
 			this->addEntities(wall);
 		}
+	}
+
+	std::time_t				Game::getDt(void)
+	{
+		static std::time_t					sec_dt = 0;
+		static std::time_t					new_result = 0;
+		static std::time_t					pause_time = 0;
+
+		if (_time == 0)
+			_time = std::time(nullptr);
+		if (!_gameOver)
+			new_result = std::time(nullptr);
+
+		if (_pause && pause_time == 0)
+			pause_time = std::time(nullptr);
+		else if (!_pause && pause_time != 0)
+		{
+			_time += new_result - pause_time;
+			pause_time = 0;
+		}
+
+		if (!_pause)
+			sec_dt = new_result - _time;
+
+		return (sec_dt);
 	}

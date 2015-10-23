@@ -27,8 +27,9 @@ public:
 	void			drawEntities( std::list<AEntities *> & entitiesList );
 	void			drawScore( int score );
 	void			drawGameOver(  );
+	void			drawPause(  );
 	void			drawTime( int min, int sec );
-	void			drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec);
+	void			drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover,  bool pause, int min, int sec);
 
 	int				getInput( void );
 

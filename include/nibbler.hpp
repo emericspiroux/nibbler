@@ -11,6 +11,7 @@
 # define K_L1 7
 # define K_L2 8
 # define K_L3 9
+# define K_PA 10 //pause
 
 typedef enum	e_input
 {

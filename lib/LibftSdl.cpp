@@ -4,7 +4,6 @@
 SdlGraphics::SdlGraphics():
 _name("Sdl Graphics")
 {
-	std::cout << "Sdl Graphic CREATION" << std::endl;
 	if( SDL_Init( SDL_INIT_VIDEO ) == -1 )
     {
         std::cout << "Can't init SDL:  "<< SDL_GetError( ) << std::endl;
@@ -31,7 +30,6 @@ _name("Sdl Graphics")
 SdlGraphics::SdlGraphics(int x, int y):
 _name("Sdl Graphics")
 {
-	std::cout << "Sdl Graphic CREATION" << std::endl;
 	_width = x;
 	_height = y;
 	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
@@ -46,7 +44,7 @@ _name("Sdl Graphics")
 	}
     atexit( SDL_Quit );
     _window = SDL_CreateWindow(
-        "Nibbler",                  // window title
+        "Nibbler on SDL",                  // window title
         SDL_WINDOWPOS_UNDEFINED,           // initial x position
         SDL_WINDOWPOS_UNDEFINED,           // initial y position
         x * CELL_SIZE + CELL_SIZE * 2,                               // width, in pixels
@@ -92,7 +90,6 @@ SdlGraphics::SdlGraphics( SdlGraphics const & rhs )
 
 SdlGraphics::~SdlGraphics()
 {
-	std::cout << "Sdl Graphic DESTRUCTION" << std::endl;
 	SDL_DestroyWindow(_window);
 	TTF_CloseFont(_police);
 	TTF_Quit();
@@ -156,6 +153,9 @@ int				SdlGraphics::getInput( void )
 						return (K_L2);
 					case SDLK_3:
 						return (K_L3);
+					case SDLK_p:
+					case SDLK_SPACE:
+						return (K_PA);
 					default:
 						return (0);
 				}
@@ -442,7 +442,27 @@ void			SdlGraphics::drawGameOver(  )
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
 }
 
-void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
+void			SdlGraphics::drawPause(  )
+{
+	SDL_Color		couleurBlanc;
+	SDL_Rect		rect;
+	SDL_Surface		*texte = NULL;
+
+	couleurBlanc.r = 255;
+	couleurBlanc.g = 255;
+	couleurBlanc.b = 255;
+
+	rect.w = _width * _width;
+	rect.x = ((_width * CELL_SIZE) + CELL_SIZE * 2)/2 - rect.w/2;
+	rect.h = 40;
+	rect.y = ((_height * CELL_SIZE) + CELL_SIZE * 2)/2 - rect.h/2;
+
+	texte = TTF_RenderText_Solid(_police, "Pause", couleurBlanc);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
+	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+}
+
+void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover,  bool pause, int min, int sec)
 {
 	SDL_RenderClear(_Renderer);
 	drawMap();
@@ -452,5 +472,7 @@ void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direct
 	drawTime( min, sec );
 	if (gameover)
 		drawGameOver();
+	else if (pause)
+		drawPause();
 	SDL_RenderPresent(_Renderer);
 }

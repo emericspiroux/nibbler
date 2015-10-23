@@ -5,7 +5,6 @@
 CurseGraphics::CurseGraphics():
 _name("Curse Display")
 {
-	std::cout << "CURSE Graphic CREATION" << std::endl;
 	initscr();
 	curs_set(0);
 	start_color();
@@ -19,7 +18,6 @@ _name("Curse Display")
 CurseGraphics::CurseGraphics( int w, int h ):
 _name("Curse Display"), _width(w), _height(h)
 {
-	std::cout << "CURSE Graphic CREATION" << std::endl;
 	initscr();
 	curs_set(0);
 	start_color();
@@ -39,7 +37,6 @@ CurseGraphics::~CurseGraphics()
 {
 	delwin(_window);
 	endwin();
-	std::cout << "CURSE Graphic DESTRUCTION" << std::endl;
 }
 
 CurseGraphics	*createGraphic( int w, int h )
@@ -137,6 +134,11 @@ void			CurseGraphics::drawGameOver(  )
 
 }
 
+void			CurseGraphics::drawPause(  )
+{
+	mvwprintw(_window, _height + 1, _width * 2 - 5, "Pause");
+}
+
 void			CurseGraphics::drawTime( int min, int sec )
 {
 	std::string		sent;
@@ -149,7 +151,7 @@ void			CurseGraphics::drawTime( int min, int sec )
 	mvwprintw(_window, 0, _width - 4, ("Time " + str_min + ":" + str_sec).c_str());
 }
 
-void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
+void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover,  bool pause, int min, int sec)
 {
 	this->clearScreen();
 	this->drawMap();
@@ -159,6 +161,8 @@ void			CurseGraphics::drawAll( std::list<std::pair<int, int> > & snake, int dire
 	this->drawTime(min, sec);
 	if (gameover)
 		this->drawGameOver();
+	else if (pause)
+		this->drawPause();
 	wrefresh(_window);
 }
 
@@ -191,5 +195,7 @@ int				CurseGraphics::key_compare(int a, int b, int c)
 		return (K_L2);
 	if ( a == 51 && b == -1 && c == -1)
 		return (K_L3);
+	if ( (a == 112 && b == -1 && c == -1) || (a == 32 && b == -1 && c == -1))
+		return (K_PA);
 	else return (0);
 }
