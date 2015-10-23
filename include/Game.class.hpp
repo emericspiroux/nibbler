@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 15:57:39 by larry             #+#    #+#             */
-/*   Updated: 2015/10/22 17:00:47 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 17:58:43 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ public:
 	void					stop( void );
 	/* set the _shouldClose bool to true */
 	bool					again( void );
+
+	/* Reset Snake, entities, time, score and direction */
+	void					reset( void );
 	/* get _shouldClose */
 	bool					end(  );
 
@@ -88,6 +91,9 @@ public:
 
 	/* del Entities*/
 	void					delEntities(AEntities *elem);
+
+	/* del all Entities */
+	void					clearEntities(void);
 
 	/*add special entities randomly*/
 	void					takeChance(void);

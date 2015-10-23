@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/23 15:56:57 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/23 17:58:57 by larry            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,29 +111,34 @@
 		std::chrono::milliseconds					    dt;
 		int												wait_time;
 
-		Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
-		this->setSnake(snake);
-		Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
-		this->addEntities(apple);
-		this->_snake->setSpeed(0.9);
-		this->setGameOver(false);
-		while (this->again())
+		do
 		{
-			before = std::chrono::high_resolution_clock::now();
-			if (!this->getInput())
-				break ;
-			this->update(_time);
-			this->render();
-			now = std::chrono::high_resolution_clock::now();
-			time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
-			wait_time = (250000 * this->_snake->getSpeed()) - (time_span.count() * 10000);
-			if (wait_time >= 0)
-				usleep(wait_time);
-		}
-		delete snake;
-		delete apple;
+			Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
+			this->setSnake(snake);
+			Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());
+			this->addEntities(apple);
+			this->_snake->setSpeed(0.9);
+			this->_snake->setDirection(2);
+			this->_snake->setLastDirection(2);
+			this->setGameOver(false);
+			while (this->again())
+			{
+				before = std::chrono::high_resolution_clock::now();
+				if (!this->getInput())
+					break ;
+				this->update(_time);
+				this->render();
+				now = std::chrono::high_resolution_clock::now();
+				time_span = std::chrono::duration_cast<std::chrono::duration<double> >(now - before);
+				wait_time = (250000 * this->_snake->getSpeed()) - (time_span.count() * 10000);
+				if (wait_time >= 0)
+					usleep(wait_time);
+
+			}
+			this->reset();
+		}while (!this->end());
 		GraphicDestructor(_gobj);
-		return (this->end());
+		return (true);
 	}
 
 	/* set the _shouldClose bool to true */
@@ -151,6 +156,15 @@
 	bool					Game::again(  )
 	{
 		return (this->_continue);
+	}
+
+	void					Game::reset(  )
+	{
+		this->clearEntities();
+		this->setContinue(true);
+		this->setTime(0);
+		this->setScore(0);
+		delete this->_snake;
 	}
 
 
@@ -301,6 +315,11 @@
 
 		list = &this->_entities;
 		list->remove(elem);
+	}
+
+	void					Game::clearEntities(void)
+	{
+		_entities.clear();
 	}
 
 	/* add Special Entities randomly */
