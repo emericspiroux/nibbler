@@ -16,7 +16,7 @@ _name("SFML Graphics")
 	std::cout << "SFML Graphic CREATION" << std::endl;
 	_width = x;
 	_height = y;
-	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 2), "Nibbler");
+	_window.create(sf::VideoMode(x * CELL_SIZE + CELL_SIZE * 2, y * CELL_SIZE + CELL_SIZE * 3), "Nibbler");
 
 	_corner.image.loadFromFile("sprites/wall-corner.png");
 	_corner.texture.loadFromImage(_corner.image, sf::IntRect(0, 0, 32, 32));
@@ -47,6 +47,12 @@ _name("SFML Graphics")
 	_snake_curve.texture.loadFromImage(_snake_curve.image);
 	_snake_curve.sprite.setTexture(_snake_curve.texture);
 	_snake_curve.sprite.setOrigin(16, 16);
+
+	if (!_MyFont.loadFromFile("fonts/neuropolitical.ttf"))
+	{
+    	std::cout << "Error loading Fonts" << std::endl;
+    	exit(EXIT_FAILURE);
+	}
 }
 
 SfmlGraphics::SfmlGraphics( SfmlGraphics const & rhs )
@@ -337,26 +343,70 @@ void			SfmlGraphics::drawEntities( std::list<AEntities *> & entitiesList )
 		}
 	}
 }
-void			SfmlGraphics::drawScore( int score ) {(void)score;}
-void			SfmlGraphics::drawTime( int min, int sec ) {(void)min;(void)sec;}
-void			SfmlGraphics::drawGameOver(  ) {}
+void			SfmlGraphics::drawScore( int score )
+{
+	sf::Text   text;
+
+	text.setFont(_MyFont);
+	text.setString("Score " + std::to_string(score));
+	text.setPosition( 10 , _height * CELL_SIZE + CELL_SIZE * 2 );
+	text.setCharacterSize(22);
+	text.setColor(sf::Color(255, 255, 0));
+	_window.draw(text);
+}
+void			SfmlGraphics::drawTime( int min, int sec )
+{
+	sf::Text   	text;
+	std::string	c_text;
+	std::string	str_min;
+	std::string	str_sec;
+
+	str_min = ((min >= 10)?"":"0") + std::to_string(min);
+	str_sec = ((sec >= 10)?"":"0") + std::to_string(sec);
+	c_text = "Time " + str_min + ":" + str_sec;
+
+	text.setFont(_MyFont);
+	text.setString(c_text);
+	text.setPosition(((_width * CELL_SIZE) + CELL_SIZE * 2) - 170, _height * CELL_SIZE + CELL_SIZE * 2);
+	text.setCharacterSize(22);
+	text.setColor(sf::Color(255, 255, 0));
+	_window.draw(text);
+}
+void			SfmlGraphics::drawGameOver(  ) {
+
+	sf::Text   	text;
+	std::string	c_text;
+	std::string	str_min;
+	std::string	str_sec;
+
+	c_text = "Game Over";
+
+	text.setFont(_MyFont);
+	text.setString(c_text);
+	text.setPosition((_width * CELL_SIZE)/2 - (CELL_SIZE)*2, (_height * CELL_SIZE)/2 + (CELL_SIZE)/2 - 16);
+	text.setCharacterSize(28);
+	text.setColor(sf::Color(255, 255, 0));
+	_window.draw(text);
+
+	c_text = "Press Enter";
+
+	text.setFont(_MyFont);
+	text.setString(c_text);
+	text.setPosition((_width * CELL_SIZE)/2 - (CELL_SIZE)*2, (_height * CELL_SIZE)/2 + (CELL_SIZE)/2 + 32);
+	text.setCharacterSize(28);
+	text.setColor(sf::Color(255, 255, 0));
+	_window.draw(text);
+}
 
 void			SfmlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover, int min, int sec)
 {
-	sf::Texture texture;
-	sf::Image image;
-	sf::Sprite sprite;
-
-	(void)snake;
-	(void)entitiesList;
-	(void)score;
-	(void)gameover;
-	(void)min;
-	(void)sec;
-
 	_window.clear();
 	drawSnake(snake, direction);
 	drawMap();
 	drawEntities(entitiesList);
+	drawScore(score);
+	drawTime(min, sec);
+	if (gameover)
+		drawGameOver();
 	_window.display();
 }

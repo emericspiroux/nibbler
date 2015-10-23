@@ -47,6 +47,7 @@ private:
 	t_sprite		_snake_tail;
 	t_sprite		_snake_body;
 	t_sprite		_snake_curve;
+	sf::Font		_MyFont;
 
 	void			drawCorners(void);
 	void			drawWalls(void);
