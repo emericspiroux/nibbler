@@ -6,7 +6,7 @@
 #    By: jvincent <jvincent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 18:33:50 by jvincent          #+#    #+#              #
-#    Updated: 2015/05/28 11:00:06 by jvincent         ###   ########.fr        #
+#    Updated: 2015/10/23 16:00:41 by jvincent         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,11 +27,10 @@ ifeq ($(USER), larry)
 	SFMLLIB = -L /usr/local/Cellar/sfml/HEAD/lib
 	SDLLLIB = -L /usr/local/opt/sdl2/lib
 else ifeq ($(USER), jvincent)
-	SFMLLIB = -L ~/.brew/Cellar/sfml/HEAD/lib
-	SDLLLIB = -L ~/.brew/opt/sdl2/lib
-	INC += -I ~/.brew/Cellar/sfml/HEAD/include
-	INC += -I ~/.brew/opt/sdl2/include
-	INC += -I ~/.brew/opt/sdl2_image/include
+	SFMLLIB = -L ~/.brew/Cellar/sfml/2.3_1/lib
+	SDLLLIB = -L ~/.brew/lib
+	INC += -I ~/.brew/Cellar/sfml/2.3_1/include
+	INC += -I ~/.brew/include
 endif
 
 SFMLLIB +=		-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
