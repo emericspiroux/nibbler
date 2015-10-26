@@ -302,7 +302,8 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second - _height + 1) ||
 					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second - _height + 1) ||
 					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second + 1) ||
-					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + 1))
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - _height + 1))
 				{
 					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
 					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
@@ -313,7 +314,8 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second + _height - 1) ||
 					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second + _height - 1) ||
 					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second - 1) ||
-					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - 1))
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + _height - 1))
 				{
 					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
 					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
@@ -324,7 +326,8 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 					(it->first == it_body_next->first + 1 && it->second == it_body_prev->second + _height - 1) ||
 					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + _height - 1) ||
 					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second - 1) ||
-					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - 1))
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + _height - 1))
 				{
 					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
 					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
@@ -335,7 +338,8 @@ void			SdlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dire
 					(it->first == it_body_next->first - 1 && it->second == it_body_prev->second - _height + 1) ||
 					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - _height + 1) ||
 					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second + 1) ||
-					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + 1))
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - _height + 1))
 				{
 					_rect.x = it->first * CELL_SIZE + CELL_SIZE * 2/2;
 					_rect.y = it->second * CELL_SIZE + CELL_SIZE * 2/2;
