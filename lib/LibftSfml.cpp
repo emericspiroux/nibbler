@@ -261,6 +261,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second - _height + 1) ||
 					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second + 1) ||
 					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second - _height + 1) ||
 					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - _height + 1))
 				{
 					_snake_curve.sprite.setRotation(180);
@@ -273,6 +274,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second + _height - 1) ||
 					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second - 1) ||
 					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second + _height - 1) ||
 					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + _height - 1))
 				{
 					_snake_curve.sprite.setRotation(0);
@@ -285,6 +287,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 					(it->first == it_body_prev->first + 1 && it->second == it_body_next->second + _height - 1) ||
 					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second - 1) ||
 					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second - 1) ||
+					(it->first == it_body_next->first - _width + 1 && it->second == it_body_prev->second + _height - 1) ||
 					(it->first == it_body_prev->first - _width + 1 && it->second == it_body_next->second + _height - 1))
 				{
 					_snake_curve.sprite.setRotation(90);
@@ -297,6 +300,7 @@ void			SfmlGraphics::drawSnake( std::list<std::pair<int, int> > & snake, int dir
 					(it->first == it_body_prev->first - 1 && it->second == it_body_next->second - _height + 1) ||
 					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second + 1) ||
 					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second + 1) ||
+					(it->first == it_body_next->first + _width - 1 && it->second == it_body_prev->second - _height + 1) ||
 					(it->first == it_body_prev->first + _width - 1 && it->second == it_body_next->second - _height + 1))
 				{
 					_snake_curve.sprite.setRotation(270);
