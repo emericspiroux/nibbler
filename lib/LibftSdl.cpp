@@ -90,6 +90,7 @@ SdlGraphics::SdlGraphics( SdlGraphics const & rhs )
 
 SdlGraphics::~SdlGraphics()
 {
+
 	SDL_DestroyWindow(_window);
 	TTF_CloseFont(_police);
 	TTF_Quit();
@@ -392,6 +393,8 @@ void			SdlGraphics::drawScore( int score )
 	texte = TTF_RenderText_Blended(_police, c_text, couleurBlanc);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+	SDL_FreeSurface(texte);
+	SDL_DestroyTexture(Message);
 }
 
 void			SdlGraphics::drawTime( int min, int sec )
@@ -419,6 +422,8 @@ void			SdlGraphics::drawTime( int min, int sec )
 	texte = TTF_RenderText_Blended(_police, c_text, couleurBlanc);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+	SDL_FreeSurface(texte);
+	SDL_DestroyTexture(Message);
 }
 
 void			SdlGraphics::drawGameOver(  )
@@ -439,6 +444,8 @@ void			SdlGraphics::drawGameOver(  )
 	texte = TTF_RenderText_Solid(_police, "Game Over", couleurBlanc);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+	SDL_FreeSurface(texte);
+	SDL_DestroyTexture(Message);
 
 	rect.x = (_width * CELL_SIZE)/2 - (CELL_SIZE)*2;
 	rect.y = (_height * CELL_SIZE)/2 + (CELL_SIZE)/2 + 32;
@@ -448,6 +455,8 @@ void			SdlGraphics::drawGameOver(  )
 	texte = TTF_RenderText_Solid(_police, "Press Enter", couleurBlanc);
 	Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+	SDL_FreeSurface(texte);
+	SDL_DestroyTexture(Message);
 }
 
 void			SdlGraphics::drawPause(  )
@@ -468,6 +477,8 @@ void			SdlGraphics::drawPause(  )
 	texte = TTF_RenderText_Solid(_police, "Pause", couleurBlanc);
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(_Renderer, texte);
 	SDL_RenderCopy(_Renderer, Message, NULL, &rect);
+	SDL_FreeSurface(texte);
+	SDL_DestroyTexture(Message);
 }
 
 void			SdlGraphics::drawAll( std::list<std::pair<int, int> > & snake, int direction, std::list<AEntities *> & entitiesList, int score, bool gameover,  bool pause, int min, int sec)

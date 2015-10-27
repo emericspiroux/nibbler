@@ -259,7 +259,7 @@
 				this->addScore(object->getScore());
 				if (object->getName() == "Apple")
 				{
-					this->takeChance();
+					// this->takeChance();
 					if (this->_snake->getSpeed() > 0.3)
 						this->_snake->setSpeed(this->_snake->getSpeed() - 0.02);
 					Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
