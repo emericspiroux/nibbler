@@ -90,7 +90,15 @@ SdlGraphics::SdlGraphics( SdlGraphics const & rhs )
 
 SdlGraphics::~SdlGraphics()
 {
-
+    SDL_DestroyTexture(_Twall);
+    SDL_DestroyTexture(_Tcorner);
+    SDL_DestroyTexture(_Tapple);
+    SDL_DestroyTexture(_Tegg);
+    SDL_DestroyTexture(_TwallEnt);
+    SDL_DestroyTexture(_snake_head);
+    SDL_DestroyTexture(_snake_tail);
+    SDL_DestroyTexture(_snake_body);
+    SDL_DestroyTexture(_snake_curve);
 	SDL_DestroyWindow(_window);
 	TTF_CloseFont(_police);
 	TTF_Quit();
