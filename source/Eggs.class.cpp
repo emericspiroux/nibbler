@@ -25,7 +25,6 @@ Eggs::Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<st
 	bool	set;
 	std::list<std::pair<int, int> > al_test;
 
-	//Too slow and freeze game with big snake
 	this->setDuration(3);
 	this->setScore(EGGS_SCORE);
 	this->setCollidable(false);
@@ -70,9 +69,9 @@ bool		Eggs::update( time_t dt )
 
 	dt = std::time(nullptr);
 	sec_dt = dt - _born;
-
 	if ((min_dt = sec_dt / 60) != 0)
 		sec_dt %= 60;
+
 	if (sec_dt > this->_duration)
 		return (true);
 	return (false);

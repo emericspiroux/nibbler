@@ -25,7 +25,6 @@ Apple::Apple( int height, int width, std::list<AEntities *> list_ent, std::list<
 	bool	set;
 	std::list<std::pair<int, int> > al_test;
 
-	//Too slow and freeze game with big snake
 	this->setDuration(-1);
 	this->setScore(APPLE_SCORE);
 	this->setCollidable(false);

@@ -6,7 +6,7 @@
 /*   By: larry <larry@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/28 16:11:43 by larry             #+#    #+#             */
-/*   Updated: 2015/10/23 22:00:12 by larry            ###   ########.fr       */
+/*   Updated: 2015/10/28 12:56:21 by espiroux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,15 +243,23 @@
 	void					Game::update(time_t dt)
 	{
 		std::list<AEntities *>::iterator it_en;
+		std::list<AEntities *>::iterator it_en_lst;
 		AEntities *object;
 
 		if (this->_gameOver == false)
 		{
-			for (it_en=this->_entities.begin(); it_en!=this->_entities.end(); ++it_en)
+			it_en_lst = _entities.end();
+			for (it_en=_entities.begin(); it_en!=_entities.end(); ++it_en)
 			{
 				if ((*it_en)->update(dt))
 				{
-					this->delEntities((*it_en));
+					if (_entities.end() == it_en_lst)
+					{
+						this->delEntities((*it_en));
+						break ;
+					}
+					else
+						this->delEntities((*it_en));
 				}
 			}
 			if ((object = this->_snake->update(dt, &this->_gameOver, &this->_entities)) != nullptr)
@@ -259,7 +267,7 @@
 				this->addScore(object->getScore());
 				if (object->getName() == "Apple")
 				{
-					// this->takeChance();
+					this->takeChance();
 					if (this->_snake->getSpeed() > 0.3)
 						this->_snake->setSpeed(this->_snake->getSpeed() - 0.02);
 					Apple *apple = new Apple(this->getHeight(), this->getWidth(), this->getEntities(), this->getSnake()->getNodes());
