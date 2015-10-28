@@ -76,10 +76,12 @@ $(DYLIB): $(DYLIBOBJS)
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB)
 
 $(DYLIB2): $(DYLIB2OBJS)
+	brew install sfml
 	@$(CC) -o $(DYLIB2) -shared -fPIC $(DYLIB2OBJS) $(SFMLLIB) && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB2)
 
 $(DYLIB3): $(DYLIB3OBJS)
+	brew install sdl2 sdl2_image sdl2_ttf
 	@$(CC) -o $(DYLIB3) -shared -fPIC $(DYLIB3OBJS) $(SDLLLIB) && \
 	echo "$(GREEN)Library successfully compiled$(RESET)" : $(DYLIB3)
 
