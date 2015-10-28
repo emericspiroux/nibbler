@@ -49,7 +49,6 @@ AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std
 	int		rnd_y;
 	bool	set;
 
-	//Too slow and freeze game with big snake
 	set = false;
 	srand (time(NULL));
 	while (!set)
@@ -63,6 +62,12 @@ AEntities::AEntities(int height, int width, std::list<AEntities *> list_ent, std
 			set = true;
 		}
 	}
+}
+
+AEntities::AEntities( int x, int y )
+{
+	this->setX(x);
+	this->setY(y);
 }
 
 

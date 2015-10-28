@@ -60,6 +60,15 @@ Apple::Apple( )
 	this->setCollidable(false);
 }
 
+Apple::Apple( int x, int y )
+{
+	this->setDuration(-1);
+	this->setScore(APPLE_SCORE);
+	this->setCollidable(false);
+	this->setX(x);
+	this->setY(y);
+}
+
 bool		Apple::update( time_t dt )
 {
 	(void)dt;

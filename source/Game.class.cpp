@@ -102,6 +102,54 @@
 	void					Game::createLevel(std::string filename)
 	{
 		(void)filename;
+
+		//top left
+		Wall *wall1 = new Wall( 0, 0);
+		this->addEntities(wall1);
+		Wall *wall2 = new Wall( 0, 1);
+		this->addEntities(wall2);
+		Wall *wall3 = new Wall( 0, 2);
+		this->addEntities(wall3);
+		Wall *wall4 = new Wall( 1, 0);
+		this->addEntities(wall4);
+		Wall *wall5 = new Wall( 2, 0);
+		this->addEntities(wall5);
+
+		//top right
+		Wall *wall6 = new Wall( _width - 1, 0);
+		this->addEntities(wall6);
+		Wall *wall7 = new Wall( _width - 1, 1);
+		this->addEntities(wall7);
+		Wall *wall8 = new Wall( _width - 1, 2);
+		this->addEntities(wall8);
+		Wall *wall9 = new Wall( _width - 2, 0);
+		this->addEntities(wall9);
+		Wall *wall10 = new Wall( _width - 3, 0);
+		this->addEntities(wall10);
+
+		//bottom right
+		Wall *wall11 = new Wall( _width - 1, _height -1);
+		this->addEntities(wall11);
+		Wall *wall12 = new Wall( _width - 1, _height - 2);
+		this->addEntities(wall12);
+		Wall *wall13 = new Wall( _width - 1, _height - 3);
+		this->addEntities(wall13);
+		Wall *wall14 = new Wall( _width - 2, _height -1);
+		this->addEntities(wall14);
+		Wall *wall15 = new Wall( _width - 3, _height -1);
+		this->addEntities(wall15);
+
+		//bottom left
+		Wall *wall16 = new Wall( 0, _height -1);
+		this->addEntities(wall16);
+		Wall *wall17 = new Wall( 0, _height - 2);
+		this->addEntities(wall17);
+		Wall *wall18 = new Wall( 0, _height - 3);
+		this->addEntities(wall18);
+		Wall *wall19 = new Wall( 1, _height -1);
+		this->addEntities(wall19);
+		Wall *wall20 = new Wall( 2, _height -1);
+		this->addEntities(wall20);
 	}
 
 
@@ -116,6 +164,7 @@
 
 		do
 		{
+			this->createLevel("createWall");
 			Snake *snake = new Snake( this->getHeight(), this->getWidth(), 4);
 			this->setSnake(snake);
 			Apple *apple = new Apple( this->getHeight(), this->getWidth(), this->getEntities(), snake->getNodes());

@@ -23,6 +23,7 @@ class Wall : public AEntities
 	public:
 		Wall();
 		Wall( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
+		Wall(int x, int y);
 		virtual 			~Wall(  );
 		virtual bool		update( time_t dt );
 		virtual int			coordX( void );

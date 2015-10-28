@@ -61,6 +61,15 @@ Wall::Wall( )
 	this->setCollidable(false);
 }
 
+Wall::Wall( int x, int y )
+{
+	this->setDuration(-1);
+	this->setScore(0);
+	this->setCollidable(true);
+	this->setX(x);
+	this->setY(y);
+}
+
 bool		Wall::update( time_t dt )
 {
 	(void)dt;

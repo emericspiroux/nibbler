@@ -2,6 +2,6 @@ Usage: Nibbler <Map Height> <Map Width>
 
 	Map Height / Map Width : Must be lenght of 9 characters
 				 and numerical.
-				 both can't be under 10 and over 50.
+				 both can't be under 10 and over 25.
 
 	Good Game...

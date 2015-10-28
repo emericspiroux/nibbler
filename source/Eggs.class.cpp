@@ -62,6 +62,16 @@ Eggs::Eggs( )
 	_born = std::time(nullptr);
 }
 
+Eggs::Eggs( int x, int y )
+{
+	this->setDuration(3);
+	this->setScore(EGGS_SCORE);
+	this->setCollidable(false);
+	_born = std::time(nullptr);
+	this->setX(x);
+	this->setY(y);
+}
+
 bool		Eggs::update( time_t dt )
 {
 	std::time_t							sec_dt = 0;

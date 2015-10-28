@@ -11,6 +11,7 @@ class AEntities
 public:
 	AEntities ( );
 	AEntities( int height, int width, std::list<AEntities *> list_ent, std::list< std::pair<int, int> > snake_nodes);
+	AEntities( int x, int y );
 	AEntities( AEntities const & rhs );
 	virtual ~AEntities(  );
 

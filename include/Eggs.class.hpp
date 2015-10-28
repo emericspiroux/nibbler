@@ -24,6 +24,7 @@ class Eggs : public AEntities
 	public:
 		Eggs();
 		Eggs( int height, int width, std::list<AEntities *> list_ent, std::list<std::pair<int, int> > snake_nodes );
+		Eggs(int x, int y);
 		virtual 			~Eggs(  );
 		virtual bool		update( time_t dt );
 		virtual int			coordX( void );
